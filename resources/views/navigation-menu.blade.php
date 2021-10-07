@@ -18,17 +18,46 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
                     <x-jet-nav-link href="{{ route('contacts.index') }}" :active="request()->routeIs('contacts.index')">
-                        連絡人
+                        CONTACT
                     </x-jet-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-4 sm:flex">
-                    <x-jet-nav-link href="{{ route('vision.index') }}" :active="request()->routeIs('vision.index')">
-                        OUR VISION
+                    <x-jet-nav-link href="{{ route('clients.index') }}" :active="request()->routeIs('clients.index')">
+                        CLIENT
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('teams.index') }}" :active="request()->routeIs('teams.index')">
+                        TEAM
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('specialties.index') }}" :active="request()->routeIs('specialties.index')">
+                        SPECIALTY
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('members.index') }}" :active="request()->routeIs('members.index')">
+                        MEMBER
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('businesses.index') }}" :active="request()->routeIs('businesses.index')">
+                        BUSINESS
                     </x-jet-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        連絡人
+                        WORK TYPE
+                    </x-jet-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        WORK
+                    </x-jet-nav-link>
+                </div><div class="hidden space-x-8 sm:-my-px sm:ml-2 sm:flex">
+                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        UPDATE
                     </x-jet-nav-link>
                 </div>
             </div>

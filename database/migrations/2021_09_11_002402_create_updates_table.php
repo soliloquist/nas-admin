@@ -10,9 +10,14 @@ class CreateUpdatesTable extends Migration
     {
         Schema::create('updates', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            //
-
+            $table->unsignedBigInteger('language_id');
+            $table->uuid('group_id');
+            $table->string('slug');
+            $table->string('title');
+            $table->date('year'); // 年份: 2020
+            $table->date('date'); // 日期: JUL 09
+            $table->unsignedInteger('sort');
+            $table->boolean('enabled');
             $table->timestamps();
         });
     }

@@ -18,15 +18,15 @@ use Illuminate\Support\Facades\Route;
 //});
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    return view('dashboard');
+    return view('banners.index');
 })->name('dashboard');
 
-Route::resource('/contacts', \App\Http\Controllers\ContactController::class);
-Route::resource('/visions', \App\Http\Controllers\VisionController::class);
-Route::resource('/teams', \App\Http\Controllers\TeamController::class);
-Route::resource('/members', \App\Http\Controllers\MemberController::class);
-Route::resource('/clients', \App\Http\Controllers\ClientController::class);
-Route::resource('/businesses', \App\Http\Controllers\BusinessController::class);
-Route::resource('/works', \App\Http\Controllers\WorkController::class);
-Route::resource('/updates', \App\Http\Controllers\UpdateController::class);
-Route::resource('/users', \App\Http\Controllers\UserController::class);
+Route::resource('/contacts', \App\Http\Controllers\ContactController::class)->middleware('auth:sanctum');
+Route::resource('/teams', \App\Http\Controllers\TeamController::class)->middleware('auth:sanctum');
+Route::resource('/members', \App\Http\Controllers\MemberController::class)->middleware('auth:sanctum');
+Route::resource('/clients', \App\Http\Controllers\ClientController::class)->middleware('auth:sanctum');
+Route::resource('/businesses', \App\Http\Controllers\BusinessController::class)->middleware('auth:sanctum');
+Route::resource('/works', \App\Http\Controllers\WorkController::class)->middleware('auth:sanctum');
+Route::resource('/updates', \App\Http\Controllers\UpdateController::class)->middleware('auth:sanctum');
+Route::resource('/users', \App\Http\Controllers\UserController::class)->middleware('auth:sanctum');
+Route::resource('/specialties', \App\Http\Controllers\SpecialtyController::class)->middleware('auth:sanctum');

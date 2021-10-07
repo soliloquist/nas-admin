@@ -13,70 +13,153 @@ class OurWorkController extends Controller
         return response()->json(
             [
                 "result" => true,
-                "typeList" => [
+                "type" => [
                     [
-                        "id" => 1,
-                        "name" => "Art"
+                        "id" => '1',
+                        'color' => '#9114f6',
+                        'text' => 'Art',
                     ],
                     [
-                        "id" => 2,
-                        "name" => "Animation"
-                    ]
-                ],
-                "filterList" => [
+                        "id" => '2',
+                        'color' => '#560dfa',
+                        'text' => 'Art',
+                    ],
                     [
-                        "id" => 1,
+                        "id" => '3',
+                        'color' => '#55a7ff',
+                        'text' => 'Model',
+                    ],
+                ],
+                "filter" => [
+                    [
+                        "id" => '1',
                         "name" => "all"
                     ],
                     [
-                        "id" => 2,
+                        "id" => '2',
                         "name" => "Animation"
                     ]
                 ],
-                "workList" => [
-                    [
-                        "workId" => 1,
-                        "image" => "https://picsum.photos/800/800?random=1",
-                        "proportion" => [
-                            [
-                                "name" => "Art",
-                                "color" => "#fff000",
-                                "percentage" => 10
-                            ],
-                            [
-                                "name" => "Animation",
-                                "color" => "#fff000",
-                                "percentage" => 80
-                            ],
-                            [
-                                "name" => "Model",
-                                "color" => "#fff000",
-                                "percentage" => 10
+                'en' => [
+                    'works' => [
+                        [
+                            'id' => '1',
+                            'title' => 'Project-1',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/10/600/600',
+                                'width' => 600,
+                                'height' => 600
                             ]
-                        ]
-                    ],
-                    [
-                        "workId" => 2,
-                        "image" => "https://picsum.photos/800/800?random=2",
-                        "proportion" => [
-                            [
-                                "name" => "Art",
-                                "color" => "#fff000",
-                                "percentage" => 10
-                            ],
-                            [
-                                "name" => "Animation",
-                                "color" => "#fff000",
-                                "percentage" => 80
-                            ],
-                            [
-                                "name" => "Model",
-                                "color" => "#fff000",
-                                "percentage" => 10
+                        ],
+                        [
+                            'id' => '2',
+                            'title' => 'Project-2',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/11/600/500',
+                                'width' => 600,
+                                'height' => 500
                             ]
-                        ]
+                        ],
+                        [
+                            'id' => '3',
+                            'title' => 'Project-3',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/12/600/300',
+                                'width' => 600,
+                                'height' => 300
+                            ]
+                        ],
+                        [
+                            'id' => '4',
+                            'title' => 'Project-4',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/13/600/500',
+                                'width' => 600,
+                                'height' => 500
+                            ]
+                        ],
                     ]
-                ]
+                ],
+                'cn' => [
+                    'works' => [
+                        [
+                            'id' => '1',
+                            'title' => 'Project-1',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/10/600/600',
+                                'width' => 600,
+                                'height' => 600
+                            ]
+                        ],
+                        [
+                            'id' => '2',
+                            'title' => 'Project-2',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/11/600/500',
+                                'width' => 600,
+                                'height' => 500
+                            ]
+                        ],
+                        [
+                            'id' => '3',
+                            'title' => 'Project-3',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/12/600/300',
+                                'width' => 600,
+                                'height' => 300
+                            ]
+                        ],
+                        [
+                            'id' => '4',
+                            'title' => 'Project-4',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/13/600/500',
+                                'width' => 600,
+                                'height' => 500
+                            ]
+                        ],
+                    ]
+                ],
+                'jp' => [
+                    'works' => [
+                        [
+                            'id' => '1',
+                            'title' => 'Project-1',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/10/600/600',
+                                'width' => 600,
+                                'height' => 600
+                            ]
+                        ],
+                        [
+                            'id' => '2',
+                            'title' => 'Project-2',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/11/600/500',
+                                'width' => 600,
+                                'height' => 500
+                            ]
+                        ],
+                        [
+                            'id' => '3',
+                            'title' => 'Project-3',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/12/600/300',
+                                'width' => 600,
+                                'height' => 300
+                            ]
+                        ],
+                        [
+                            'id' => '4',
+                            'title' => 'Project-4',
+                            'image' => [
+                                'url' => 'https://picsum.photos/id/13/600/500',
+                                'width' => 600,
+                                'height' => 500
+                            ]
+                        ],
+                    ]
+                ],
             ]
         );
     }
@@ -86,71 +169,418 @@ class OurWorkController extends Controller
     {
         return response()->json([
             'result' => true,
-            'title' => 'MOCAP',
-            'image' => 'https://picsum.photos/1440/760',
-            'videoUrl' => 'https://www.youtube.com/watch?v=5bvo0crxQVY&ab_channel=NextAnimationStudio',
-            'websiteUrl' => 'https://nentanimationstudio.com',
-            'proportion' => [
-                0 => [
-                    'type' => 'Art',
-                    'percentage' => 10,
+            'en' => [
+                'title' => 'MOCAP - en',
+                'banner' => 'https://picsum.photos/id/10/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'proportion' => [
+                    [
+                        'id' => '1',
+                        'color' => '#9114f6',
+                        'percentage' => 10
+                    ],
+                    [
+                        'id' => '2',
+                        'color' => '#560dfa',
+                        'percentage' => 30
+                    ],
+                    [
+                        'id' => '3',
+                        'color' => '#55a7ff',
+                        'percentage' => 40
+                    ],
+                    [
+                        'id' => '4',
+                        'color' => '#175eff',
+                        'percentage' => 20
+                    ],
                 ],
-                1 => [
-                    'type' => 'Animation',
-                    'percentage' => 80,
-                ],
-                2 => [
-                    'type' => 'Model',
-                    'percentage' => 10,
-                ],
+                'previousPage' => '/ourworks/003',
+                'nextPage' => '/ourworks/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '4',
+                        'type' => 'team',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'title' => 'Client',
+                                'name' => [
+                                    'TRUE YOGA FITNESS'
+                                ],
+                            ],
+                            [
+                                'id' => '2',
+                                'title' => 'Creative Director',
+                                'name' => [
+                                    'Ian Ma 馬奕原'
+                                ]
+                            ],
+                            [
+                                'id' => '3',
+                                'title' => 'Art Director',
+                                'name' => [
+                                    'Maggie Tsao 曹雅筑'
+                                ]
+                            ],
+                            [
+                                'id' => '4',
+                                'title' => 'Web Developer',
+                                'name' => [
+                                    'Susan Huang 黃顥子'
+                                ]
+                            ],
+                            [
+                                'id' => '5',
+                                'title' => 'Project Manager',
+                                'name' => [
+                                    'Scott Hsu 徐酋長'
+                                ]
+                            ],
+                            [
+                                'id' => '6',
+                                'title' => 'Composition',
+                                'name' => [
+                                    'Chloe Shen 沈映彤',
+                                    'Ming-Yuan Chuan 全明遠',
+                                    'Weiting Chen 陳威廷',
+                                    'Chia-Hua Yu 游佳華',
+                                    'Hsiao Han Tseng 曾筱涵',
+                                    'Shu-Min Wu 吳姝旻',
+                                ]
+                            ],
+                            [
+                                'id' => '7',
+                                'title' => 'Website',
+                                'name' => [
+                                    'www.trueyogafitness.comdsdfsfdfdsffdfdfdf'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ],
-            'contentList' => [
-                0 => [
-                    'id' => 1,
-                    'type' => 'p',
-                    'content' => '<h1>say something...</h1>',
-                ],
-                1 => [
-                    'id' => 2,
-                    'type' => 'title',
-                    'content' => 'CHALLANGE',
-                ],
-                2 => [
-                    'id' => 3,
-                    'type' => 'image',
-                    'content' => 'https://picsum.photos/1074/395',
-                ],
-                3 => [
-                    'id' => 4,
-                    'type' => 'album',
-                    'content' => [
-                        0 => [
-                            'id' => 1,
-                            'image' => 'https://picsum.photos/537/395?random=1',
-                        ],
-                        1 => [
-                            'id' => 2,
-                            'image' => 'https://picsum.photos/537/395?random=2',
-                        ],
+            'cn' => [
+                'title' => 'MOCAP - cn',
+                'banner' => 'https://picsum.photos/id/10/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'proportion' => [
+                    [
+                        'id' => '1',
+                        'color' => '#9114f6',
+                        'percentage' => 10
+                    ],
+                    [
+                        'id' => '2',
+                        'color' => '#560dfa',
+                        'percentage' => 30
+                    ],
+                    [
+                        'id' => '3',
+                        'color' => '#55a7ff',
+                        'percentage' => 40
+                    ],
+                    [
+                        'id' => '4',
+                        'color' => '#175eff',
+                        'percentage' => 20
                     ],
                 ],
+                'previousPage' => '/ourworks/003',
+                'nextPage' => '/ourworks/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '4',
+                        'type' => 'team',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'title' => 'Client',
+                                'name' => [
+                                    'TRUE YOGA FITNESS'
+                                ],
+                            ],
+                            [
+                                'id' => '2',
+                                'title' => 'Creative Director',
+                                'name' => [
+                                    'Ian Ma 馬奕原'
+                                ]
+                            ],
+                            [
+                                'id' => '3',
+                                'title' => 'Art Director',
+                                'name' => [
+                                    'Maggie Tsao 曹雅筑'
+                                ]
+                            ],
+                            [
+                                'id' => '4',
+                                'title' => 'Web Developer',
+                                'name' => [
+                                    'Susan Huang 黃顥子'
+                                ]
+                            ],
+                            [
+                                'id' => '5',
+                                'title' => 'Project Manager',
+                                'name' => [
+                                    'Scott Hsu 徐酋長'
+                                ]
+                            ],
+                            [
+                                'id' => '6',
+                                'title' => 'Composition',
+                                'name' => [
+                                    'Chloe Shen 沈映彤',
+                                    'Ming-Yuan Chuan 全明遠',
+                                    'Weiting Chen 陳威廷',
+                                    'Chia-Hua Yu 游佳華',
+                                    'Hsiao Han Tseng 曾筱涵',
+                                    'Shu-Min Wu 吳姝旻',
+                                ]
+                            ],
+                            [
+                                'id' => '7',
+                                'title' => 'Website',
+                                'name' => [
+                                    'www.trueyogafitness.comdsdfsfdfdsffdfdfdf'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ],
-            'team' => [
-                0 => [
-                    'id' => 1,
-                    'title' => 'Creative Director',
-                    'member' => [
-                        0 => 'Ian Ma 馬奕原',
+            'jp' => [
+                'title' => 'MOCAP - jp',
+                'banner' => 'https://picsum.photos/id/10/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'proportion' => [
+                    [
+                        'id' => '1',
+                        'color' => '#9114f6',
+                        'percentage' => 10
+                    ],
+                    [
+                        'id' => '2',
+                        'color' => '#560dfa',
+                        'percentage' => 30
+                    ],
+                    [
+                        'id' => '3',
+                        'color' => '#55a7ff',
+                        'percentage' => 40
+                    ],
+                    [
+                        'id' => '4',
+                        'color' => '#175eff',
+                        'percentage' => 20
                     ],
                 ],
-                1 => [
-                    'id' => 2,
-                    'title' => 'Creative Director',
-                    'member' => [
-                        0 => 'Ian Ma 馬奕原',
-                        1 => 'Ian Ma 馬奕原',
+                'previousPage' => '/ourworks/003',
+                'nextPage' => '/ourworks/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
                     ],
-                ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '4',
+                        'type' => 'team',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'title' => 'Client',
+                                'name' => [
+                                    'TRUE YOGA FITNESS'
+                                ],
+                            ],
+                            [
+                                'id' => '2',
+                                'title' => 'Creative Director',
+                                'name' => [
+                                    'Ian Ma 馬奕原'
+                                ]
+                            ],
+                            [
+                                'id' => '3',
+                                'title' => 'Art Director',
+                                'name' => [
+                                    'Maggie Tsao 曹雅筑'
+                                ]
+                            ],
+                            [
+                                'id' => '4',
+                                'title' => 'Web Developer',
+                                'name' => [
+                                    'Susan Huang 黃顥子'
+                                ]
+                            ],
+                            [
+                                'id' => '5',
+                                'title' => 'Project Manager',
+                                'name' => [
+                                    'Scott Hsu 徐酋長'
+                                ]
+                            ],
+                            [
+                                'id' => '6',
+                                'title' => 'Composition',
+                                'name' => [
+                                    'Chloe Shen 沈映彤',
+                                    'Ming-Yuan Chuan 全明遠',
+                                    'Weiting Chen 陳威廷',
+                                    'Chia-Hua Yu 游佳華',
+                                    'Hsiao Han Tseng 曾筱涵',
+                                    'Shu-Min Wu 吳姝旻',
+                                ]
+                            ],
+                            [
+                                'id' => '7',
+                                'title' => 'Website',
+                                'name' => [
+                                    'www.trueyogafitness.comdsdfsfdfdsffdfdfdf'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
             ],
         ]);
     }

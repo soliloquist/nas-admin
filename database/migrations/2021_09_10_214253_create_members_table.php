@@ -10,9 +10,13 @@ class CreateMembersTable extends Migration
     {
         Schema::create('members', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            //
-
+            $table->unsignedBigInteger('team_id');
+            $table->unsignedBigInteger('specialty_id');
+            $table->string('name');
+            $table->string('title')->nullable();
+            $table->boolean('enabled')->default(0);
+            $table->unsignedInteger('sort')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

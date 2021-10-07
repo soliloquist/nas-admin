@@ -9,12 +9,12 @@ class ContactController extends Controller
 {
     public function index()
     {
-        return 'test';
+        return view('contacts.index');
     }
 
     public function create()
     {
-        //
+        return view('contacts.create');
     }
 
     public function store(Request $request)
@@ -29,7 +29,7 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        //
+        return view('contacts.edit', compact('contact'));
     }
 
     public function update(Request $request, Contact $contact)

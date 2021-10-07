@@ -10,9 +10,10 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->bigIncrements('id');
-
-            //
-
+            $table->string('name');
+            $table->string('link')->nullable();
+            $table->unsignedInteger('sort')->nullable();
+            $table->boolean('enabled')->default(0);
             $table->timestamps();
         });
     }

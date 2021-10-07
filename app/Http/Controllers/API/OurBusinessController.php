@@ -12,15 +12,17 @@ class OurBusinessController extends Controller
     {
         return response()->json([
             'result' => true,
-            'businessList' => [
-                0 => [
-                    'id' => 1,
+            'list' => [
+                [
+                    'id' => '1',
                     'type' => 'MOCAP',
+                    'apiLink' => '/ourbusiness/mocap',
                     'image' => 'https://picsum.photos/338/152?random=1',
                 ],
-                1 => [
-                    'id' => 2,
-                    'type' => 'NextLAB',
+                [
+                    'id' => '2',
+                    'type' => 'LIGHT STAGE',
+                    'apiLink' => '/ourbusiness/light%20stage',
                     'image' => 'https://picsum.photos/338/152?random=2',
                 ],
             ],
@@ -32,26 +34,174 @@ class OurBusinessController extends Controller
     {
         return response()->json([
             'result' => true,
-            'title' => 'MOCAP',
-            'image' => 'https://picsum.photos/1440/760',
-            'videoUrl' => 'https://www.youtube.com/watch?v=5bvo0crxQVY&ab_channel=NextAnimationStudio',
-            'websiteUrl' => 'https://nentanimationstudio.com',
-            'contentList' => [
-                0 => [
-                    'id' => 1,
-                    'type' => 'p',
-                    'content' => '<h1>say something...</h1>',
-                ],
-                1 => [
-                    'id' => 2,
-                    'type' => 'title',
-                    'content' => 'CHALLANGE',
-                ],
-                2 => [
-                    'id' => 3,
-                    'type' => 'image',
-                    'content' => 'https://picsum.photos/1074/395',
-                ],
+            'en' => [
+                'title' => 'MOCAP - en',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourbusiness/003',
+                'nextPage' => '/ourbusiness/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            'cn' => [
+                'title' => 'MOCAP - cn',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourbusiness/003',
+                'nextPage' => '/ourbusiness/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            'jp' => [
+                'title' => 'MOCAP - jp',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourbusiness/003',
+                'nextPage' => '/ourbusiness/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
             ],
         ]);
     }

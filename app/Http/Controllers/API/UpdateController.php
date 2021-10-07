@@ -12,21 +12,118 @@ class UpdateController extends Controller
     {
         return response()->json([
             'result' => true,
-            'updateList' => [
-                0 => [
-                    'updateId' => 1,
-                    'title' => 'title 1',
-                    'date' => 'JUL 09',
-                    'year' => '2020',
-                    'image' => 'https://picsum.photos/700/175?random=1',
+            'totalPage' => 2,
+            'year' => [
+                [
+                    'id' => '1',
+                    'text' => '2021',
                 ],
-                1 => [
-                    'updateId' => 2,
-                    'title' => 'title 2',
-                    'date' => 'JUL 09',
-                    'year' => '2020',
-                    'image' => 'https://picsum.photos/700/175?random=1',
+                [
+                    'id' => '2',
+                    'text' => '2020',
                 ],
+            ],
+            'en' => [
+                'list' => [
+                    [
+                        'id' => '1',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 1',
+                        'image' => 'https://picsum.photos/id/1/660/300',
+                    ],
+                    [
+                        'id' => '2',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 2',
+                        'image' => 'https://picsum.photos/id/2/660/300',
+                    ],
+                    [
+                        'id' => '3',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 3',
+                        'image' => 'https://picsum.photos/id/3/660/300',
+                    ],
+                ]
+            ],
+            'cn' => [
+                'list' => [
+                    [
+                        'id' => '1',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 1',
+                        'image' => 'https://picsum.photos/id/1/660/300',
+                    ],
+                    [
+                        'id' => '2',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 2',
+                        'image' => 'https://picsum.photos/id/2/660/300',
+                    ],
+                    [
+                        'id' => '3',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 3',
+                        'image' => 'https://picsum.photos/id/3/660/300',
+                    ],
+                ]
+            ],
+            'jp' => [
+                'list' => [
+                    [
+                        'id' => '1',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 1',
+                        'image' => 'https://picsum.photos/id/1/660/300',
+                    ],
+                    [
+                        'id' => '2',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 2',
+                        'image' => 'https://picsum.photos/id/2/660/300',
+                    ],
+                    [
+                        'id' => '3',
+                        'date' => [
+                            'year' => '2021',
+                            'month' => 'AUG',
+                            'day' => '09',
+                        ],
+                        'title' => 'news title 3',
+                        'image' => 'https://picsum.photos/id/3/660/300',
+                    ],
+                ]
             ],
         ]);
     }
@@ -36,40 +133,176 @@ class UpdateController extends Controller
     {
         return response()->json([
             'result' => true,
-            'title' => 'MOCAP',
-            'image' => 'https://picsum.photos/1440/760',
-            'date' => 'JUL 09',
-            'year' => '2020',
-            'contentList' => [
-                0 => [
-                    'id' => 1,
-                    'type' => 'p',
-                    'content' => '<h1>say something...</h1>',
-                ],
-                1 => [
-                    'id' => 2,
-                    'type' => 'title',
-                    'content' => 'CHALLANGE',
-                ],
-                2 => [
-                    'id' => 3,
-                    'type' => 'image',
-                    'content' => 'https://picsum.photos/1074/395',
-                ],
-                3 => [
-                    'id' => 4,
-                    'type' => 'album',
-                    'content' => [
-                        0 => [
-                            'id' => 1,
-                            'image' => 'https://picsum.photos/537/395?random=1',
-                        ],
-                        1 => [
-                            'id' => 2,
-                            'image' => 'https://picsum.photos/537/395?random=2',
-                        ],
+            'en' => [
+                'title' => 'News Title - en',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourupdates/003',
+                'nextPage' => '/ourupdates/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
                     ],
-                ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            'cn' => [
+                'title' => 'News Title - en',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourupdates/003',
+                'nextPage' => '/ourupdates/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+            'jp' => [
+                'title' => 'News Title - en',
+                'banner' => 'https://picsum.photos/id/1/1440/760',
+                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
+                'websiteLink' => 'https://www.youtube.com',
+                'previousPage' => '/ourupdates/003',
+                'nextPage' => '/ourupdates/001',
+                'section' => [
+                    [
+                        'id' => '1',
+                        'type' => 'text',
+                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
+                                      <h2>Macro photography comes to iPhone.</h2>
+                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
+                    ],
+                    [
+                        'id' => '2',
+                        'type' => 'photo',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                    [
+                        'id' => '3',
+                        'type' => 'album',
+                        'content' => [
+                            [
+                                'id' => '1',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                            [
+                                'id' => '2',
+                                'url' => 'https://picsum.photos/id/1/540/360',
+                                'description' => 'say something...',
+                                'width' => 540,
+                                'height' => 360
+                            ],
+                        ]
+                    ],
+                ]
             ],
         ]);
     }

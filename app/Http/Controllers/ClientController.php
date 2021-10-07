@@ -9,17 +9,16 @@ class ClientController extends Controller
 {
     public function index()
     {
-        //
+        return view('clients.index');
     }
 
     public function create()
     {
-        //
+        return view('clients.create');
     }
 
     public function store(Request $request)
     {
-        //
     }
 
     public function show(Client $client)
@@ -29,7 +28,7 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        //
+        return view('clients.edit', compact('client'));
     }
 
     public function update(Request $request, Client $client)
