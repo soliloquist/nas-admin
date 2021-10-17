@@ -1,5 +1,6 @@
 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
     <div class="bg-gray-200">
+
         <ul class="flex">
             @foreach($languages as $lang)
                 <li class="py-3 px-6 border-r border-gray-300
@@ -18,7 +19,7 @@
             <div
                 class="@if( $tab != $lang->id) hidden @endif"
             >
-                <livewire:business.edit :group-id="$groupId" :language-id="$lang->id" :key="$lang->id"/>
+                <livewire:business.edit :group-id="$groupId" :language-id="$lang->id" :save-button-text="'儲存'.$lang->label.'版'" :key="$lang->id"/>
             </div>
         @endforeach
     </div>

@@ -9,12 +9,12 @@ class UpdateController extends Controller
 {
     public function index()
     {
-        //
+        return view('updates.index');
     }
 
     public function create()
     {
-        //
+        return view('updates.create');
     }
 
     public function store(Request $request)
@@ -27,9 +27,9 @@ class UpdateController extends Controller
         //
     }
 
-    public function edit(Update $update)
+    public function edit($groupId)
     {
-        //
+        return view('updates.edit', compact('groupId'));
     }
 
     public function update(Request $request, Update $update)

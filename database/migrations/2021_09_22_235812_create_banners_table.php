@@ -11,7 +11,7 @@ class CreateBannersTable extends Migration
         Schema::create('banners', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('language_id');
-            $table->string('position')->default('index'); // 顯示之頁面  index|vision
+            $table->string('position')->default('indexMd'); // 顯示之頁面及規格  indexXs|indexMd|vision
             $table->string('type')->default('image'); // image/video
             $table->string('video_host')->nullable(); // video 來源平台: youtube|vimeo ...
             $table->string('image_url')->nullable();

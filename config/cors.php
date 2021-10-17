@@ -19,16 +19,16 @@ return [
 
     'allowed_methods' => ['GET,POST'],
 
-    'allowed_origins' => ['http://localhost:3000', 'http://localhost','*.nextanimationstudio.com','*.smartores.com'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
     'allowed_headers' => ['*'],
 
-    'exposed_headers' => [],
+    'exposed_headers' => ['*'],
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => false,
 
 ];

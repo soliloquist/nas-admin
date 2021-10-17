@@ -12,9 +12,9 @@ class Group extends Component
     public $languages;
     public $tab;
 
-    public function mount()
+    public function mount($groupId = null)
     {
-        $this->groupId = (string) Str::orderedUuid();
+        $this->groupId = $groupId ?? (string) Str::orderedUuid();
         $this->languages = Language::all();
         $this->tab = $this->languages[0]->id;
     }

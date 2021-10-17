@@ -9,4 +9,16 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Work extends Model implements HasMedia
 {
     use InteractsWithMedia;
+
+    protected $fillable = ['language_id', 'group_id'];
+
+    protected $casts = [
+        'enabled' => 'boolean'
+    ];
+
+
+    public function articles()
+    {
+        return $this->morphMany(Block::class, 'article');
+    }
 }

@@ -10,8 +10,8 @@ class CreateBlocksTable extends Migration
     {
         Schema::create('blocks', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('article_id');
-            $table->string('article_type');
+            $table->unsignedBigInteger('article_id')->nullable();
+            $table->string('article_type')->nullable();
             $table->string('type')->default('p'); // 區塊型式 p|title|image|album
             $table->text('content')->nullable(); // p: html ｜ title: text | image: url
             $table->unsignedInteger('sort')->default(0);

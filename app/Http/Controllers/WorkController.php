@@ -9,12 +9,12 @@ class WorkController extends Controller
 {
     public function index()
     {
-        //
+        return view('works.index');
     }
 
     public function create()
     {
-        //
+        return view('works.create');
     }
 
     public function store(Request $request)
@@ -27,9 +27,9 @@ class WorkController extends Controller
         //
     }
 
-    public function edit(Work $work)
+    public function edit($groupId)
     {
-        //
+        return view('works.edit', compact('groupId'));
     }
 
     public function update(Request $request, Work $work)

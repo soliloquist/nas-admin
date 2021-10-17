@@ -66,7 +66,7 @@ class Index extends Component
     {
         return view('livewire.business.index', [
             'businesses' => Business::when($this->filter, function($query) {
-                $query->where('name', 'like', '%'.$this->filter.'%');
+                $query->where('title', 'like', '%'.$this->filter.'%');
             })->orderBy($this->orderBy, $this->ordering)->paginate(20)
         ]);
     }
