@@ -44,7 +44,8 @@ class Edit extends Component
         'PHOTO_BLOCK_UPDATED' => 'photoBlockUpdated',
         'ALBUM_BLOCK_CREATED' => 'photoBlockCreated',
         'ALBUM_BLOCK_UPDATED' => 'photoBlockUpdated',
-        'ALERT_DONE' => 'alertDone'
+        'ALERT_DONE' => 'alertDone',
+        'RATING_UPDATE' => 'ratingUpdated'
     ];
 
     protected $validationAttributes = [
@@ -69,6 +70,7 @@ class Edit extends Component
             'work.video_url' => 'nullable|url',
             'work.enabled' => 'boolean',
             'sort' => 'integer',
+            'specialties.*.rate' => 'integer'
         ];
 
         if (!$this->work->hasMedia()) $rules['image'] = 'required|image|max:1024';
@@ -179,6 +181,11 @@ class Edit extends Component
      * Functions
      *
      **/
+
+    public function setRate($rate, $id)
+    {
+        dd($rate, $id);
+    }
 
 
     public function getUploadLabelNameProperty()
@@ -510,6 +517,11 @@ class Edit extends Component
     public function alertDone()
     {
         $this->showAlert = false;
+    }
+
+    public function ratingUpdated()
+    {
+//        dd($data);
     }
 
     private function updateBlocks()

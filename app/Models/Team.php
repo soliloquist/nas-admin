@@ -11,4 +11,8 @@ class Team extends Model
     protected $casts = [
         'enabled' => 'boolean'
     ];
+
+    public function members() {
+        return $this->hasMany(Member::class);
+    }
 }

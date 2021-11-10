@@ -3,308 +3,168 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
 use App\Models\Update;
+use App\Services\BlockService;
 use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
-    public function index()
+    protected BlockService $service;
+
+    public function index(Request $request)
     {
+        // 取文章年份列表
+
+        $years = Update::select('year')->groupBy('year')->get();
+
+        $yearsArray = [];
+
+        for ($i = 0; $i < $years->count(); $i++) {
+            $yearsArray[] = [
+                'id' => $i + 1,
+                'text' => substr($years[$i]['year'], 0, 4)
+            ];
+        }
+
+        // END 取文章年份列表
+
+        $langs = Language::all();
+        $zh = $langs->firstWhere('code', 'zh');
+        $en = $langs->firstWhere('code', 'en');
+        $jp = $langs->firstWhere('code', 'jp');
+
+        $rowPerPage = 10;
+        $page = $request->page ? $request->page : 1;
+
+        $zhItems = Update::with('articles')
+            ->when($request->year, function ($query, $request) {
+                return $query->whereYear('year', $request->year);
+            })
+            ->where('language_id', $zh->id)
+            ->where('enabled', 1)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function($item) {
+               return [
+                   'id' => $item->id,
+                   'date' => [
+                       'year' => $item->date->format('Y'),
+                       'month' => $item->date->format('m'),
+                       'date' => $item->date->format('d'),
+                   ],
+                   'title' => $item->title,
+                   'image' => $item->getFirstMediaUrl()
+               ];
+            });
+
+        $enItems = Update::with('articles')
+            ->when($request->year, function ($query, $request) {
+                return $query->whereYear('year', $request->year);
+            })
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'date' => [
+                        'year' => $item->date->format('Y'),
+                        'month' => $item->date->format('m'),
+                        'date' => $item->date->format('d'),
+                    ],
+                    'title' => $item->title,
+                    'image' => $item->getFirstMediaUrl()
+                ];
+            });
+
+        $jpItems = Update::with('articles')
+            ->when($request->year, function ($query, $request) {
+                return $query->whereYear('year', $request->year);
+            })
+            ->where('language_id', $jp->id)
+            ->where('enabled', 1)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function($item) {
+                return [
+                    'id' => $item->id,
+                    'date' => [
+                        'year' => $item->date->format('Y'),
+                        'month' => $item->date->format('m'),
+                        'date' => $item->date->format('d'),
+                    ],
+                    'title' => $item->title,
+                    'image' => $item->getFirstMediaUrl()
+                ];
+            });
+
         return response()->json([
             'result' => true,
-            'totalPage' => 2,
-            'year' => [
-                [
-                    'id' => '1',
-                    'text' => '2021',
-                ],
-                [
-                    'id' => '2',
-                    'text' => '2020',
-                ],
-            ],
+            'totalPage' => 9999,
+            'year' => $yearsArray,
             'en' => [
-                'list' => [
-                    [
-                        'id' => '1',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 1',
-                        'image' => 'https://picsum.photos/id/1/660/300',
-                    ],
-                    [
-                        'id' => '2',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 2',
-                        'image' => 'https://picsum.photos/id/2/660/300',
-                    ],
-                    [
-                        'id' => '3',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 3',
-                        'image' => 'https://picsum.photos/id/3/660/300',
-                    ],
-                ]
+                'list' => $enItems
             ],
             'cn' => [
-                'list' => [
-                    [
-                        'id' => '1',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 1',
-                        'image' => 'https://picsum.photos/id/1/660/300',
-                    ],
-                    [
-                        'id' => '2',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 2',
-                        'image' => 'https://picsum.photos/id/2/660/300',
-                    ],
-                    [
-                        'id' => '3',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 3',
-                        'image' => 'https://picsum.photos/id/3/660/300',
-                    ],
-                ]
+                'list' => $zhItems
             ],
             'jp' => [
-                'list' => [
-                    [
-                        'id' => '1',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 1',
-                        'image' => 'https://picsum.photos/id/1/660/300',
-                    ],
-                    [
-                        'id' => '2',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 2',
-                        'image' => 'https://picsum.photos/id/2/660/300',
-                    ],
-                    [
-                        'id' => '3',
-                        'date' => [
-                            'year' => '2021',
-                            'month' => 'AUG',
-                            'day' => '09',
-                        ],
-                        'title' => 'news title 3',
-                        'image' => 'https://picsum.photos/id/3/660/300',
-                    ],
-                ]
+                'list' => $jpItems
             ],
         ]);
     }
 
 
-    public function show(Request $request)
+    public function show(Request $request, $slug)
     {
+        $this->service = new BlockService();
+
+        $langs = Language::all();
+        $zh = $langs->firstWhere('code', 'zh');
+        $en = $langs->firstWhere('code', 'en');
+        $jp = $langs->firstWhere('code', 'jp');
+
+        $itemZh = Update::where('language_id', $zh->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+        $itemEn = Update::where('language_id', $en->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+        $itemJp = Update::where('language_id', $jp->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+
         return response()->json([
             'result' => true,
-            'en' => [
-                'title' => 'News Title - en',
-                'banner' => 'https://picsum.photos/id/1/1440/760',
-                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
-                'websiteLink' => 'https://www.youtube.com',
-                'previousPage' => '/ourupdates/003',
-                'nextPage' => '/ourupdates/001',
-                'section' => [
-                    [
-                        'id' => '1',
-                        'type' => 'text',
-                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
-                                      <h2>Macro photography comes to iPhone.</h2>
-                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
-                    ],
-                    [
-                        'id' => '2',
-                        'type' => 'photo',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'type' => 'album',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                ]
-            ],
-            'cn' => [
-                'title' => 'News Title - en',
-                'banner' => 'https://picsum.photos/id/1/1440/760',
-                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
-                'websiteLink' => 'https://www.youtube.com',
-                'previousPage' => '/ourupdates/003',
-                'nextPage' => '/ourupdates/001',
-                'section' => [
-                    [
-                        'id' => '1',
-                        'type' => 'text',
-                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
-                                      <h2>Macro photography comes to iPhone.</h2>
-                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
-                    ],
-                    [
-                        'id' => '2',
-                        'type' => 'photo',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'type' => 'album',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                ]
-            ],
-            'jp' => [
-                'title' => 'News Title - en',
-                'banner' => 'https://picsum.photos/id/1/1440/760',
-                'youtubeLink' => 'https://www.youtube.com/watch?v=5bvo0crxQVY',
-                'websiteLink' => 'https://www.youtube.com',
-                'previousPage' => '/ourupdates/003',
-                'nextPage' => '/ourupdates/001',
-                'section' => [
-                    [
-                        'id' => '1',
-                        'type' => 'text',
-                        'content' => '<p>iPhone 13 Pro was made for low light. The Wide camera adds a wider aperture and our largest sensor yet — and it leverages the LiDAR Scanner for Night mode portraits. Ultra Wide gets a wider aperture, a faster sensor, and all-new autofocus. And Telephoto now has Night mode.</p>
-                                      <h2>Macro photography comes to iPhone.</h2>
-                                      <p>With its redesigned lens and powerful autofocus system, the new Ultra Wide camera can focus at just 2 cm — making even the smallest details seem epic. Transform a leaf into abstract art. Capture a caterpillar’s fuzz. Magnify a dewdrop. The beauty of tiny awaits.</p>'
-                    ],
-                    [
-                        'id' => '2',
-                        'type' => 'photo',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'type' => 'album',
-                        'content' => [
-                            [
-                                'id' => '1',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                            [
-                                'id' => '2',
-                                'url' => 'https://picsum.photos/id/1/540/360',
-                                'description' => 'say something...',
-                                'width' => 540,
-                                'height' => 360
-                            ],
-                        ]
-                    ],
-                ]
-            ],
+            'en' => $this->getResult($itemEn, $en),
+            'cn' => $this->getResult($itemZh, $zh),
+            'jp' => $this->getResult($itemJp, $jp),
         ]);
+    }
+
+    private function getResult(Update $item = null, $lang)
+    {
+        if (!$item) return [];
+
+        $array = [];
+
+        $next = Update::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
+        $prev = Update::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
+
+        $array['title'] = $item->title;
+        $array['banner'] = $item->getFirstMediaUrl();
+        $array['youtubeLink'] = $item->video_url;
+        $array['websiteLink'] = $item->website_url;
+        $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
+        $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
+        $array['section'] = $item->articles->map(function ($block) {
+            return [
+                'id' => $block->id,
+                'type' => $block->type,
+                'content' => $this->service->getContent($block)
+            ];
+        });
+
+        return $array;
     }
 
     public function update(Request $request, Update $update)

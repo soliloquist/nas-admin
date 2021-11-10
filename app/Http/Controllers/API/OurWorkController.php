@@ -3,162 +3,81 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
+use App\Models\Specialty;
 use App\Models\Work;
 use Illuminate\Http\Request;
 
 class OurWorkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $specialties = Specialty::get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'color' => $item->color,
+                'text' => $item->name,
+            ];
+        });
+
+        $langs = Language::all();
+        $zh = $langs->firstWhere('code', 'zh');
+        $en = $langs->firstWhere('code', 'en');
+        $jp = $langs->firstWhere('code', 'jp');
+
+        $types = $request->type ?  explode(',', $request->type) : null;
+
+        $filters = [];
+
+        if ( $types ) {
+            $filters = Specialty::whereIn('name', $types)->get()->map(function($item) {
+               return [
+                   'id' => $item->id,
+                   'tag' => $item->name,
+               ];
+            });
+        }
+
+        $zhItems = Work::with('articles')
+            ->when($types, function ($query, $types) {
+                return $query->whereHas('specialties', function ($query) use ($types) {
+                   $query->whereIn('name', $types);
+                });
+            })
+            ->where('language_id', $zh->id)
+            ->where('enabled', 1)
+            ->take(10)
+            ->get()
+            ->map(function($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->id,
+                    'title' => $item->title,
+                    'image' => [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ]
+                ];
+            });
+
+        $enItems = [];
+
+        $jpItems = [];
+
         return response()->json(
             [
                 "result" => true,
-                "type" => [
-                    [
-                        "id" => '1',
-                        'color' => '#9114f6',
-                        'text' => 'Art',
-                    ],
-                    [
-                        "id" => '2',
-                        'color' => '#560dfa',
-                        'text' => 'Art',
-                    ],
-                    [
-                        "id" => '3',
-                        'color' => '#55a7ff',
-                        'text' => 'Model',
-                    ],
-                ],
-                "filter" => [
-                    [
-                        "id" => '1',
-                        "name" => "all"
-                    ],
-                    [
-                        "id" => '2',
-                        "name" => "Animation"
-                    ]
-                ],
+                "type" => $specialties,
+                "filter" => $filters,
                 'en' => [
-                    'works' => [
-                        [
-                            'id' => '1',
-                            'title' => 'Project-1',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/10/600/600',
-                                'width' => 600,
-                                'height' => 600
-                            ]
-                        ],
-                        [
-                            'id' => '2',
-                            'title' => 'Project-2',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/11/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                        [
-                            'id' => '3',
-                            'title' => 'Project-3',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/12/600/300',
-                                'width' => 600,
-                                'height' => 300
-                            ]
-                        ],
-                        [
-                            'id' => '4',
-                            'title' => 'Project-4',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/13/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                    ]
+                    'works' => $enItems
                 ],
                 'cn' => [
-                    'works' => [
-                        [
-                            'id' => '1',
-                            'title' => 'Project-1',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/10/600/600',
-                                'width' => 600,
-                                'height' => 600
-                            ]
-                        ],
-                        [
-                            'id' => '2',
-                            'title' => 'Project-2',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/11/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                        [
-                            'id' => '3',
-                            'title' => 'Project-3',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/12/600/300',
-                                'width' => 600,
-                                'height' => 300
-                            ]
-                        ],
-                        [
-                            'id' => '4',
-                            'title' => 'Project-4',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/13/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                    ]
+                    'works' => $zhItems
                 ],
                 'jp' => [
-                    'works' => [
-                        [
-                            'id' => '1',
-                            'title' => 'Project-1',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/10/600/600',
-                                'width' => 600,
-                                'height' => 600
-                            ]
-                        ],
-                        [
-                            'id' => '2',
-                            'title' => 'Project-2',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/11/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                        [
-                            'id' => '3',
-                            'title' => 'Project-3',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/12/600/300',
-                                'width' => 600,
-                                'height' => 300
-                            ]
-                        ],
-                        [
-                            'id' => '4',
-                            'title' => 'Project-4',
-                            'image' => [
-                                'url' => 'https://picsum.photos/id/13/600/500',
-                                'width' => 600,
-                                'height' => 500
-                            ]
-                        ],
-                    ]
+                    'works' => $jpItems
                 ],
             ]
         );

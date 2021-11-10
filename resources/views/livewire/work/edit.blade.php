@@ -205,7 +205,7 @@
                     <div class="flex items-center mb-4">
                         <div class="w-6 h-6" style="background-color: {{$item['color']}}"></div>
                         <div class="w-64 ml-4">{{ $item['name'] }}</div>
-                        <livewire:component.rating />
+                        <x-rating :rating="$item['rate']" :itemId="$item['id']" />
                     </div>
                 @endforeach
             </div>

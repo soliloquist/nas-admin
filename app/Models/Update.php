@@ -13,7 +13,8 @@ class Update extends Model implements HasMedia
     protected $fillable = ['language_id', 'group_id'];
 
     protected $casts = [
-        'enabled' => 'boolean'
+        'enabled' => 'boolean',
+        'date' => 'date'
     ];
 
 

@@ -3,215 +3,86 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Language;
+use App\Models\Setting;
+use App\Models\Work;
 
 class HomeController extends Controller
 {
     public function __invoke()
     {
+        $setting = Setting::all();
+
+        $bannerXS = $setting->firstWhere('key','index_banner_xs');
+        $bannerXSMedia = $bannerXS->getFirstMedia();
+
+        $bannerMD = $setting->firstWhere('key','index_banner_md');
+        $bannerMDMedia = $bannerMD->getFirstMedia();
+
+        $downloadUrl = $setting->firstWhere('key','index_doc_download_url');
+
+        $lang = Language::get();
+        $zh = $lang->firstWhere('code', 'zh');
+        $en = $lang->firstWhere('code', 'en');
+        $jp = $lang->firstWhere('code', 'jp');
+
+        $zhWorks = Work::where('language_id', $zh->id)->take(10)->get()->map(function($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'image' => [
+                    'url' => $item->getFirstMediaUrl(),
+                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
+                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                ]
+            ];
+        });
+
+        $enWorks = Work::where('language_id', $en->id)->take(10)->get()->map(function($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'image' => [
+                    'url' => $item->getFirstMediaUrl(),
+                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
+                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                ]
+            ];
+        });
+
+        $jpWorks = Work::where('language_id', $jp->id)->take(10)->get()->map(function($item) {
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'image' => [
+                    'url' => $item->getFirstMediaUrl(),
+                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
+                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                ]
+            ];
+        });
+
         return response()->json([
             "result" => true,
             "bannerXS" => [
-                "url" => "https://picsum.photos/id/1023/768/670",
-                "width" => 768,
-                "height" => 670,
+                "url" => $bannerXSMedia->getUrl(),
+                "width" => $bannerXSMedia->getCustomProperty('width'),
+                "height" => $bannerXSMedia->getCustomProperty('height'),
             ],
             "bannerMD" => [
-                "url" => "https://picsum.photos/id/1023/1920/700",
-                "width" => 1920,
-                "height" => 700,
+                "url" => $bannerMDMedia->getUrl(),
+                "width" => $bannerMDMedia->getCustomProperty('width'),
+                "height" => $bannerMDMedia->getCustomProperty('height'),
             ],
-            "downloadUrl" => "https://tw.apple.com/",
+            "downloadUrl" => $downloadUrl->value,
             "en" => [
-                "list" => [
-                    [
-                        'id' => '1',
-                        'title' => 'MOCAP',
-                        'apiLink' => 'mocap',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/0/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '2',
-                        'title' => 'NextLAB',
-                        'apiLink' => '/ourbusiness/nextlab',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/10/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'title' => 'CLOUDEYE',
-                        'apiLink' => '/ourbusiness/cloudeye',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/100/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '4',
-                        'title' => 'TOMOLIVE',
-                        'apiLink' => '/ourbusiness/tomolive',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1000/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '5',
-                        'title' => 'LIGHT STAGE',
-                        'apiLink' => '/ourbusiness/light%20stage',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1001/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '6',
-                        'title' => 'NEWS DIRECT',
-                        'apiLink' => '/ourbusiness/news%20direct',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1002/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ]
-                ]
+                "list" => $enWorks
             ],
             "cn" => [
-                "list" => [
-                    [
-                        'id' => '1',
-                        'title' => 'MOCAP',
-                        'apiLink' => 'mocap',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/0/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '2',
-                        'title' => 'NextLAB',
-                        'apiLink' => '/ourbusiness/nextlab',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/10/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'title' => 'CLOUDEYE',
-                        'apiLink' => '/ourbusiness/cloudeye',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/100/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '4',
-                        'title' => 'TOMOLIVE',
-                        'apiLink' => '/ourbusiness/tomolive',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1000/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '5',
-                        'title' => 'LIGHT STAGE',
-                        'apiLink' => '/ourbusiness/light%20stage',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1001/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '6',
-                        'title' => 'NEWS DIRECT',
-                        'apiLink' => '/ourbusiness/news%20direct',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1002/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ]
-                ]
+                "list" => $zhWorks
             ],
             "jp" => [
-                "list" => [
-                    [
-                        'id' => '1',
-                        'title' => 'MOCAP',
-                        'apiLink' => 'mocap',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/0/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '2',
-                        'title' => 'NextLAB',
-                        'apiLink' => '/ourbusiness/nextlab',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/10/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '3',
-                        'title' => 'CLOUDEYE',
-                        'apiLink' => '/ourbusiness/cloudeye',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/100/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '4',
-                        'title' => 'TOMOLIVE',
-                        'apiLink' => '/ourbusiness/tomolive',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1000/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '5',
-                        'title' => 'LIGHT STAGE',
-                        'apiLink' => '/ourbusiness/light%20stage',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1001/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ],
-                    [
-                        'id' => '6',
-                        'title' => 'NEWS DIRECT',
-                        'apiLink' => '/ourbusiness/news%20direct',
-                        'image' => [
-                            'url' => 'https://picsum.photos/id/1002/300/300',
-                            'width' => 300,
-                            'height' => 300,
-                        ]
-                    ]
-                ]
+                "list" => $jpWorks
             ],
         ]);
     }

@@ -222,7 +222,7 @@ class Edit extends Component
         }
 
         // 日期處理
-        $this->update->year = $this->year. '-'. $this->month . '-' . $this->date;
+        $this->update->year = $this->year. '-01-01';
         $this->update->date = $this->year. '-'. $this->month . '-' . $this->date;
 
         $this->update->sort = $this->sort;

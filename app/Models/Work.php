@@ -21,4 +21,9 @@ class Work extends Model implements HasMedia
     {
         return $this->morphMany(Block::class, 'article');
     }
+
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
+    }
 }

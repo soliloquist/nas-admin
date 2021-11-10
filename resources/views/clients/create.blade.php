@@ -10,7 +10,6 @@
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 {{-- CONTENT --}}
                 <livewire:client.edit />
-                {{-- /CONTENT--}}
             </div>
         </div>
     </div>
