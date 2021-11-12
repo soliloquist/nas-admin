@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 
 class OurWorkController extends Controller
 {
+    protected BlockService $service;
+
     public function index(Request $request)
     {
         $specialties = Specialty::get()->map(function ($item) {
