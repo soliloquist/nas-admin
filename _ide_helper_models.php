@@ -50,8 +50,8 @@ namespace App\Models{
  * App\Models\Block
  *
  * @property int $id
- * @property int $article_id
- * @property string $article_type
+ * @property int|null $article_id
+ * @property string|null $article_type
  * @property string $type
  * @property string|null $content
  * @property int $sort
@@ -59,6 +59,7 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $article
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Block newModelQuery()
@@ -84,14 +85,18 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $language_id
+ * @property string $group_id
+ * @property string $slug
  * @property string $title
  * @property string|null $video_url
  * @property string|null $website_url
  * @property int $sort
- * @property int $enabled
+ * @property bool $enabled
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Block[] $articles
+ * @property-read int|null $articles_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Business newModelQuery()
@@ -100,8 +105,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Business whereGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereLanguageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Business whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Business whereUpdatedAt($value)
@@ -143,28 +150,64 @@ namespace App\Models{
  * App\Models\Contact
  *
  * @property int $id
- * @property string $name
+ * @property int $contact_type_id
  * @property string $email
- * @property string|null $phone
- * @property int $type
  * @property int $enabled
- * @property string|null $note
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Contact newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Contact newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Contact query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Contact whereContactTypeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Contact whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Contact whereNote($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Contact wherePhone($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Contact whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Contact whereUpdatedAt($value)
  */
 	class Contact extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ContactType
+ *
+ * @property int $id
+ * @property string $title
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ContactType whereUpdatedAt($value)
+ */
+	class ContactType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Credit
+ *
+ * @property int $id
+ * @property int $work_id
+ * @property string $title
+ * @property mixed $people
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit wherePeople($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Credit whereWorkId($value)
+ */
+	class Credit extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -195,6 +238,7 @@ namespace App\Models{
  * @property string|null $title
  * @property int $enabled
  * @property int|null $sort
+ * @property string|null $custom_color
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -206,6 +250,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Member newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Member query()
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Member whereCustomColor($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereId($value)
@@ -217,6 +262,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Member whereUpdatedAt($value)
  */
 	class Member extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Setting
+ *
+ * @property int $id
+ * @property string $key
+ * @property string|null $value
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereKey($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Setting whereValue($value)
+ */
+	class Setting extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -253,6 +321,8 @@ namespace App\Models{
  * @property string|null $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Member[] $members
+ * @property-read int|null $members_count
  * @method static \Illuminate\Database\Eloquent\Builder|Team newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Team query()
@@ -273,13 +343,17 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $language_id
+ * @property string $group_id
+ * @property string $slug
  * @property string $title
  * @property string $year
- * @property string $date
+ * @property \Illuminate\Support\Carbon $date
  * @property int $sort
- * @property int $enabled
+ * @property bool $enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Block[] $articles
+ * @property-read int|null $articles_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
  * @method static \Illuminate\Database\Eloquent\Builder|Update newModelQuery()
@@ -288,8 +362,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Update whereGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereLanguageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Update whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Update whereUpdatedAt($value)
@@ -345,22 +421,30 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $language_id
+ * @property string $group_id
+ * @property string $slug
  * @property string $title
  * @property string|null $video_url
  * @property string|null $website_url
  * @property int $sort
- * @property int $enabled
+ * @property bool $enabled
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Block[] $articles
+ * @property-read int|null $articles_count
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Specialty[] $specialties
+ * @property-read int|null $specialties_count
  * @method static \Illuminate\Database\Eloquent\Builder|Work newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Work newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Work query()
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereEnabled($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Work whereGroupId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereLanguageId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Work whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Work whereUpdatedAt($value)

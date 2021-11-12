@@ -15,7 +15,6 @@ class HomeController extends Controller
 
         $bannerXS = $setting->firstWhere('key','index_banner_xs');
         $bannerXSMedia = $bannerXS->getFirstMedia();
-        $bannerXSArray =
 
         $bannerMD = $setting->firstWhere('key','index_banner_md');
         $bannerMDMedia = $bannerMD->getFirstMedia();

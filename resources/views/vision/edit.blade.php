@@ -23,10 +23,15 @@
             .trix-button--icon-attach,
             .trix-button--icon-increase-nesting-level,
             .trix-button--icon-decrease-nesting-level,
+            .trix-button--icon-strike,
+            .trix-button--icon-link,
+            .trix-button--icon-heading-1,
+            .trix-button--icon-bullet-list,
+            .trix-button--icon-number-list,
             .trix-button--icon-code {
                 display: none;
             }
-            .trix-button-group--file-tools {
+            .trix-button-group--file-tools, .trix-button-group--block-tools {
                 border: none !important;
             }
             .trix-editor h1, #review h1 {

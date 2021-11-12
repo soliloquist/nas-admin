@@ -4,21 +4,21 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContactsTable extends Migration
+class CreateCreditsTable extends Migration
 {
     public function up()
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('credits', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('contact_type_id');
-            $table->string('email');
-            $table->boolean('enabled')->default(0);
+            $table->unsignedBigInteger('work_id');
+            $table->string('title');
+            $table->json('people');
             $table->timestamps();
         });
     }
 
     public function down()
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('credits');
     }
 }

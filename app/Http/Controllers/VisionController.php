@@ -39,4 +39,10 @@ class VisionController extends Controller
         $path = 'vision.video';
         return view('vision.edit', compact('path'));
     }
+
+    public function videoCover()
+    {
+        $path = 'vision.video-cover';
+        return view('vision.edit', compact('path'));
+    }
 }

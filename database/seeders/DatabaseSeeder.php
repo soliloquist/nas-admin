@@ -17,7 +17,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             LanguageSeeder::class,
             SettingSeeder::class,
-            SpecialtySeeder::class
+            SpecialtySeeder::class,
+            ContactTypeSeeder::class,
+            ContactSeeder::class
         ]);
         // \App\Models\User::factory(10)->create();
     }

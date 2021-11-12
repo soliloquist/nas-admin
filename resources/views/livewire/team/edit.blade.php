@@ -27,7 +27,7 @@
         <div class="px-4 pt-3 pb-5 bg-gray-50 text-right sm:px-6">
             <a
                 href="{{ route('teams.index') }}"
-                class="inline-flex justify-center py-2 px-4 text-sm font-medium text-gray-700 hover:text-gray-500"
+                class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
                 回列表頁
             </a>

@@ -18,6 +18,10 @@ class SettingSeeder extends Seeder
                 'value' => null
             ],
             [
+                'key' => 'index_banner_video',
+                'value' => null
+            ],
+            [
                 'key' => 'index_doc_download_url',
                 'value' => null
             ],

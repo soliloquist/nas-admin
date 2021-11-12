@@ -16,6 +16,7 @@ class CreateMembersTable extends Migration
             $table->string('title')->nullable();
             $table->boolean('enabled')->default(0);
             $table->unsignedInteger('sort')->nullable();
+            $table->string('custom_color', 12)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

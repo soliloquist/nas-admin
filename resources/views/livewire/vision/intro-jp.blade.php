@@ -34,6 +34,7 @@
                         </trix-editor>
                     </div>
                 </div>
+                <div class="mt-4">* 字數上限300字</div>
             </div>
 
 
