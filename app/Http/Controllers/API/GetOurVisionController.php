@@ -31,9 +31,9 @@ class GetOurVisionController extends Controller
                         'title' => $member->title,
                         'type' => $member->specialty->color,
                         'image' => [
-                            'url' => $image->getUrl(),
-                            'width' => $image->CustomProperty('width'),
-                            'height' => $image->CustomProperty('height')
+                            'url' => $image ? $image->getUrl() : null,
+                            'width' => $image ? $image->getCustomProperty('width') : null,
+                            'height' => $image ? $image->getCustomProperty('height') : null
                         ]
                     ];
                 })

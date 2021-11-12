@@ -15,6 +15,7 @@ class HomeController extends Controller
 
         $bannerXS = $setting->firstWhere('key','index_banner_xs');
         $bannerXSMedia = $bannerXS->getFirstMedia();
+        $bannerXSArray =
 
         $bannerMD = $setting->firstWhere('key','index_banner_md');
         $bannerMDMedia = $bannerMD->getFirstMedia();
@@ -64,16 +65,16 @@ class HomeController extends Controller
 
         return response()->json([
             "result" => true,
-            "bannerXS" => [
+            "bannerXS" => $bannerMDMedia ? [
                 "url" => $bannerXSMedia->getUrl(),
                 "width" => $bannerXSMedia->getCustomProperty('width'),
                 "height" => $bannerXSMedia->getCustomProperty('height'),
-            ],
-            "bannerMD" => [
+            ] : null,
+            "bannerMD" => $bannerMDMedia ? [
                 "url" => $bannerMDMedia->getUrl(),
                 "width" => $bannerMDMedia->getCustomProperty('width'),
                 "height" => $bannerMDMedia->getCustomProperty('height'),
-            ],
+            ] : null,
             "downloadUrl" => $downloadUrl->value,
             "en" => [
                 "list" => $enWorks
