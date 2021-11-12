@@ -45,7 +45,6 @@ class Edit extends Component
         'ALBUM_BLOCK_CREATED' => 'photoBlockCreated',
         'ALBUM_BLOCK_UPDATED' => 'photoBlockUpdated',
         'ALERT_DONE' => 'alertDone',
-        'RATING_UPDATE' => 'ratingUpdated'
     ];
 
     protected $validationAttributes = [
@@ -184,7 +183,10 @@ class Edit extends Component
 
     public function setRate($rate, $id)
     {
-        dd($rate, $id);
+        $this->specialties = $this->specialties->map(function($item) use($rate, $id) {
+            if ($item['id'] == $id) $item['rate'] = $rate;
+            return $item;
+        });
     }
 
 
@@ -238,6 +240,15 @@ class Edit extends Component
         $this->reset('image');
 
         $this->updateBlocks();
+
+
+        $specialties = [];
+
+        foreach ($this->specialties as $s) {
+            $specialties[$s['id']] = ['percentage' => $s['rate']];
+        }
+
+        $this->work->specialties()->sync($specialties);
 
         $this->showAlert = true;
     }
@@ -517,11 +528,6 @@ class Edit extends Component
     public function alertDone()
     {
         $this->showAlert = false;
-    }
-
-    public function ratingUpdated()
-    {
-//        dd($data);
     }
 
     private function updateBlocks()

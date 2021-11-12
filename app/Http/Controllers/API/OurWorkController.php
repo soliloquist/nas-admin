@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Language;
 use App\Models\Specialty;
 use App\Models\Work;
+use App\Services\BlockService;
 use Illuminate\Http\Request;
 
 class OurWorkController extends Controller
@@ -51,7 +52,7 @@ class OurWorkController extends Controller
             ->map(function($item) {
                 $image = $item->getFirstMedia();
                 return [
-                    'id' => $item->id,
+                    'id' => $item->slug,
                     'title' => $item->title,
                     'image' => [
                         'url' => $image->getUrl(),
@@ -61,9 +62,51 @@ class OurWorkController extends Controller
                 ];
             });
 
-        $enItems = [];
+        $enItems = Work::with('articles')
+            ->when($types, function ($query, $types) {
+                return $query->whereHas('specialties', function ($query) use ($types) {
+                    $query->whereIn('name', $types);
+                });
+            })
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->take(10)
+            ->get()
+            ->map(function($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ]
+                ];
+            });
 
-        $jpItems = [];
+        $jpItems = Work::with('articles')
+            ->when($types, function ($query, $types) {
+                return $query->whereHas('specialties', function ($query) use ($types) {
+                    $query->whereIn('name', $types);
+                });
+            })
+            ->where('language_id', $jp->id)
+            ->where('enabled', 1)
+            ->take(10)
+            ->get()
+            ->map(function($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ]
+                ];
+            });
 
         return response()->json(
             [
@@ -84,8 +127,26 @@ class OurWorkController extends Controller
     }
 
 
-    public function show(Request $request)
+    public function show(Request $request, $slug)
     {
+        $this->service = new BlockService();
+
+        $langs = Language::all();
+        $zh = $langs->firstWhere('code', 'zh');
+        $en = $langs->firstWhere('code', 'en');
+        $jp = $langs->firstWhere('code', 'jp');
+
+        $itemZh = Work::where('language_id', $zh->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+        $itemEn = Work::where('language_id', $en->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+        $itemJp = Work::where('language_id', $jp->id)->where('enabled', 1)->where('slug', $slug)->with('articles')->first();
+
+        return response()->json([
+            'result' => true,
+            'en' => $this->getResult($itemEn, $en),
+            'cn' => $this->getResult($itemZh, $zh),
+            'jp' => $this->getResult($itemJp, $jp),
+        ]);
+
         return response()->json([
             'result' => true,
             'en' => [
@@ -502,5 +563,45 @@ class OurWorkController extends Controller
                 ]
             ],
         ]);
+    }
+    private function getResult(Work $item = null, $lang)
+    {
+        if (!$item) return [];
+
+        $proportion = [];
+        $totalRate = 0;
+        $item->specialties->each(function ($item) use (&$totalRate) {
+            $totalRate += $item->pivot->percentage;
+        });
+
+        $item->specialties->each(function ($item) use ($totalRate, &$proportion) {
+            $proportion[] = [
+                'id' => $item->id,
+                'color' => $item->color,
+                'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
+            ];
+        });
+
+        $array = [];
+
+        $next = Work::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
+        $prev = Work::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
+
+        $array['title'] = $item->title;
+        $array['banner'] = $item->getFirstMediaUrl();
+        $array['youtubeLink'] = $item->video_url;
+        $array['websiteLink'] = $item->website_url;
+        $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
+        $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
+        $array['section'] = $item->articles->map(function ($block) {
+            return [
+                'id' => $block->id,
+                'type' => $block->type,
+                'content' => $this->service->getContent($block)
+            ];
+        });
+        $array['proportion'] = $proportion;
+
+        return $array;
     }
 }

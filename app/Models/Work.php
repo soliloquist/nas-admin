@@ -24,6 +24,6 @@ class Work extends Model implements HasMedia
 
     public function specialties()
     {
-        return $this->belongsToMany(Specialty::class);
+        return $this->belongsToMany(Specialty::class)->withPivot('percentage');
     }
 }
