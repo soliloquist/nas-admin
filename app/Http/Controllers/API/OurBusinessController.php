@@ -24,10 +24,15 @@ class OurBusinessController extends Controller
             ->take(10)
             ->get()
             ->map(function ($item) {
+                $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
-                    'image' => $item->getFirstMediaUrl()
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
                 ];
             });
         return response()->json([

@@ -30,11 +30,11 @@ class GetOurVisionController extends Controller
                         'name' => $member->name,
                         'title' => $member->title,
                         'type' => $member->specialty->color,
-                        'image' => [
-                            'url' => $image ? $image->getUrl() : null,
-                            'width' => $image ? $image->getCustomProperty('width') : null,
-                            'height' => $image ? $image->getCustomProperty('height') : null
-                        ]
+                        'image' => $image ? [
+                            'url' => $image->getUrl(),
+                            'width' =>  $image->getCustomProperty('width'),
+                            'height' => $image->getCustomProperty('height')
+                        ] : null
                     ];
                 })
             ];
@@ -44,11 +44,11 @@ class GetOurVisionController extends Controller
             $image = $c->getFirstMedia();
             return [
                 'id' => $c->id,
-                'image' => [
+                'image' => $image ? [
                     'url' => $image->getUrl(),
                     'width' => $image->getCustomProperty('width'),
                     'height' => $image->getCustomProperty('height')
-                ]
+                ] : null
             ];
         });
 

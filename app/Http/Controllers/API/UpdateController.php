@@ -46,17 +46,22 @@ class UpdateController extends Controller
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
-            ->map(function($item) {
-               return [
-                   'id' => $item->slug,
-                   'date' => [
-                       'year' => $item->date->format('Y'),
-                       'month' => $item->date->format('m'),
-                       'date' => $item->date->format('d'),
-                   ],
-                   'title' => $item->title,
-                   'image' => $item->getFirstMediaUrl()
-               ];
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'date' => [
+                        'year' => $item->date->format('Y'),
+                        'month' => $item->date->format('m'),
+                        'date' => $item->date->format('d'),
+                    ],
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
             });
 
         $enItems = Update::with('articles')
@@ -68,7 +73,8 @@ class UpdateController extends Controller
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
                     'date' => [
@@ -77,7 +83,11 @@ class UpdateController extends Controller
                         'date' => $item->date->format('d'),
                     ],
                     'title' => $item->title,
-                    'image' => $item->getFirstMediaUrl()
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
                 ];
             });
 
@@ -90,7 +100,8 @@ class UpdateController extends Controller
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
                     'date' => [
@@ -99,7 +110,11 @@ class UpdateController extends Controller
                         'date' => $item->date->format('d'),
                     ],
                     'title' => $item->title,
-                    'image' => $item->getFirstMediaUrl()
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
                 ];
             });
 
