@@ -25,9 +25,8 @@ class OurBusinessController extends Controller
             ->get()
             ->map(function ($item) {
                 return [
-                    'id' => $item->group_id,
+                    'id' => $item->slug,
                     'title' => $item->title,
-                    'apiLink' => config('app.APP_URL') . '/getBusiness/' . $item->slug,
                     'image' => $item->getFirstMediaUrl()
                 ];
             });

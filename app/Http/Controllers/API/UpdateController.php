@@ -48,7 +48,7 @@ class UpdateController extends Controller
             ->get()
             ->map(function($item) {
                return [
-                   'id' => $item->id,
+                   'id' => $item->slug,
                    'date' => [
                        'year' => $item->date->format('Y'),
                        'month' => $item->date->format('m'),
@@ -70,7 +70,7 @@ class UpdateController extends Controller
             ->get()
             ->map(function($item) {
                 return [
-                    'id' => $item->id,
+                    'id' => $item->slug,
                     'date' => [
                         'year' => $item->date->format('Y'),
                         'month' => $item->date->format('m'),
@@ -92,7 +92,7 @@ class UpdateController extends Controller
             ->get()
             ->map(function($item) {
                 return [
-                    'id' => $item->id,
+                    'id' => $item->slug,
                     'date' => [
                         'year' => $item->date->format('Y'),
                         'month' => $item->date->format('m'),
