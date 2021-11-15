@@ -351,18 +351,18 @@
             <div>Team Credit</div>
             <div class="border-t border-gray-400 py-6">
                 <div class="flex">
-{{--                    <div>--}}
-{{--                        <div>Team</div>--}}
-{{--                        <div>--}}
-{{--                            <input class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300" value="" />--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div>--}}
-{{--                        <div>Team</div>--}}
-{{--                        <div>--}}
-{{--                            <input class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300" value="" />--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    <div>
+                        <div>Team</div>
+                        <div>
+                            <input class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300" value="" />
+                        </div>
+                    </div>
+                    <div>
+                        <div>Team</div>
+                        <div>
+                            <input class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300" value="" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
