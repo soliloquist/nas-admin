@@ -205,7 +205,7 @@
                 @foreach($tagOptions as $item)
                 <label class="mr-4 my-4">
                     <input wire:model="tags" type="checkbox" value="{{ $item->id }}">
-                    {{ $item->name }}|{{ $item->id }}
+                    {{ $item->name }}
                 </label>
                 @endforeach
             </div>
