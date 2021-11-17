@@ -20,11 +20,11 @@ class Photo extends Component
     protected $messages = [
         'uploads.*.required' => '請上傳圖檔',
         'uploads.*.image' => '圖檔必須為 jpg,gif,png 格式',
-        'uploads.*.max' => '圖檔不可超過 1MB',
+        'uploads.*.max' => '圖檔不可超過 5MB',
     ];
 
     protected $rules = [
-        'uploads.*' => 'image|max:1024',
+        'uploads.*' => 'image|max:6000',
         'images.*.caption' => 'string'
     ];
 

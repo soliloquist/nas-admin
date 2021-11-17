@@ -58,7 +58,7 @@ class Edit extends Component
     protected $messages = [
         'image.required' => '請上傳圖檔',
         'image.image' => '圖檔必須為 jpg,gif,png 格式',
-        'image.max' => '圖檔不可超過 1MB',
+        'image.max' => '圖檔不可超過 5MB',
         'year.required' => '請填入年份',
         'year.date_format' => '年份格式有誤',
         'month.required' => '請填入月份',
@@ -81,7 +81,7 @@ class Edit extends Component
             'date' => 'required|date_format:d',
         ];
 
-        if (!$this->update->hasMedia()) $rules['image'] = 'required|image|max:1024';
+        if (!$this->update->hasMedia()) $rules['image'] = 'required|image|max:6000';
 
         return $rules;
     }

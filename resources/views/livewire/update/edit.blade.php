@@ -97,7 +97,7 @@
             @endif
 
             <x-forms.image-upload :label="$this->uploadLabelName" :image="$image" :iteration="$iteration"/>
-
+                <div class="mt-2 text-gray-600">* 圖片建議尺寸（寬）3035 x (高)760 px</div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">
                     * 網址

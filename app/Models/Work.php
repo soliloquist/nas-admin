@@ -31,4 +31,9 @@ class Work extends Model implements HasMedia
     {
         return $this->hasMany(Credit::class);
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

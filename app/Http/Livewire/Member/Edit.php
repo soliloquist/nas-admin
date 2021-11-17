@@ -20,8 +20,16 @@ class Edit extends Component
     public bool $finish = false;
     public $uploadLabel = '上傳圖檔';
 
+    public $color;
+
+    public $colorType = '1';
+
     public $teams;
     public $specialties;
+
+    protected $listeners = [
+        'setColor' => 'setColor',
+    ];
 
     protected $validationAttributes = [
         'member.name' => '名稱',
@@ -30,7 +38,7 @@ class Edit extends Component
     protected $messages = [
         'image.required' => '請上傳圖檔',
         'image.image' => '圖檔必須為 jpg,gif,png 格式',
-        'image.max' => '圖檔不可超過 1MB',
+        'image.max' => '圖檔不可超過 5MB',
     ];
 
     protected function rules()
@@ -41,10 +49,11 @@ class Edit extends Component
             'member.team_id' => 'required|integer',
             'member.specialty_id' => 'required|integer',
             'sort' => 'integer',
-            'member.enabled' => 'boolean'
+            'member.enabled' => 'boolean',
+            'color' => 'nullable'
         ];
 
-        if (!$this->member->hasMedia()) $rules['image'] = 'required|image|max:1024';
+        if (!$this->member->hasMedia()) $rules['image'] = 'required|image|max:6000';
 
         return $rules;
     }
@@ -70,6 +79,16 @@ class Edit extends Component
         $this->specialties = Specialty::all();
 
         if (!$this->member->specialty_id) $this->member->specialty_id = $this->specialties[0]->id;
+
+        if ($this->member->custom_color) {
+            $this->colorType = 2;
+            $this->color = $this->member->custom_color;
+        }
+    }
+
+    public function setColor($value)
+    {
+        $this->color = $value;
     }
 
     public function updated($propertyName)
@@ -99,6 +118,12 @@ class Edit extends Component
 
         } else {
             Member::where('sort', '>=', $this->sort)->increment('sort');
+        }
+
+        if ($this->colorType == '2') {
+            $this->member->custom_color = $this->color ?? '#fff';
+        } else {
+            $this->member->custom_color = null;
         }
 
         $this->member->sort = $this->sort;

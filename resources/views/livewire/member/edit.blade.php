@@ -22,10 +22,12 @@
                 <div>{{ $member->team->title }}</div>
             </div>
 
+            @if(!$this->member->custom_color)
             <div class="flex">
                 <div class="md:w-1/5 text-gray-700 font-medium">專業類型</div>
                 <div>{{ $member->specialty->name }}</div>
             </div>
+            @endif
 
             <div class="flex">
                 <div class="md:w-1/5 text-gray-700 font-medium">排序</div>
@@ -107,16 +109,52 @@
                 @error('member.team_id') <span class="text-red-600">{{ $message }}</span> @enderror
             </div>
 
+
             <div>
-                <label class="block text-sm font-medium text-gray-700"> * 專業類型</label>
-                <select
-                    wire:model="member.specialty_id"
-                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    @foreach($specialties as $specialty)
-                        <option value="{{$specialty->id}}">{{ $specialty->name }}</option>
-                    @endforeach
-                </select>
-                @error('member.specialty_id') <span class="text-red-600">{{ $message }}</span> @enderror
+                <div class="block text-sm font-medium text-gray-700">
+                    * 選擇代表色
+                </div>
+
+                <div class="flex mt-4 items-center">
+                    <div>
+                        <label class="flex w-56">
+                            <input wire:model="colorType" type="radio" name="color" value="1">
+                            <div class="text-sm font-medium text-gray-700 ml-2"> 選擇專業類型</div>
+                        </label>
+                    </div>
+                    <div>
+                        <select
+                            wire:model="member.specialty_id"
+                            class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            @foreach($specialties as $specialty)
+                                <option value="{{$specialty->id}}">{{ $specialty->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('member.specialty_id') <span class="text-red-600">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+
+                <div class="flex mt-4 items-center">
+                    <div>
+                        <label class="flex w-56">
+                            <input wire:model="colorType" type="radio" name="color" value="2">
+                            <div class="text-sm font-medium text-gray-700 ml-2"> 自定其他顏色</div>
+                        </label>
+                    </div>
+                    <div class="flex">
+                        <input
+                            wire:model="color"
+                            type="text"
+                            class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
+                            placeholder="sample@email.com"
+                        >
+                        <div class="w-10 h-10 ml-1" style="background-color: {{ $color }}"></div>
+                    </div>
+                </div>
+
+                <div class="@if($colorType == '1') hidden @endif">
+                    <div id="picker" class="ml-4 mt-4" wire:ignore></div>
+                </div>
             </div>
 
             <div>
@@ -171,4 +209,20 @@
         </div>
 
     </form>
+
+    @push('headScripts')
+        <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+
+    @endpush
+    <script>
+        document.addEventListener('livewire:load', function () {
+
+            var colorPicker = new iro.ColorPicker('#picker')
+
+            colorPicker.on('color:change', function (color) {
+                Livewire.emit('setColor', color.hexString)
+            })
+
+        })
+    </script>
 @endif

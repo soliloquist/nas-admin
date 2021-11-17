@@ -25,7 +25,7 @@ class Edit extends Component
     protected $messages = [
         'image.required' => '請上傳圖檔',
         'image.image' => '圖檔必須為 jpg,gif,png 格式',
-        'image.max' => '圖檔不可超過 1MB',
+        'image.max' => '圖檔不可超過 5MB',
     ];
 
     protected function rules()
@@ -37,7 +37,7 @@ class Edit extends Component
             'client.enabled' => 'boolean'
         ];
 
-        if (!$this->client->hasMedia()) $rules['image'] = 'required|image|max:1024';
+        if (!$this->client->hasMedia()) $rules['image'] = 'required|image|max:6000';
 
         return $rules;
     }

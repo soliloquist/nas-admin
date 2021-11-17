@@ -28,25 +28,20 @@ class OurWorkController extends Controller
         $en = $langs->firstWhere('code', 'en');
         $jp = $langs->firstWhere('code', 'jp');
 
-//        $types = $request->type ?  explode(',', $request->type) : null;
-        $filters = $request->filters;
+        $filters = [];
 
+        foreach ($request->filter as $item) {
+            $filters[] = $item['tag'];
+        }
 
-//        if ( $types ) {
-//            $filters = Specialty::whereIn('name', $types)->get()->map(function($item) {
-//               return [
-//                   'id' => $item->id,
-//                   'tag' => $item->name,
-//               ];
-//            });
-//        }
+        if (in_array('all', $filters)) $filters = [];
 
-        $zhItems = Work::with('articles')
-//            ->when($types, function ($query, $types) {
-//                return $query->whereHas('specialties', function ($query) use ($types) {
-//                   $query->whereIn('name', $types);
-//                });
-//            })
+        $zhItems = Work::with('articles', 'tags')
+            ->when($filters, function ($query, $filters) {
+                return $query->whereHas('tags', function ($query) use ($filters) {
+                   $query->whereIn('name', $filters);
+                });
+            })
             ->where('language_id', $zh->id)
             ->where('enabled', 1)
             ->take(10)
@@ -65,11 +60,11 @@ class OurWorkController extends Controller
             });
 
         $enItems = Work::with('articles')
-//            ->when($types, function ($query, $types) {
-//                return $query->whereHas('specialties', function ($query) use ($types) {
-//                    $query->whereIn('name', $types);
-//                });
-//            })
+            ->when($filters, function ($query, $filters) {
+                return $query->whereHas('tags', function ($query) use ($filters) {
+                    $query->whereIn('name', $filters);
+                });
+            })
             ->where('language_id', $en->id)
             ->where('enabled', 1)
             ->take(10)
@@ -88,11 +83,11 @@ class OurWorkController extends Controller
             });
 
         $jpItems = Work::with('articles')
-//            ->when($types, function ($query, $types) {
-//                return $query->whereHas('specialties', function ($query) use ($types) {
-//                    $query->whereIn('name', $types);
-//                });
-//            })
+            ->when($filters, function ($query, $filters) {
+                return $query->whereHas('tags', function ($query) use ($filters) {
+                    $query->whereIn('name', $filters);
+                });
+            })
             ->where('language_id', $jp->id)
             ->where('enabled', 1)
             ->take(10)
@@ -160,12 +155,13 @@ class OurWorkController extends Controller
         });
 
         $item->specialties->each(function ($item) use ($totalRate, &$proportion) {
-            $proportion[] = [
-                'id' => $item->id,
-                'color' => $item->color,
-//                'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
-                'percentage' => 10
-            ];
+            if ($item->pivot->percentage) {
+                $proportion[] = [
+                    'id' => $item->id,
+                    'color' => $item->color,
+                    'percentage' =>  floor(($item->pivot->percentage / $totalRate) * 100)
+                ];
+            }
         });
 
         $array = [];

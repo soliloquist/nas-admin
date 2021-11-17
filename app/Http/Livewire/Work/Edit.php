@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Work;
 use App\Models\Block;
 use App\Models\Credit;
 use App\Models\Specialty;
+use App\Models\Tag;
 use App\Models\Work;
 use Illuminate\Support\Arr;
 use Livewire\Component;
@@ -42,6 +43,10 @@ class Edit extends Component
 
     public $credits = [];
 
+    public $tags = [];
+
+    public $tagOptions = [];
+
     protected $listeners = [
         'EDITOR_UPDATED' => 'editorUpdated',
         'PHOTO_BLOCK_CREATED' => 'photoBlockCreated',
@@ -60,7 +65,7 @@ class Edit extends Component
     protected $messages = [
         'image.required' => '請上傳圖檔',
         'image.image' => '圖檔必須為 jpg,gif,png 格式',
-        'image.max' => '圖檔不可超過 1MB',
+        'image.max' => '圖檔不可超過 5MB',
     ];
 
     protected function rules()
@@ -76,10 +81,10 @@ class Edit extends Component
             'sort' => 'integer',
             'specialties.*.rate' => 'integer',
             'credits.*.title' => 'required|string',
-            'credits.*.people' => 'required|array',
+            'credits.*.people' => 'required|array'
         ];
 
-        if (!$this->work->hasMedia()) $rules['image'] = 'required|image|max:1024';
+        if (!$this->work->hasMedia()) $rules['image'] = 'required|image|max:6000';
 
         return $rules;
     }
@@ -177,9 +182,21 @@ class Edit extends Component
             ];
         });
 
-//        $this->credits = $this->work->credits->map(function($item) {
-//
-//        });
+        $this->credits = $this->work->credits->map(function($item) {
+
+            return [
+                'id' => $item->id,
+                'title' => $item->title,
+                'people' => json_decode($item->people)
+            ];
+
+        })->toArray();
+
+        $this->tagOptions = Tag::all();
+
+        $this->tags = $this->work->tags->map(function($item) {
+            return $item->id.'';
+        })->toArray();
 
 
         $this->work->language_id = $this->languageId;
@@ -262,13 +279,34 @@ class Edit extends Component
         $specialties = [];
 
         foreach ($this->specialties as $s) {
-            $specialties[$s['id']] = ['percentage' => $s['rate']];
+            if ($s['rate']) {
+                $specialties[$s['id']] = ['percentage' => $s['rate']];
+            }
         }
 
         $this->work->specialties()->sync($specialties);
 
-        // 處理 team 資料
-        $teams = [];
+        // 處理 credit 資料
+        $creditsId = [];
+
+        foreach ($this->credits as $key => $c) {
+
+            $this->credits[$key]['people'] = array_filter($this->credits[$key]['people']);
+            $p = json_encode($this->credits[$key]['people']);
+
+            $credit = Credit::firstOrNew(['id' => $c['id']]);
+            $credit->people = $p;
+            $credit->title = $c['title'];
+            $credit->work_id = $this->work->id;
+            $credit->save();
+
+            $creditsId[] = $credit->id;
+        }
+
+        Credit::where('work_id', $this->work->id)->whereNotIn('id', $creditsId)->delete();
+        // End 處理 credit 資料
+
+        $this->work->tags()->sync($this->tags);
 
         $this->showAlert = true;
     }
@@ -332,10 +370,15 @@ class Edit extends Component
         ];
     }
 
+    public function onClickRemoveCredit($index)
+    {
+        array_splice($this->credits, $index,1);
+    }
+
     public function onClickAddCreditPeople($index)
     {
         $length = count($this->credits[$index]['people']);
-        $this->credits[$index]['people'][] = 'index-'. $length;
+        $this->credits[$index]['people'][] = null;
     }
     /****************************
      *

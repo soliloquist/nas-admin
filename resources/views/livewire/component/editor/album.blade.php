@@ -10,6 +10,7 @@
     <div class="mt-2">
         @error('uploads.*') <span class="text-red-600">{{ $message }}</span> @enderror
     </div>
+    <div class="mt-2 text-gray-600">* 2張圖片內，建議尺寸（寬）1074 x (高)792 px， 3張圖片以上，建議尺寸（寬）698 x (高)600px</div>
     <hr class="my-4">
     {{--  preview --}}
     <div>

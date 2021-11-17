@@ -196,6 +196,21 @@
                 </div>
             </div>
         </div>
+
+        <hr>
+
+        <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+            <div>Tags</div>
+            <div class="border-t border-gray-400 py-6 grid grid-cols-4 gap-4">
+                @foreach($tagOptions as $item)
+                <label class="mr-4 my-4">
+                    <input wire:model="tags" type="checkbox" value="{{ $item->id }}">
+                    {{ $item->name }}|{{ $item->id }}
+                </label>
+                @endforeach
+            </div>
+        </div>
+
         <hr>
 
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
@@ -369,6 +384,16 @@
                                         placeholder="">
                                 </div>
                                 @error('credits.'.$loop->index.'.title') <div class="text-red-600">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="py-2 ml-4">
+                                <div class="cursor-pointer flex space-x-1.5" wire:click="onClickRemoveCredit({{$loop->index}})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                    <div>刪除 Team 及 Team Member</div>
+                                </div>
                             </div>
                         </div>
                         <div class="flex mt-2">

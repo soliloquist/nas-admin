@@ -67,7 +67,7 @@ class Index extends Component
         return view('livewire.work.index', [
             'works' => Work::when($this->filter, function($query) {
                 $query->where('title', 'like', '%'.$this->filter.'%');
-            })->orderBy($this->orderBy, $this->ordering)->paginate(20)
+            })->groupBy('group_id')->orderBy($this->orderBy, $this->ordering)->paginate(20)
         ]);
     }
 }
