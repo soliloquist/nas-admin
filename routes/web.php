@@ -41,3 +41,4 @@ Route::resource('/works', \App\Http\Controllers\WorkController::class)->middlewa
 Route::resource('/updates', \App\Http\Controllers\UpdateController::class)->middleware('auth:sanctum');
 Route::resource('/users', \App\Http\Controllers\UserController::class)->middleware('auth:sanctum');
 Route::resource('/specialties', \App\Http\Controllers\SpecialtyController::class)->middleware('auth:sanctum');
+Route::resource('/tags', \App\Http\Controllers\TagController::class)->middleware('auth:sanctum');

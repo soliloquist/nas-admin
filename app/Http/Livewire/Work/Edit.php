@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Work;
 
 use App\Models\Block;
+use App\Models\Credit;
 use App\Models\Specialty;
 use App\Models\Work;
 use Illuminate\Support\Arr;
@@ -25,6 +26,7 @@ class Edit extends Component
     public $saveButtonText = 'save';
 
     public $showAlert = false;
+    public $type= 'create';
 
     // Block 編輯相關
     public $showBlockEditor = false;
@@ -34,9 +36,11 @@ class Edit extends Component
     public $blockEditorSort = null;
     public $blockEditorModel = null;
 
+    public $blocks = [];
+
     public $specialties = [];
 
-    public $blocks = [];
+    public $credits = [];
 
     protected $listeners = [
         'EDITOR_UPDATED' => 'editorUpdated',
@@ -50,6 +54,7 @@ class Edit extends Component
     protected $validationAttributes = [
         'work.title' => '名稱',
         'work.slug' => '網址',
+        'credits.*.title' => 'Team 名稱'
     ];
 
     protected $messages = [
@@ -69,7 +74,9 @@ class Edit extends Component
             'work.video_url' => 'nullable|url',
             'work.enabled' => 'boolean',
             'sort' => 'integer',
-            'specialties.*.rate' => 'integer'
+            'specialties.*.rate' => 'integer',
+            'credits.*.title' => 'required|string',
+            'credits.*.people' => 'required|array',
         ];
 
         if (!$this->work->hasMedia()) $rules['image'] = 'required|image|max:1024';
@@ -81,7 +88,9 @@ class Edit extends Component
     public function mount($groupId, $languageId)
     {
         if ($groupId) {
+
             $this->work = Work::firstOrNew(['group_id' => $groupId, 'language_id' => $languageId]);
+            $this->type = 'edit';
 
         } else {
             $this->work = new Work();
@@ -157,13 +166,21 @@ class Edit extends Component
         }
 
         $this->specialties = Specialty::get()->map(function($item) {
+
+            $percentage = $item->works()->where('works.id', $this->work->id)->first() ? $item->works()->where('works.id', $this->work->id)->first()->pivot->percentage : 0;
+
             return [
                 'id' => $item->id,
                 'name' => $item->name,
                 'color' => $item->color,
-                'rate' => 0
+                'rate' =>  $percentage
             ];
         });
+
+//        $this->credits = $this->work->credits->map(function($item) {
+//
+//        });
+
 
         $this->work->language_id = $this->languageId;
         $this->work->group_id = $this->groupId;
@@ -250,6 +267,9 @@ class Edit extends Component
 
         $this->work->specialties()->sync($specialties);
 
+        // 處理 team 資料
+        $teams = [];
+
         $this->showAlert = true;
     }
 
@@ -303,6 +323,20 @@ class Edit extends Component
         }));
     }
 
+    public function onClickAddCredit()
+    {
+        $this->credits[] = [
+            'id' => null,
+            'title' => null,
+            'people' => [null]
+        ];
+    }
+
+    public function onClickAddCreditPeople($index)
+    {
+        $length = count($this->credits[$index]['people']);
+        $this->credits[$index]['people'][] = 'index-'. $length;
+    }
     /****************************
      *
      * **** 按下 新增區塊 按鈕 *****

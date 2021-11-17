@@ -163,7 +163,8 @@ class OurWorkController extends Controller
             $proportion[] = [
                 'id' => $item->id,
                 'color' => $item->color,
-                'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
+//                'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
+                'percentage' => 10
             ];
         });
 
@@ -176,8 +177,8 @@ class OurWorkController extends Controller
         $array['banner'] = $item->getFirstMediaUrl();
         $array['youtubeLink'] = $item->video_url;
         $array['websiteLink'] = $item->website_url;
-        $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
-        $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
+        $array['previousPage'] = $prev ? '/ourworks/' . $prev->slug : '';
+        $array['nextPage'] = $next ? '/ourworks/' . $next->slug : '';
         $array['section'] = $item->articles->map(function ($block) {
             return [
                 'id' => $block->id,
