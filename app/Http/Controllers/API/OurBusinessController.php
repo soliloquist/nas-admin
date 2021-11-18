@@ -21,6 +21,7 @@ class OurBusinessController extends Controller
         $lang = Language::firstWhere('code', $langCode);
         $businesses = Business::where('language_id', $lang->id)
             ->where('enabled', 1)
+            ->orderBy('sort')
             ->take(10)
             ->get()
             ->map(function ($item) {

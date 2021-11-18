@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Language;
 use App\Models\Specialty;
+use App\Models\Tag;
 use App\Models\Work;
 use App\Services\BlockService;
 use Illuminate\Http\Request;
@@ -23,6 +24,13 @@ class OurWorkController extends Controller
             ];
         });
 
+        $tags = Tag::get()->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'tag' => $item->name
+            ];
+        });
+
         $langs = Language::all();
         $zh = $langs->firstWhere('code', 'zh');
         $en = $langs->firstWhere('code', 'en');
@@ -30,7 +38,7 @@ class OurWorkController extends Controller
 
         $filters = [];
 
-        if($request->filter) {
+        if ($request->filter) {
             foreach ($request->filter as $item) {
                 $filters[] = $item['tag'];
             }
@@ -41,14 +49,15 @@ class OurWorkController extends Controller
         $zhItems = Work::with('articles', 'tags')
             ->when($filters, function ($query, $filters) {
                 return $query->whereHas('tags', function ($query) use ($filters) {
-                   $query->whereIn('name', $filters);
+                    $query->whereIn('name', $filters);
                 });
             })
             ->where('language_id', $zh->id)
             ->where('enabled', 1)
+            ->orderBy('sort')
             ->take(10)
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
                 $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
@@ -69,9 +78,10 @@ class OurWorkController extends Controller
             })
             ->where('language_id', $en->id)
             ->where('enabled', 1)
+            ->orderBy('sort')
             ->take(10)
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
                 $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
@@ -92,9 +102,10 @@ class OurWorkController extends Controller
             })
             ->where('language_id', $jp->id)
             ->where('enabled', 1)
+            ->orderBy('sort')
             ->take(10)
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
                 $image = $item->getFirstMedia();
                 return [
                     'id' => $item->slug,
@@ -111,7 +122,7 @@ class OurWorkController extends Controller
             [
                 "result" => true,
                 "type" => $specialties,
-                "filter" => [],
+                "filter" => $tags,
                 'en' => [
                     'works' => $enItems
                 ],
@@ -146,6 +157,7 @@ class OurWorkController extends Controller
             'jp' => $this->getResult($itemJp, $jp),
         ]);
     }
+
     private function getResult(Work $item = null, $lang)
     {
         if (!$item) return [];
@@ -161,7 +173,7 @@ class OurWorkController extends Controller
                 $proportion[] = [
                     'id' => $item->id,
                     'color' => $item->color,
-                    'percentage' =>  floor(($item->pivot->percentage / $totalRate) * 100)
+                    'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
                 ];
             }
         });

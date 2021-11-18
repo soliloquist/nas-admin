@@ -26,9 +26,9 @@ class HomeController extends Controller
         $en = $lang->firstWhere('code', 'en');
         $jp = $lang->firstWhere('code', 'jp');
 
-        $zhWorks = Work::where('language_id', $zh->id)->take(10)->get()->map(function($item) {
+        $zhWorks = Work::where('language_id', $zh->id)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
-                'id' => $item->id,
+                'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
                     'url' => $item->getFirstMediaUrl(),
@@ -38,9 +38,9 @@ class HomeController extends Controller
             ];
         });
 
-        $enWorks = Work::where('language_id', $en->id)->take(10)->get()->map(function($item) {
+        $enWorks = Work::where('language_id', $en->id)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
-                'id' => $item->id,
+                'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
                     'url' => $item->getFirstMediaUrl(),
@@ -50,9 +50,9 @@ class HomeController extends Controller
             ];
         });
 
-        $jpWorks = Work::where('language_id', $jp->id)->take(10)->get()->map(function($item) {
+        $jpWorks = Work::where('language_id', $jp->id)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
-                'id' => $item->id,
+                'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
                     'url' => $item->getFirstMediaUrl(),
