@@ -30,8 +30,10 @@ class OurWorkController extends Controller
 
         $filters = [];
 
-        foreach ($request->filter as $item) {
-            $filters[] = $item['tag'];
+        if($request->filter) {
+            foreach ($request->filter as $item) {
+                $filters[] = $item['tag'];
+            }
         }
 
         if (in_array('all', $filters)) $filters = [];
