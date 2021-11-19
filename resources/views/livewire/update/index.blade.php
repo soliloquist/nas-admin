@@ -65,7 +65,42 @@
                     {{ $item->title }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {{ $item->sort }}
+                    <div class="flex items-center">
+                        <div>
+                            <input
+                                type="number"
+                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-20 sm:text-sm border-gray-300"
+                                value="{{$item->sort}}"
+                                min="1"
+                                max="{{$updates->count()}}"
+                                wire:change="onChangeSort({{$item->id}}, $event.target.value)"
+                            >
+                        </div>
+                        @if($item->sort > 1)
+                            <div class="px-1">
+                                <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                     wire:click="onChangeSort({{ $item->id }}, {{ $item->sort - 1 }})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M5 15l7-7 7 7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        @endif
+                        @if($item->sort < $updates->count())
+                            <div class="px-1">
+                                <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                     wire:click="onChangeSort({{ $item->id }}, {{ $item->sort + 1 }})">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M19 9l-7 7-7-7"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {{ $item->enabled ? '是':'否' }}

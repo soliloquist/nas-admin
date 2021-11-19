@@ -189,22 +189,6 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">
-                    排序
-                </label>
-                <div class="mt-1">
-                    <input
-                        wire:model="sort"
-                        type="number"
-                        min="1"
-                        max="{{$max}}"
-                        class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300"
-                    >
-                </div>
-                @error('sort') <span class="text-red-600">{{ $message }}</span> @enderror
-            </div>
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
                     啟用
                 </label>
                 <div class="mt-1 flex">

@@ -97,14 +97,6 @@ class Edit extends Component
             $this->update = new Update();
         }
 
-        if ($this->update->sort) {
-            $this->max = Update::max('sort');
-            $this->sort = $this->update->sort;
-        } else {
-            $this->max = Update::max('sort') + 1;
-            $this->sort = $this->max;
-        }
-
         if ($this->update->enabled == null) $this->update->enabled = false;
 
         if ($this->update->date) {
@@ -211,11 +203,15 @@ class Edit extends Component
 
         if ($this->update->sort) {
 
+            // 修改
+
             if ($this->update->sort < $this->sort) {
-                Update::where('sort', '<=', $this->sort)->where('sort', '>', $this->update->sort)->decrement('sort');
+                Update::where('group_id', '!=', $this->update->group_id)->where('sort', '<=', $this->sort)->where('sort', '>', $this->update->sort)->decrement('sort');
             } elseif ($this->update->sort > $this->sort) {
-                Update::where('sort', '>=', $this->sort)->where('sort', '<', $this->update->sort)->increment('sort');
+                Update::where('group_id', '!=', $this->update->group_id)->where('sort', '>=', $this->sort)->where('sort', '<', $this->update->sort)->increment('sort');
             }
+
+            Update::where('group_id', $this->update->group_id)->update(['sort' => $this->sort]);
 
         } else {
             Update::where('sort', '>=', $this->sort)->increment('sort');

@@ -37,6 +37,13 @@ class UpdateController extends Controller
         $rowPerPage = 10;
         $page = $request->page ? $request->page : 1;
 
+        $zhTotalPages = Update::when($request->year, function ($query, $request) {
+            return $query->whereYear('year', $request->year);
+        })
+            ->where('language_id', $zh->id)
+            ->where('enabled', 1)
+            ->count();
+
         $zhItems = Update::with('articles')
             ->when($request->year, function ($query, $request) {
                 return $query->whereYear('year', $request->year);
@@ -65,6 +72,13 @@ class UpdateController extends Controller
                 ];
             });
 
+        $enTotalPages = Update::when($request->year, function ($query, $request) {
+            return $query->whereYear('year', $request->year);
+        })
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->count();
+
         $enItems = Update::with('articles')
             ->when($request->year, function ($query, $request) {
                 return $query->whereYear('year', $request->year);
@@ -92,6 +106,13 @@ class UpdateController extends Controller
                     ] : null
                 ];
             });
+
+        $jpTotalPages = Update::when($request->year, function ($query, $request) {
+            return $query->whereYear('year', $request->year);
+        })
+            ->where('language_id', $jp->id)
+            ->where('enabled', 1)
+            ->count();
 
         $jpItems = Update::with('articles')
             ->when($request->year, function ($query, $request) {
@@ -126,13 +147,16 @@ class UpdateController extends Controller
             'totalPage' => 9999,
             'year' => $yearsArray,
             'en' => [
-                'list' => $enItems
+                'list' => $enItems,
+                'totalPage' => $enTotalPages,
             ],
             'cn' => [
-                'list' => $zhItems
+                'list' => $zhItems,
+                'totalPage' => $zhTotalPages,
             ],
             'jp' => [
-                'list' => $jpItems
+                'list' => $jpItems,
+                'totalPage' => $jpTotalPages,
             ],
         ]);
     }

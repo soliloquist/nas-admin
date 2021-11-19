@@ -20,6 +20,25 @@ class Index extends Component
 
     }
 
+    /**
+     * 修改排序
+     * @param $id
+     * @param $value
+     */
+    public function onChangeSort($id, $value)
+    {
+        $item = Team::find($id);
+
+        if ($item->sort < $value) {
+            Team::where('sort', '<=', $value)->where('sort', '>', $item->sort)->decrement('sort');
+        } elseif ($item->sort > $value) {
+            Team::where('sort', '>=', $value)->where('sort', '<', $item->sort)->increment('sort');
+        }
+
+        $item->sort = $value;
+        $item->save();
+    }
+
     public function onClickDelete($id)
     {
         $this->selected[] = $id;
@@ -40,7 +59,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.team.index', [
-            'teams' => Team::paginate(20)
+            'teams' => Team::orderBy('sort')->paginate(20)
         ]);
     }
 }

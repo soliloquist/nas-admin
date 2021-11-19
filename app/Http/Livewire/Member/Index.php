@@ -24,6 +24,29 @@ class Index extends Component
         $this->modal = true;
     }
 
+    /**
+     * 修改排序
+     * @param $id
+     * @param $value
+     */
+    public function onChangeSort($id, $value)
+    {
+        $item = Member::find($id);
+
+        if ($item->sort < $value) {
+            Member::where('sort', '<=', $value)->where('sort', '>', $item->sort)->decrement('sort');
+        } elseif ($item->sort > $value) {
+            Member::where('sort', '>=', $value)->where('sort', '<', $item->sort)->increment('sort');
+        }
+
+        $item->sort = $value;
+        $item->save();
+    }
+
+    /**
+     * 變更列表排序方式
+     * @param $value
+     */
     public function onChangeSorting($value)
     {
         switch ($value) {

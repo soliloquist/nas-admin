@@ -10,7 +10,7 @@ class Update extends Model implements HasMedia
 {
     use InteractsWithMedia;
 
-    protected $fillable = ['language_id', 'group_id'];
+    protected $fillable = ['language_id', 'group_id', 'sort'];
 
     protected $casts = [
         'enabled' => 'boolean',

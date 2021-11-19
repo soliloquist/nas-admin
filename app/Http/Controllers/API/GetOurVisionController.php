@@ -15,6 +15,8 @@ class GetOurVisionController extends Controller
 
         $video = $setting->firstWhere('key', 'vision_video_url');
 
+        $videoImage = $video->getFirstMedia();
+
         $enVision = $setting->firstWhere('key', 'vision_intro_en');
         $jpVision = $setting->firstWhere('key', 'vision_intro_jp');
         $cnVision = $setting->firstWhere('key', 'vision_intro_cn');
@@ -65,6 +67,11 @@ class GetOurVisionController extends Controller
                 'intro' => $jpVision
             ],
             'video' => $video->value,
+            'image' => $videoImage ? [
+                'url' => $videoImage->getUrl(),
+                'width' => $videoImage->getCustomProperty('width'),
+                'height' => $videoImage->getCustomProperty('height'),
+            ] : null,
             'team' => $teams,
             'client' => $clients,
         ]);

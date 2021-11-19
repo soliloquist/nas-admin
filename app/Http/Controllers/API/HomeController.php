@@ -21,12 +21,15 @@ class HomeController extends Controller
 
         $downloadUrl = $setting->firstWhere('key','index_doc_download_url');
 
+        $video = $setting->firstWhere('key', 'index_banner_video');
+        $videoImage = $video->getFirstMedia();
+
         $lang = Language::get();
         $zh = $lang->firstWhere('code', 'zh');
         $en = $lang->firstWhere('code', 'en');
         $jp = $lang->firstWhere('code', 'jp');
 
-        $zhWorks = Work::where('language_id', $zh->id)->orderBy('sort')->take(10)->get()->map(function($item) {
+        $zhWorks = Work::where('language_id', $zh->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
@@ -38,7 +41,7 @@ class HomeController extends Controller
             ];
         });
 
-        $enWorks = Work::where('language_id', $en->id)->orderBy('sort')->take(10)->get()->map(function($item) {
+        $enWorks = Work::where('language_id', $en->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
@@ -50,7 +53,7 @@ class HomeController extends Controller
             ];
         });
 
-        $jpWorks = Work::where('language_id', $jp->id)->orderBy('sort')->take(10)->get()->map(function($item) {
+        $jpWorks = Work::where('language_id', $jp->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
@@ -74,6 +77,14 @@ class HomeController extends Controller
                 "width" => $bannerMDMedia->getCustomProperty('width'),
                 "height" => $bannerMDMedia->getCustomProperty('height'),
             ] : null,
+            'video' => [
+                'url' => $video->value,
+                'image' => $videoImage ? [
+                    'url' => $videoImage->getUrl(),
+                    'width' => $videoImage->getCustomProperty('width'),
+                    'height' => $videoImage->getCustomProperty('height'),
+                ] : null
+            ],
             "downloadUrl" => $downloadUrl->value,
             "en" => [
                 "list" => $enWorks

@@ -15,6 +15,26 @@ class Index extends Component
 
     protected $listeners = ['confirm' => 'delete', 'cancel' => 'hideModal'];
 
+    /**
+     * 修改排序
+     * @param $id
+     * @param $value
+     */
+    public function onChangeSort($id, $value)
+    {
+        $item = Tag::find($id);
+
+        if ($item->sort < $value) {
+            Tag::where('sort', '<=', $value)->where('sort', '>', $item->sort)->decrement('sort');
+        } elseif ($item->sort > $value) {
+            Tag::where('sort', '>=', $value)->where('sort', '<', $item->sort)->increment('sort');
+        }
+
+        $item->sort = $value;
+        $item->save();
+
+    }
+
     public function onClickDelete($id)
     {
         $this->selected[] = $id;
@@ -36,7 +56,7 @@ class Index extends Component
     public function render()
     {
         return view('livewire.tag.index', [
-            'tags' => Tag::paginate(20)
+            'tags' => Tag::orderBy('sort')->paginate(20)
         ]);
     }
 }

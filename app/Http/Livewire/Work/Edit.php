@@ -17,6 +17,7 @@ class Edit extends Component
 
     public Work $work;
     public $image;
+    public $thumbnail;
     public $iteration = 0; // for file input cleaning file name
     public $max;
     public $sort;
@@ -99,14 +100,6 @@ class Edit extends Component
 
         } else {
             $this->work = new Work();
-        }
-
-        if ($this->work->sort) {
-            $this->max = Work::max('sort');
-            $this->sort = $this->work->sort;
-        } else {
-            $this->max = Work::max('sort') + 1;
-            $this->sort = $this->max;
         }
 
         if ($this->work->enabled == null) $this->work->enabled = false;
@@ -242,13 +235,20 @@ class Edit extends Component
 
         if ($this->work->sort) {
 
+            // 修改
+
             if ($this->work->sort < $this->sort) {
-                Work::where('sort', '<=', $this->sort)->where('sort', '>', $this->work->sort)->decrement('sort');
+                Work::where('group_id', '!=', $this->work->group_id)->where('sort', '<=', $this->sort)->where('sort', '>', $this->work->sort)->decrement('sort');
             } elseif ($this->work->sort > $this->sort) {
-                Work::where('sort', '>=', $this->sort)->where('sort', '<', $this->work->sort)->increment('sort');
+                Work::where('group_id', '!=', $this->work->group_id)->where('sort', '>=', $this->sort)->where('sort', '<', $this->work->sort)->increment('sort');
             }
 
+            // 不同語系的同步更新
+            Work::where('group_id', $this->work->group_id)->update(['sort' => $this->sort]);
+
         } else {
+            // 新增
+
             Work::where('sort', '>=', $this->sort)->increment('sort');
         }
 
@@ -270,6 +270,23 @@ class Edit extends Component
                 ->withCustomProperties(['width' => $width, 'height' => $height])
                 ->toMediaCollection();
         }
+
+        // 有上傳/更新圖檔
+//        if ($this->thumbnail) {
+//
+//            $thumbnailPath = $this->thumbnail->store('images');
+//
+//            $image = getimagesize(storage_path('app/' . $path));
+//            $width = $image[0];
+//            $height = $image[1];
+//
+//            // 刪掉原本的圖檔
+//            $this->work->clearMediaCollection();
+//
+//            $this->work->addMediaFromDisk($path)
+//                ->withCustomProperties(['width' => $width, 'height' => $height])
+//                ->toMediaCollection();
+//        }
 
         $this->reset('image');
 

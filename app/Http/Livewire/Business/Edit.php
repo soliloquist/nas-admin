@@ -85,13 +85,13 @@ class Edit extends Component
             $this->business = new Business();
         }
 
-        if ($this->business->sort) {
-            $this->max = Business::max('sort');
-            $this->sort = $this->business->sort;
-        } else {
-            $this->max = Business::max('sort') + 1;
-            $this->sort = $this->max;
-        }
+//        if ($this->business->sort) {
+//            $this->max = Business::max('sort');
+//            $this->sort = $this->business->sort;
+//        } else {
+//            $this->max = Business::max('sort') + 1;
+//            $this->sort = $this->max;
+//        }
 
         if ($this->business->enabled == null) $this->business->enabled = false;
 
@@ -189,13 +189,21 @@ class Edit extends Component
 
         if ($this->business->sort) {
 
+            // 修改
+
             if ($this->business->sort < $this->sort) {
-                Business::where('sort', '<=', $this->sort)->where('sort', '>', $this->business->sort)->decrement('sort');
+                Business::where('group_id', '!=', $this->business->group_id)->where('sort', '<=', $this->sort)->where('sort', '>', $this->business->sort)->decrement('sort');
             } elseif ($this->business->sort > $this->sort) {
-                Business::where('sort', '>=', $this->sort)->where('sort', '<', $this->business->sort)->increment('sort');
+                Business::where('group_id', '!=', $this->business->group_id)->where('sort', '>=', $this->sort)->where('sort', '<', $this->business->sort)->increment('sort');
             }
 
+            // 不同語系的同步更新
+
+            Business::where('group_id', $this->business->group_id)->update(['sort' => $this->sort]);
+
         } else {
+            // 新增
+
             Business::where('sort', '>=', $this->sort)->increment('sort');
         }
 

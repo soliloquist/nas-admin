@@ -42,6 +42,92 @@ class OurBusinessController extends Controller
         ]);
     }
 
+    public function index2(Request $request)
+    {
+        $rowPerPage = 10;
+        $page = $request->page ? $request->page : 1;
+
+        $langs = Language::all();
+        $zh = $langs->firstWhere('code', 'zh');
+        $en = $langs->firstWhere('code', 'en');
+        $jp = $langs->firstWhere('code', 'jp');
+
+        $zhItems = Business::with('articles')
+            ->where('language_id', $zh->id)
+            ->where('enabled', 1)
+            ->orderBy('sort')
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
+            });
+
+        $enItems = Business::with('articles')
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->orderBy('sort')
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
+            });
+
+        $jpItems = Business::with('articles')
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->orderBy('sort')
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
+            });
+
+        return response()->json(
+            [
+                "result" => true,
+                'en' => [
+                    'list' => $enItems
+                ],
+                'cn' => [
+                    'list' => $zhItems
+                ],
+                'jp' => [
+                    'list' => $jpItems
+                ],
+            ]
+        );
+    }
+
     public function show(Request $request, $slug)
     {
         $this->service = new BlockService();
