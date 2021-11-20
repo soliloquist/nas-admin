@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Language;
 use App\Models\Setting;
 use App\Models\Work;
+use App\Services\UrlService;
 
 class HomeController extends Controller
 {
@@ -65,6 +66,8 @@ class HomeController extends Controller
             ];
         });
 
+        $urlService = new UrlService();
+
         return response()->json([
             "result" => true,
             "bannerXS" => $bannerMDMedia ? [
@@ -78,7 +81,7 @@ class HomeController extends Controller
                 "height" => $bannerMDMedia->getCustomProperty('height'),
             ] : null,
             'video' => [
-                'url' => $video->value,
+                'url' => $urlService->getYoutubeIdFromUrl($video->value),
                 'image' => $videoImage ? [
                     'url' => $videoImage->getUrl(),
                     'width' => $videoImage->getCustomProperty('width'),

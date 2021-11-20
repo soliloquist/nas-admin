@@ -192,8 +192,14 @@ class UpdateController extends Controller
         $next = Update::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
         $prev = Update::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
 
+        $banner = $item->getFirstMedia();
+
         $array['title'] = $item->title;
-        $array['banner'] = $item->getFirstMediaUrl();
+        $array['banner'] = $banner ? [
+            'url' => $banner->getUrl(),
+            'width' => $banner->getCustomProperty('width'),
+            'height' => $banner->getCustomProperty('height'),
+        ] : null;
         $array['youtubeLink'] = $item->video_url;
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';

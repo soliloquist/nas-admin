@@ -6,22 +6,13 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
         <tr>
-
             <th scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                name
-            </th>
-            <th scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                phone
+                類型
             </th>
             <th scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 email
-            </th>
-            <th scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                收件類型
             </th>
             <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">Edit</span>
@@ -31,18 +22,11 @@
         <tbody class="bg-white divide-y divide-gray-200">
         @foreach($contacts as $item)
             <tr>
-
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {{ $item->name }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {{ $item->phone }}
+                    {{ $item->type }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {{ $item->email }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    {{ $item->type }}
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div class="flex justify-end">

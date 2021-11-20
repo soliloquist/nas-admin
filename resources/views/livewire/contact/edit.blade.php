@@ -14,24 +14,8 @@
             </div>
 
             <div class="flex">
-                <div class="md:w-1/5 text-gray-700 font-medium">聯絡人姓名</div>
-                <div>{{ $contact->name }}</div>
-            </div>
-
-            <div class="flex">
                 <div class="md:w-1/5 text-gray-700 font-medium">Email</div>
                 <div>{{ $contact->email }}</div>
-            </div>
-
-
-            <div class="flex">
-                <div class="md:w-1/5 text-gray-700 font-medium">電話號碼</div>
-                <div>{{ $contact->phone }}</div>
-            </div>
-
-            <div class="flex">
-                <div class="md:w-1/5 text-gray-700 font-medium">說明</div>
-                <div>{{ $contact->note }}</div>
             </div>
 
         </div>
@@ -57,31 +41,17 @@
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 
             <div>
-                <label class="block text-sm font-medium text-gray-700"> * 類型</label>
-                <select
-                    wire:model="contact.type"
-                    class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    <option>請選擇聯個人類型</option>
-                    <option value="1" selected>1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-                @error('contact.type') <span class="text-red-600">{{ $message }}</span> @enderror
-            </div>
-
-
-            <div>
                 <label class="block text-sm font-medium text-gray-700">
-                    * 聯絡人姓名
+                    * 類型
                 </label>
                 <div class="mt-1 flex rounded-md shadow-sm">
                     <input
-                        wire:model="contact.name"
+                        wire:model="contact.type"
                         type="text"
                         class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
                         placeholder="">
                 </div>
-                @error('contact.name') <span class="text-red-600">{{ $message }}</span> @enderror
+                @error('contact.type') <span class="text-red-600">{{ $message }}</span> @enderror
             </div>
 
 
@@ -97,38 +67,6 @@
                         placeholder="sample@email.com">
                 </div>
                 @error('contact.email') <span class="text-red-600">{{ $message }}</span> @enderror
-            </div>
-
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
-                    電話號碼
-                </label>
-                <div class="mt-1 flex rounded-md shadow-sm">
-                    <input
-                        wire:model="contact.phone"
-                        type="text"
-                        name="company-website"
-                        class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300">
-                </div>
-                @error('contact.phone') <span class="text-red-600">{{ $message }}</span> @enderror
-            </div>
-
-
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
-                    說明
-                </label>
-                <div class="mt-1">
-                <textarea
-                    wire:model="contact.note"
-                    name="about" rows="3"
-                    class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-                    placeholder="you@example.com">
-                </textarea>
-                </div>
-                <p class="mt-2 text-sm text-gray-500">
-                </p>
             </div>
 
         </div>

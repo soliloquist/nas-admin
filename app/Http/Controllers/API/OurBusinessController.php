@@ -7,6 +7,7 @@ use App\Models\Block;
 use App\Models\Business;
 use App\Models\Language;
 use App\Services\BlockService;
+use App\Services\UrlService;
 use Illuminate\Http\Request;
 
 class OurBusinessController extends Controller
@@ -153,14 +154,22 @@ class OurBusinessController extends Controller
     {
         if (!$item) return [];
 
+        $urlService = new UrlService();
+
         $array = [];
+
+        $banner = $item->getFirstMedia();
 
         $next = Business::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
         $prev = Business::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
 
         $array['title'] = $item->title;
-        $array['banner'] = $item->getFirstMediaUrl();
-        $array['youtubeLink'] = $item->video_url;
+        $array['banner'] = $banner ? [
+            'url' => $banner->getUrl(),
+            'width' => $banner->getCustomProperty('width'),
+            'height' => $banner->getCustomProperty('height'),
+        ] : null;
+        $array['youtubeLink'] = $urlService->getYoutubeIdFromUrl($item->video_url);
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';

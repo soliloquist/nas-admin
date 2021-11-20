@@ -12,21 +12,18 @@ class Edit extends Component
     public bool $finish = false;
 
     protected $validationAttributes = [
-        'contact.name' => '聯絡人姓名'
+        'contact.type' => '類型'
     ];
 
     protected function rules()
     {
         return [
-            'contact.name' => 'required|string',
+            'contact.type' => 'required|string',
             'contact.email' => [
                 'required',
                 'email',
                 Rule::unique('contacts', 'email')->ignore($this->contact->id),
-            ],
-            'contact.phone' => 'nullable',
-            'contact.note' => 'nullable',
-            'contact.type' => 'required|integer'
+            ]
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Setting;
 use App\Models\Team;
+use App\Services\UrlService;
 
 class GetOurVisionController extends Controller
 {
@@ -54,6 +55,7 @@ class GetOurVisionController extends Controller
             ];
         });
 
+        $urlService = new UrlService();
 
         return response()->json([
             'result' => true,
@@ -66,7 +68,7 @@ class GetOurVisionController extends Controller
             'jp' => [
                 'intro' => $jpVision
             ],
-            'video' => $video->value,
+            'video' => $urlService->getYoutubeIdFromUrl($video->value),
             'image' => $videoImage ? [
                 'url' => $videoImage->getUrl(),
                 'width' => $videoImage->getCustomProperty('width'),

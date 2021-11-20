@@ -8,6 +8,7 @@ use App\Models\Specialty;
 use App\Models\Tag;
 use App\Models\Work;
 use App\Services\BlockService;
+use App\Services\UrlService;
 use Illuminate\Http\Request;
 
 class OurWorkController extends Controller
@@ -207,6 +208,8 @@ class OurWorkController extends Controller
     {
         if (!$item) return [];
 
+        $urlService = new UrlService();
+
         $proportion = [];
         $totalRate = 0;
         $item->specialties->each(function ($item) use (&$totalRate) {
@@ -231,13 +234,12 @@ class OurWorkController extends Controller
         $prev = Work::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
 
         $array['title'] = $item->title;
-        $array['banner'] = $item->getFirstMediaUrl();
         $array['banner'] = $banner ? [
             'url' => $banner->getUrl(),
             'width' => $banner->getCustomProperty('width'),
             'height' => $banner->getCustomProperty('height'),
         ] : null;
-        $array['youtubeLink'] = $item->video_url;
+        $array['youtubeLink'] = $urlService->getYoutubeIdFromUrl($item->video_url);
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourworks/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourworks/' . $next->slug : '';

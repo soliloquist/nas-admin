@@ -26,5 +26,6 @@ Route::any('/getWork', [\App\Http\Controllers\API\OurWorkController::class, 'ind
 Route::get('/getWork/{slug}', [\App\Http\Controllers\API\OurWorkController::class, 'show']);
 Route::any('/getUpdate', [\App\Http\Controllers\API\UpdateController::class, 'index']);
 Route::get('/getUpdate/{slug}', [\App\Http\Controllers\API\UpdateController::class, 'show']);
+Route::get('/getContact', \App\Http\Controllers\API\GetContactController::class);
 
 Route::any('/getOurBusiness', [\App\Http\Controllers\API\OurBusinessController::class, 'index2']);
