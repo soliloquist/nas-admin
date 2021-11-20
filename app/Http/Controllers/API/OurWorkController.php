@@ -178,6 +178,8 @@ class OurWorkController extends Controller
             }
         });
 
+        $banner = $item->getFirstMedia();
+
         $array = [];
 
         $next = Work::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
@@ -185,6 +187,11 @@ class OurWorkController extends Controller
 
         $array['title'] = $item->title;
         $array['banner'] = $item->getFirstMediaUrl();
+        $array['banner'] = $banner ? [
+            'url' => $banner->getUrl(),
+            'width' => $banner->getCustomProperty('width'),
+            'height' => $banner->getCustomProperty('height'),
+        ] : null;
         $array['youtubeLink'] = $item->video_url;
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourworks/' . $prev->slug : '';
