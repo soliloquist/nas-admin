@@ -21,6 +21,7 @@ class Edit extends Component
     public $iteration = 0; // for file input cleaning file name
     public $max;
     public $sort;
+    public $slug;
     public $uploadLabel = '上傳圖檔';
     public $groupId;
     public $languageId;
@@ -28,7 +29,7 @@ class Edit extends Component
     public $saveButtonText = 'save';
 
     public $showAlert = false;
-    public $type= 'create';
+    public $type = 'create';
 
     // Block 編輯相關
     public $showBlockEditor = false;
@@ -67,6 +68,8 @@ class Edit extends Component
         'image.required' => '請上傳圖檔',
         'image.image' => '圖檔必須為 jpg,gif,png 格式',
         'image.max' => '圖檔不可超過 5MB',
+        'thumbnail.image' => '圖檔必須為 jpg,gif,png 格式',
+        'thumbnail.max' => '圖檔不可超過 5MB',
     ];
 
     protected function rules()
@@ -80,12 +83,14 @@ class Edit extends Component
             'work.video_url' => 'nullable|url',
             'work.enabled' => 'boolean',
             'sort' => 'integer',
+            'slug' => 'required',
             'specialties.*.rate' => 'integer',
             'credits.*.title' => 'required|string',
             'credits.*.people' => 'required|array'
         ];
 
         if (!$this->work->hasMedia()) $rules['image'] = 'required|image|max:6000';
+        if (!$this->work->hasMedia('thumbnail')) $rules['thumbnail'] = 'nullable|image|max:6000';
 
         return $rules;
     }
@@ -163,7 +168,7 @@ class Edit extends Component
 
         }
 
-        $this->specialties = Specialty::get()->map(function($item) {
+        $this->specialties = Specialty::get()->map(function ($item) {
 
             $percentage = $item->works()->where('works.id', $this->work->id)->first() ? $item->works()->where('works.id', $this->work->id)->first()->pivot->percentage : 0;
 
@@ -171,11 +176,11 @@ class Edit extends Component
                 'id' => $item->id,
                 'name' => $item->name,
                 'color' => $item->color,
-                'rate' =>  $percentage
+                'rate' => $percentage
             ];
         });
 
-        $this->credits = $this->work->credits->map(function($item) {
+        $this->credits = $this->work->credits->map(function ($item) {
 
             return [
                 'id' => $item->id,
@@ -187,8 +192,8 @@ class Edit extends Component
 
         $this->tagOptions = Tag::all();
 
-        $this->tags = $this->work->tags->map(function($item) {
-            return $item->id.'';
+        $this->tags = $this->work->tags->map(function ($item) {
+            return $item->id . '';
         })->toArray();
 
 
@@ -210,7 +215,7 @@ class Edit extends Component
 
     public function setRate($rate, $id)
     {
-        $this->specialties = $this->specialties->map(function($item) use($rate, $id) {
+        $this->specialties = $this->specialties->map(function ($item) use ($rate, $id) {
             if ($item['id'] == $id) $item['rate'] = $rate;
             return $item;
         });
@@ -220,6 +225,11 @@ class Edit extends Component
     public function getUploadLabelNameProperty()
     {
         return $this->work->hasMedia() ? '變更圖檔' : $this->uploadLabel;
+    }
+
+    public function getThumbnailLabelNameProperty()
+    {
+        return $this->work->hasMedia('thumbnail') ? '變更列表頁縮圖' : '上傳列表頁縮圖';
     }
 
     public function updated($propertyName)
@@ -243,9 +253,6 @@ class Edit extends Component
                 Work::where('group_id', '!=', $this->work->group_id)->where('sort', '>=', $this->sort)->where('sort', '<', $this->work->sort)->increment('sort');
             }
 
-            // 不同語系的同步更新
-            Work::where('group_id', $this->work->group_id)->update(['sort' => $this->sort]);
-
         } else {
             // 新增
 
@@ -253,7 +260,11 @@ class Edit extends Component
         }
 
         $this->work->sort = $this->sort;
+        $this->work->slug = $this->slug;
         $this->work->save();
+
+        // 不同語系的同步更新
+        Work::where('group_id', $this->work->group_id)->update(['sort' => $this->sort, 'slug' => $this->slug]);
 
         // 有上傳/更新圖檔
         if ($this->image) {
@@ -271,27 +282,28 @@ class Edit extends Component
                 ->toMediaCollection();
         }
 
-        // 有上傳/更新圖檔
-//        if ($this->thumbnail) {
-//
-//            $thumbnailPath = $this->thumbnail->store('images');
-//
-//            $image = getimagesize(storage_path('app/' . $path));
-//            $width = $image[0];
-//            $height = $image[1];
-//
-//            // 刪掉原本的圖檔
-//            $this->work->clearMediaCollection();
-//
-//            $this->work->addMediaFromDisk($path)
-//                ->withCustomProperties(['width' => $width, 'height' => $height])
-//                ->toMediaCollection();
-//        }
-
         $this->reset('image');
+        // END 有上傳/更新圖檔
+
+        //  有上傳/更新 thumbnail
+        if ($this->thumbnail) {
+
+            $thumbnailPath = $this->thumbnail->store('images');
+
+//            $thumbnail = getimagesize(storage_path('app/' . $thumbnailPath));
+
+            // 刪掉原本的圖檔
+            $this->work->clearMediaCollection('thumbnail');
+
+            $this->work->addMediaFromDisk($thumbnailPath)
+                ->withCustomProperties(['width' => 600, 'height' => 600])
+                ->toMediaCollection('thumbnail');
+        }
+
+        $this->reset('thumbnail');
+        // END 有上傳/更新 thumbnail
 
         $this->updateBlocks();
-
 
         $specialties = [];
 
@@ -326,6 +338,18 @@ class Edit extends Component
         $this->work->tags()->sync($this->tags);
 
         $this->showAlert = true;
+    }
+
+    public function resetImage()
+    {
+        $this->reset('image');
+        $this->iteration++;
+    }
+
+    public function resetThumbnail()
+    {
+        $this->reset('thumbnail');
+        $this->iteration++;
     }
 
     /**
@@ -389,7 +413,7 @@ class Edit extends Component
 
     public function onClickRemoveCredit($index)
     {
-        array_splice($this->credits, $index,1);
+        array_splice($this->credits, $index, 1);
     }
 
     public function onClickAddCreditPeople($index)

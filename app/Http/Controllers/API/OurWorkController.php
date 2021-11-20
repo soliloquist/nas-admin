@@ -58,12 +58,27 @@ class OurWorkController extends Controller
             ->take(10)
             ->get()
             ->map(function ($item) {
-                $image = $item->getFirstMedia();
+
+                $image = null;
+                $imageUrl = null;
+
+                if ($item->getFirstMedia('thumbnail')) {
+
+                    $image = $item->getFirstMedia('thumbnail');
+                    $imageUrl = $image->getUrl('thumbnail');
+
+                } elseif ($item->getFirstMedia()) {
+
+                    $image = $item->getFirstMedia();
+                    $imageUrl = $image->getUrl();
+
+                }
+
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $image->getUrl(),
+                        'url' => $imageUrl,
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -82,12 +97,27 @@ class OurWorkController extends Controller
             ->take(10)
             ->get()
             ->map(function ($item) {
-                $image = $item->getFirstMedia();
+
+                $image = null;
+                $imageUrl = null;
+
+                if ($item->getFirstMedia('thumbnail')) {
+
+                    $image = $item->getFirstMedia('thumbnail');
+                    $imageUrl = $image->getUrl('thumbnail');
+
+                } elseif ($item->getFirstMedia()) {
+
+                    $image = $item->getFirstMedia();
+                    $imageUrl = $image->getUrl();
+
+                }
+
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $image->getUrl(),
+                        'url' => $imageUrl,
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -106,12 +136,27 @@ class OurWorkController extends Controller
             ->take(10)
             ->get()
             ->map(function ($item) {
-                $image = $item->getFirstMedia();
+
+                $image = null;
+                $imageUrl = null;
+
+                if ($item->getFirstMedia('thumbnail')) {
+
+                    $image = $item->getFirstMedia('thumbnail');
+                    $imageUrl = $image->getUrl('thumbnail');
+
+                } elseif ($item->getFirstMedia()) {
+
+                    $image = $item->getFirstMedia();
+                    $imageUrl = $image->getUrl();
+
+                }
+
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $image->getUrl(),
+                        'url' => $imageUrl,
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -206,5 +251,10 @@ class OurWorkController extends Controller
         $array['proportion'] = $proportion;
 
         return $array;
+    }
+
+    private function getImage($item)
+    {
+
     }
 }

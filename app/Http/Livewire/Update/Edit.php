@@ -247,6 +247,12 @@ class Edit extends Component
         $this->showAlert = true;
     }
 
+    public function resetImage()
+    {
+        $this->reset('image');
+        $this->iteration++;
+    }
+
     /**
      * @return mixed
      *

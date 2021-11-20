@@ -5,7 +5,8 @@
     @endif
     <div class="flex justify-between px-6 py-4 border-b">
         <div>
-            <input wire:model.debounce.500ms="filter" class="py-2 px-4 border border-gray-300" name="filter" placeholder="輸入關鍵字查詢"/>
+            <input wire:model.debounce.500ms="filter" class="py-2 px-4 border border-gray-300" name="filter"
+                   placeholder="輸入關鍵字查詢"/>
         </div>
         <div>
             <select class="border-gray-300" wire:change="onChangeSorting($event.target.value)">
@@ -54,8 +55,10 @@
         @foreach($works as $item)
             <tr>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                    @if($item->getFirstMedia())
-                        <img src="{{ $item->getFirstMedia()->getUrl() }}" alt="" class="w-20">
+                    @if($item->getFirstMedia('thumbnail'))
+                        <img src="{{ $item->getFirstMediaUrl('thumbnail','thumbnail') }}" alt="" class="w-16">
+                    @elseif($item->getFirstMedia())
+                        <img src="{{ $item->getFirstMediaUrl() }}" alt="" class="w-16">
                     @endif
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">

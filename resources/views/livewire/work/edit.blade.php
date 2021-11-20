@@ -91,6 +91,9 @@
     <form wire:submit.prevent="save">
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             @if($work->getFirstMedia() && !$image)
+                <div class="text-xl">
+                    圖片預覽
+                </div>
                 <div>
                     <img src="{{ $work->getFirstMediaUrl() }}" alt="" class="w-auto">
                 </div>
@@ -98,30 +101,44 @@
 
             <x-forms.image-upload :label="$this->uploadLabelName" :image="$image" :iteration="$iteration"/>
 
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
-                    * 網址
-                </label>
-                <div class="mt-1 flex shadow-sm items-center bg-gray-200 border border-gray-300">
-                    <div class="px-2 text-gray-500">
-                        https://www.nextanimationstudio.com/work/
-                    </div>
-                    <input
-                        wire:model="work.slug"
-                        type="text"
-                        class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-0"
-                        placeholder="">
+            <hr>
+
+            {{-- 上傳縮圖 --}}
+            @if($work->getFirstMedia('thumbnail') && !$thumbnail)
+                <div class="text-xl">
+                    縮圖預覽
                 </div>
-                <div class="mt-2">
-                    <ul class="text-gray-700 text-sm list-disc pl-6">
-                        <li>只可使用文字及-或_符號，不可有空格。</li>
-                        <li>不同文章網址不可重覆；但同一文章之不同語言版本，可使用相同網址</li>
-                        <li>如使用非英文網址，在轉貼時（如轉貼到Facebook），可能會被轉譯為編碼型式，但連結仍有效。</li>
-                    </ul>
+                <div>
+                    <img src="{{ $work->getFirstMediaUrl('thumbnail', 'thumbnail') }}" alt="" class="w-96 h-96" />
                 </div>
-                @error('work.slug')
-                <div class="text-red-600 mt-2">{{ $message }}</div> @enderror
-            </div>
+            @endif
+            <x-forms.work-thumbnail-upload :label="$this->thumbnailLabelName" :image="$thumbnail"
+                                           :iteration="$iteration"/>
+
+{{--            <div>--}}
+{{--                <label class="block text-sm font-medium text-gray-700">--}}
+{{--                    * 網址--}}
+{{--                </label>--}}
+{{--                <div class="mt-1 flex shadow-sm items-center bg-gray-200 border border-gray-300">--}}
+{{--                    <div class="px-2 text-gray-500">--}}
+{{--                        https://www.nextanimationstudio.com/work/--}}
+{{--                    </div>--}}
+{{--                    <input--}}
+{{--                        wire:model="work.slug"--}}
+{{--                        type="text"--}}
+{{--                        class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-0"--}}
+{{--                        placeholder="">--}}
+{{--                </div>--}}
+{{--                <div class="mt-2">--}}
+{{--                    <ul class="text-gray-700 text-sm list-disc pl-6">--}}
+{{--                        <li>只可使用文字及-或_符號，不可有空格。</li>--}}
+{{--                        <li>不同文章網址不可重覆；但同一文章之不同語言版本，可使用相同網址</li>--}}
+{{--                        <li>如使用非英文網址，在轉貼時（如轉貼到Facebook），可能會被轉譯為編碼型式，但連結仍有效。</li>--}}
+{{--                    </ul>--}}
+{{--                </div>--}}
+{{--                @error('work.slug')--}}
+{{--                <div class="text-red-600 mt-2">{{ $message }}</div> @enderror--}}
+{{--            </div>--}}
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">
@@ -187,10 +204,10 @@
             <div>Tags</div>
             <div class="border-t border-gray-400 py-6 grid grid-cols-4 gap-4">
                 @foreach($tagOptions as $item)
-                <label class="mr-4 my-4">
-                    <input wire:model="tags" type="checkbox" value="{{ $item->id }}">
-                    {{ $item->name }}
-                </label>
+                    <label class="mr-4 my-4">
+                        <input wire:model="tags" type="checkbox" value="{{ $item->id }}">
+                        {{ $item->name }}
+                    </label>
                 @endforeach
             </div>
         </div>
@@ -367,10 +384,12 @@
                                         class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
                                         placeholder="">
                                 </div>
-                                @error('credits.'.$loop->index.'.title') <div class="text-red-600">{{ $message }}</div> @enderror
+                                @error('credits.'.$loop->index.'.title')
+                                <div class="text-red-600">{{ $message }}</div> @enderror
                             </div>
                             <div class="py-2 ml-4">
-                                <div class="cursor-pointer flex space-x-1.5" wire:click="onClickRemoveCredit({{$loop->index}})">
+                                <div class="cursor-pointer flex space-x-1.5"
+                                     wire:click="onClickRemoveCredit({{$loop->index}})">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                          viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

@@ -14,13 +14,16 @@ class Group extends Component
     public $tab;
     public $sort;
     public $max;
+    public $slug;
 
     protected $validationAttributes = [
         'sort' => '排序',
+        'slug' => '網址'
     ];
 
     protected $rules = [
-        'sort' => 'required|int'
+        'sort' => 'required|int',
+        'slug' => 'required'
     ];
 
     public function mount($groupId = null)
@@ -32,6 +35,8 @@ class Group extends Component
         if ($groupId) {
             $this->max = Work::groupBy('group_id')->get()->count();
             $this->sort = Work::where('group_id', $groupId)->value('sort');
+
+            $this->slug = Work::where('group_id', $groupId)->value('slug');
         } else {
             $this->max = Work::groupBy('group_id')->get()->count() + 1;
             $this->sort = $this->max;
