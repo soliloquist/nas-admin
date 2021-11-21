@@ -10,7 +10,9 @@ class BlockService
     {
         switch ($block->type) {
             case 'text':
-                return $block->content;
+                $content = str_replace('<div>', '<p>', $block->content);
+                $content = str_replace('</div>', '</p>', $content);
+                return $content;
                 break;
 
             case 'photo':

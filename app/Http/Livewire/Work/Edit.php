@@ -290,8 +290,6 @@ class Edit extends Component
 
             $thumbnailPath = $this->thumbnail->store('images');
 
-//            $thumbnail = getimagesize(storage_path('app/' . $thumbnailPath));
-
             // 刪掉原本的圖檔
             $this->work->clearMediaCollection('thumbnail');
 

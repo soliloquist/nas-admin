@@ -60,26 +60,13 @@ class OurWorkController extends Controller
             ->get()
             ->map(function ($item) {
 
-                $image = null;
-                $imageUrl = null;
-
-                if ($item->getFirstMedia('thumbnail')) {
-
-                    $image = $item->getFirstMedia('thumbnail');
-                    $imageUrl = $image->getUrl('thumbnail');
-
-                } elseif ($item->getFirstMedia()) {
-
-                    $image = $item->getFirstMedia();
-                    $imageUrl = $image->getUrl();
-
-                }
+                $image = $item->getFirstMedia();
 
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $imageUrl,
+                        'url' => $image->getUrl(),
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -99,26 +86,13 @@ class OurWorkController extends Controller
             ->get()
             ->map(function ($item) {
 
-                $image = null;
-                $imageUrl = null;
-
-                if ($item->getFirstMedia('thumbnail')) {
-
-                    $image = $item->getFirstMedia('thumbnail');
-                    $imageUrl = $image->getUrl('thumbnail');
-
-                } elseif ($item->getFirstMedia()) {
-
-                    $image = $item->getFirstMedia();
-                    $imageUrl = $image->getUrl();
-
-                }
+                $image = $item->getFirstMedia();
 
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $imageUrl,
+                        'url' => $image->getUrl(),
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -138,26 +112,13 @@ class OurWorkController extends Controller
             ->get()
             ->map(function ($item) {
 
-                $image = null;
-                $imageUrl = null;
-
-                if ($item->getFirstMedia('thumbnail')) {
-
-                    $image = $item->getFirstMedia('thumbnail');
-                    $imageUrl = $image->getUrl('thumbnail');
-
-                } elseif ($item->getFirstMedia()) {
-
-                    $image = $item->getFirstMedia();
-                    $imageUrl = $image->getUrl();
-
-                }
+                $image = $item->getFirstMedia();
 
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
                     'image' => $image ? [
-                        'url' => $imageUrl,
+                        'url' => $image->getUrl(),
                         'width' => $image->getCustomProperty('width'),
                         'height' => $image->getCustomProperty('height'),
                     ] : null
@@ -243,13 +204,22 @@ class OurWorkController extends Controller
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourworks/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourworks/' . $next->slug : '';
-        $array['section'] = $item->articles->map(function ($block) {
+        $array['section'] = $item->articles()->where('enabled', 1)->get()->map(function ($block) {
             return [
                 'id' => $block->id,
                 'type' => $block->type,
                 'content' => $this->service->getContent($block)
             ];
         });
+
+        foreach($item->credits as $credit) {
+            $array['section']->push([
+                'id' => $credit->id,
+                'type' => 'team',
+                'content' => json_decode($credit->people)
+            ]);
+        }
+
         $array['proportion'] = $proportion;
 
         return $array;

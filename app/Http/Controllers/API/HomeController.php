@@ -31,37 +31,64 @@ class HomeController extends Controller
         $jp = $lang->firstWhere('code', 'jp');
 
         $zhWorks = Work::where('language_id', $zh->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
+            $image = $item->getFirstMedia('thumbnail');
+
+            if (!$image) {
+                $image = $item->getFirstMedia();
+                $imageUrl = $image->getUrl();
+            } else {
+                $imageUrl = $image->getUrl('thumbnail');
+            }
+
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
-                    'url' => $item->getFirstMediaUrl(),
-                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
-                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                    'url' => $imageUrl,
+                    'width' => $image->getCustomProperty('width'),
+                    'height' => $image->getCustomProperty('height'),
                 ]
             ];
         });
 
         $enWorks = Work::where('language_id', $en->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
+            $image = $item->getFirstMedia('thumbnail');
+
+            if (!$image) {
+                $image = $item->getFirstMedia();
+                $imageUrl = $image->getUrl();
+            } else {
+                $imageUrl = $image->getUrl('thumbnail');
+            }
+
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
-                    'url' => $item->getFirstMediaUrl(),
-                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
-                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                    'url' => $imageUrl,
+                    'width' => $image->getCustomProperty('width'),
+                    'height' => $image->getCustomProperty('height'),
                 ]
             ];
         });
 
         $jpWorks = Work::where('language_id', $jp->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
+            $image = $item->getFirstMedia('thumbnail');
+
+            if (!$image) {
+                $image = $item->getFirstMedia();
+                $imageUrl = $image->getUrl();
+            } else {
+                $imageUrl = $image->getUrl('thumbnail');
+            }
+
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
                 'image' => [
-                    'url' => $item->getFirstMediaUrl(),
-                    'width' => $item->getFirstMedia()->getCustomProperty('width'),
-                    'height' => $item->getFirstMedia()->getCustomProperty('height'),
+                    'url' => $imageUrl,
+                    'width' => $image->getCustomProperty('width'),
+                    'height' => $image->getCustomProperty('height'),
                 ]
             ];
         });
