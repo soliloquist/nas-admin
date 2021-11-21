@@ -216,7 +216,8 @@ class OurWorkController extends Controller
             $array['section']->push([
                 'id' => $credit->id,
                 'type' => 'team',
-                'content' => json_decode($credit->people)
+                'title' => $credit->title,
+                'name' => json_decode($credit->people)
             ]);
         }
 
