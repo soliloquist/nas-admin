@@ -14,36 +14,7 @@ class OurBusinessController extends Controller
 {
     protected BlockService $service;
 
-    public function index()
-    {
-        // TODO 前端 api 需修改，加入語系判斷
-        $langCode = 'zh';
-
-        $lang = Language::firstWhere('code', $langCode);
-        $businesses = Business::where('language_id', $lang->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->take(10)
-            ->get()
-            ->map(function ($item) {
-                $image = $item->getFirstMedia();
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
-        return response()->json([
-            'result' => true,
-            'list' => $businesses,
-        ]);
-    }
-
-    public function index2(Request $request)
+    public function index(Request $request)
     {
         $rowPerPage = 10;
         $page = $request->page ? $request->page : 1;
