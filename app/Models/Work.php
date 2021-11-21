@@ -21,8 +21,7 @@ class Work extends Model implements HasMedia
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumbnail')
-            ->fit(Manipulations::FIT_CONTAIN, 600, 600)
-            ->performOnCollections();
+            ->crop('crop-center', 600, 600);
     }
 
 
