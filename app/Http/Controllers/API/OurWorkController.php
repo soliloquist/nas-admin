@@ -212,12 +212,20 @@ class OurWorkController extends Controller
             ];
         });
 
-        foreach($item->credits as $credit) {
+        if ($item->credits->count()) {
+
+            $credits = $item->credits->map(function ($c) {
+                return [
+                    'id' => $c->id,
+                    'title' => $c->title,
+                    'name' => json_decode($c->people)
+                ];
+            });
+
             $array['section']->push([
-                'id' => $credit->id,
+                'id' => 99999,
                 'type' => 'team',
-                'title' => $credit->title,
-                'name' => json_decode($credit->people)
+                'content' => $credits
             ]);
         }
 
