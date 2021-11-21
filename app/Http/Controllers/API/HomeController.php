@@ -35,7 +35,11 @@ class HomeController extends Controller
 
             if (!$image) {
                 $image = $item->getFirstMedia();
-                $imageUrl = $image->getUrl();
+                if ($image->getUrl('thumbnail')) {
+                    $imageUrl = $image->getUrl('thumbnail');
+                } else {
+                    $imageUrl = $image->getUrl();
+                }
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -45,8 +49,8 @@ class HomeController extends Controller
                 'title' => $item->title,
                 'image' => [
                     'url' => $imageUrl,
-                    'width' => $image->getCustomProperty('width'),
-                    'height' => $image->getCustomProperty('height'),
+                    'width' => 600,
+                    'height' => 600,
                 ]
             ];
         });
@@ -56,7 +60,11 @@ class HomeController extends Controller
 
             if (!$image) {
                 $image = $item->getFirstMedia();
-                $imageUrl = $image->getUrl();
+                if ($image->getUrl('thumbnail')) {
+                    $imageUrl = $image->getUrl('thumbnail');
+                } else {
+                    $imageUrl = $image->getUrl();
+                }
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -66,8 +74,8 @@ class HomeController extends Controller
                 'title' => $item->title,
                 'image' => [
                     'url' => $imageUrl,
-                    'width' => $image->getCustomProperty('width'),
-                    'height' => $image->getCustomProperty('height'),
+                    'width' => 600,
+                    'height' => 600,
                 ]
             ];
         });
@@ -77,7 +85,11 @@ class HomeController extends Controller
 
             if (!$image) {
                 $image = $item->getFirstMedia();
-                $imageUrl = $image->getUrl();
+                if ($image->getUrl('thumbnail')) {
+                    $imageUrl = $image->getUrl('thumbnail');
+                } else {
+                    $imageUrl = $image->getUrl();
+                }
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -87,8 +99,8 @@ class HomeController extends Controller
                 'title' => $item->title,
                 'image' => [
                     'url' => $imageUrl,
-                    'width' => $image->getCustomProperty('width'),
-                    'height' => $image->getCustomProperty('height'),
+                    'width' => 600,
+                    'height' => 600,
                 ]
             ];
         });

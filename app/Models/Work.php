@@ -22,7 +22,7 @@ class Work extends Model implements HasMedia
     {
         $this->addMediaConversion('thumbnail')
             ->fit(Manipulations::FIT_CONTAIN, 600, 600)
-            ->performOnCollections('thumbnail');
+            ->performOnCollections();
     }
 
 
