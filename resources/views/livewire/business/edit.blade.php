@@ -69,7 +69,7 @@
                         <div class="px-6 py-8">
                             @switch($blockEditorType)
                                 @case('text')
-                                <livewire:trix :content="$blockEditorTextContent"/>
+                                <livewire:trix :block="$blockEditorModel"/>
                                 @break
                                 @case('photo')
                                 <livewire:component.editor.photo :block="$blockEditorModel"/>
@@ -166,22 +166,6 @@
                 </div>
                 @error('business.website_url') <span class="text-red-600">{{ $message }}</span> @enderror
             </div>
-
-{{--            <div>--}}
-{{--                <label class="block text-sm font-medium text-gray-700">--}}
-{{--                    排序--}}
-{{--                </label>--}}
-{{--                <div class="mt-1">--}}
-{{--                    <input--}}
-{{--                        wire:model="sort"--}}
-{{--                        type="number"--}}
-{{--                        min="1"--}}
-{{--                        max="{{$max}}"--}}
-{{--                        class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300"--}}
-{{--                    >--}}
-{{--                </div>--}}
-{{--                @error('sort') <span class="text-red-600">{{ $message }}</span> @enderror--}}
-{{--            </div>--}}
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">

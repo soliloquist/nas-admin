@@ -45,10 +45,10 @@
                                         文字內容
                                         @break
                                         @case('photo')
-                                        圖片
+                                        圖配文區塊（可複選）
                                         @break
                                         @case('album')
-                                        圖片集
+                                        純圖片區塊（可複選）
                                         @break
                                     @endswitch
                                 </div>
@@ -69,7 +69,7 @@
                         <div class="px-6 py-8">
                             @switch($blockEditorType)
                                 @case('text')
-                                <livewire:trix :content="$blockEditorTextContent"/>
+                                <livewire:trix :block="$blockEditorModel"/>
                                 @break
                                 @case('photo')
                                 <livewire:component.editor.photo :block="$blockEditorModel"/>
@@ -109,36 +109,36 @@
                     縮圖預覽
                 </div>
                 <div>
-                    <img src="{{ $work->getFirstMediaUrl('thumbnail', 'thumbnail') }}" alt="" class="w-96 h-96" />
+                    <img src="{{ $work->getFirstMediaUrl('thumbnail', 'thumbnail') }}" alt="" class="w-96 h-96"/>
                 </div>
             @endif
             <x-forms.work-thumbnail-upload :label="$this->thumbnailLabelName" :image="$thumbnail"
                                            :iteration="$iteration"/>
 
-{{--            <div>--}}
-{{--                <label class="block text-sm font-medium text-gray-700">--}}
-{{--                    * 網址--}}
-{{--                </label>--}}
-{{--                <div class="mt-1 flex shadow-sm items-center bg-gray-200 border border-gray-300">--}}
-{{--                    <div class="px-2 text-gray-500">--}}
-{{--                        https://www.nextanimationstudio.com/work/--}}
-{{--                    </div>--}}
-{{--                    <input--}}
-{{--                        wire:model="work.slug"--}}
-{{--                        type="text"--}}
-{{--                        class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-0"--}}
-{{--                        placeholder="">--}}
-{{--                </div>--}}
-{{--                <div class="mt-2">--}}
-{{--                    <ul class="text-gray-700 text-sm list-disc pl-6">--}}
-{{--                        <li>只可使用文字及-或_符號，不可有空格。</li>--}}
-{{--                        <li>不同文章網址不可重覆；但同一文章之不同語言版本，可使用相同網址</li>--}}
-{{--                        <li>如使用非英文網址，在轉貼時（如轉貼到Facebook），可能會被轉譯為編碼型式，但連結仍有效。</li>--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--                @error('work.slug')--}}
-{{--                <div class="text-red-600 mt-2">{{ $message }}</div> @enderror--}}
-{{--            </div>--}}
+            {{--            <div>--}}
+            {{--                <label class="block text-sm font-medium text-gray-700">--}}
+            {{--                    * 網址--}}
+            {{--                </label>--}}
+            {{--                <div class="mt-1 flex shadow-sm items-center bg-gray-200 border border-gray-300">--}}
+            {{--                    <div class="px-2 text-gray-500">--}}
+            {{--                        https://www.nextanimationstudio.com/work/--}}
+            {{--                    </div>--}}
+            {{--                    <input--}}
+            {{--                        wire:model="work.slug"--}}
+            {{--                        type="text"--}}
+            {{--                        class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-0"--}}
+            {{--                        placeholder="">--}}
+            {{--                </div>--}}
+            {{--                <div class="mt-2">--}}
+            {{--                    <ul class="text-gray-700 text-sm list-disc pl-6">--}}
+            {{--                        <li>只可使用文字及-或_符號，不可有空格。</li>--}}
+            {{--                        <li>不同文章網址不可重覆；但同一文章之不同語言版本，可使用相同網址</li>--}}
+            {{--                        <li>如使用非英文網址，在轉貼時（如轉貼到Facebook），可能會被轉譯為編碼型式，但連結仍有效。</li>--}}
+            {{--                    </ul>--}}
+            {{--                </div>--}}
+            {{--                @error('work.slug')--}}
+            {{--                <div class="text-red-600 mt-2">{{ $message }}</div> @enderror--}}
+            {{--            </div>--}}
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">

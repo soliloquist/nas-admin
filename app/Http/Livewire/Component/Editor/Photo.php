@@ -25,7 +25,7 @@ class Photo extends Component
 
     protected $rules = [
         'uploads.*' => 'image|max:6000',
-        'images.*.caption' => 'string'
+        'images.*.caption' => 'nullable|string'
     ];
 
     public function mount($block)

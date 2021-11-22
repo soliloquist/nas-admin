@@ -19,11 +19,7 @@ class Edit extends Component
     {
         return [
             'contact.type' => 'required|string',
-            'contact.email' => [
-                'required',
-                'email',
-                Rule::unique('contacts', 'email')->ignore($this->contact->id),
-            ]
+            'contact.email' => 'required|email'
         ];
     }
 

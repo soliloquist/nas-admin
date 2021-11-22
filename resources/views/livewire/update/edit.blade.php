@@ -45,10 +45,10 @@
                                         文字內容
                                         @break
                                         @case('photo')
-                                        圖片
+                                        圖配文區塊（可複選）
                                         @break
                                         @case('album')
-                                        圖片集
+                                        純圖片區塊（可複選）
                                         @break
                                     @endswitch
                                 </div>
@@ -69,7 +69,7 @@
                         <div class="px-6 py-8">
                             @switch($blockEditorType)
                                 @case('text')
-                                <livewire:trix :content="$blockEditorTextContent"/>
+                                <livewire:trix :block="$blockEditorModel"/>
                                 @break
                                 @case('photo')
                                 <livewire:component.editor.photo :block="$blockEditorModel"/>
@@ -97,7 +97,7 @@
             @endif
 
             <x-forms.image-upload :label="$this->uploadLabelName" :image="$image" :iteration="$iteration"/>
-                <div class="mt-2 text-gray-600">* 圖片建議尺寸（寬）3035 x (高)760 px</div>
+            <div class="mt-2 text-gray-600">* 圖片建議尺寸（寬）3035 x (高)760 px</div>
             <div>
                 <label class="block text-sm font-medium text-gray-700">
                     * 網址
@@ -308,8 +308,10 @@
                     type="button"
                     class="flex space-x-1.5 items-center justify-center py-2 px-4 border border-gray-800 shadow-sm sm:text-sm font-medium rounded-md  focus:outline-none"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
                     </svg>
                     <div wire:click="onClickAddTextBlock">新增文字區塊</div>
                 </button>
@@ -318,8 +320,10 @@
                     type="button"
                     class="flex space-x-1.5 items-center justify-center py-2 px-4 border border-gray-800 shadow-sm sm:text-sm font-medium rounded-md  focus:outline-none"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
                     <div wire:click="onClickAddPhotoBlock">新增圖配文區塊</div>
                 </button>
@@ -328,8 +332,10 @@
                     type="button"
                     class="flex space-x-1.5 items-center justify-center py-2 px-4 border border-gray-800 shadow-sm sm:text-sm font-medium rounded-md  focus:outline-none"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z"/>
                     </svg>
                     <div wire:click="onClickAddAlbumBlock">新增純圖片區塊</div>
                 </button>

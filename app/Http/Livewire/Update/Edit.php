@@ -42,11 +42,12 @@ class Edit extends Component
     public $blocks = [];
 
     protected $listeners = [
+        'EDITOR_CREATED' => 'editorCreated',
         'EDITOR_UPDATED' => 'editorUpdated',
         'PHOTO_BLOCK_CREATED' => 'photoBlockCreated',
         'PHOTO_BLOCK_UPDATED' => 'photoBlockUpdated',
-        'ALBUM_BLOCK_CREATED' => 'photoBlockCreated',
-        'ALBUM_BLOCK_UPDATED' => 'photoBlockUpdated',
+        'ALBUM_BLOCK_CREATED' => 'albumBlockCreated',
+        'ALBUM_BLOCK_UPDATED' => 'albumBlockUpdated',
         'ALERT_DONE' => 'alertDone'
     ];
 
@@ -406,25 +407,37 @@ class Edit extends Component
     public function editTextBlock($block)
     {
         $this->blockEditorType = 'text';
-        $this->blockEditorTextContent = $block['content'];
+        $this->blockEditorModel = Block::find($block['id']);
         $this->blockEditorSort = $block['sort'];
         $this->showBlockEditor = true;
     }
 
-    public function editorUpdated($block)
+    public function editorCreated($blockId)
     {
-//        substr($content, 5, -6)
-
-//        if ($this->blockEditorSort) dd($this->blockEditorSort);
-
-        $this->showBlockEditor = false;
+        $block = Block::find($blockId);
 
         $this->blocks[] = [
-            'type' => $block['type'],
-            'content' => $block['content'],
+            'id' => $blockId,
+            'type' => 'text',
+            'content' => $block->content,
             'sort' => count($this->blocks) + 1,
             'edit' => false
         ];
+
+        $this->showBlockEditor = false;
+    }
+
+    public function editorUpdated($blockId)
+    {
+        $block = Block::find($blockId);
+
+        foreach ($this->blocks as $key => $value) {
+            if ($value['type'] == 'text' && $value['id'] == $blockId) {
+                $this->blocks[$key]['content'] = $block->content;
+            }
+        }
+
+        $this->showBlockEditor = false;
     }
 
     public function photoBlockCreated($blockId)
@@ -535,19 +548,10 @@ class Edit extends Component
         $ids = [];
         foreach ($this->blocks as $item) {
 
-            switch ($item['type']) {
-
-                case 'text':
-                    $ids[] = $this->updateTextBlock($item);
-                    break;
-
-                case 'photo':
-                    $ids[] = $this->updatePhotoBlock($item);
-                    break;
-
-                case 'album':
-                    break;
-            }
+            $block = Block::find($item['id']);
+            $block->sort = $item['sort'];
+            $this->update->articles()->save($block);
+            $ids[] = $item['id'];
         }
 
         // 刪掉已移除的區塊
