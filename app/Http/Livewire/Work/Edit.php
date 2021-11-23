@@ -261,11 +261,11 @@ class Edit extends Component
         }
 
         $this->work->sort = $this->sort;
-        $this->work->slug = $this->slug;
+        $this->work->slug = trim($this->slug);
         $this->work->save();
 
         // 不同語系的同步更新
-        Work::where('group_id', $this->work->group_id)->update(['sort' => $this->sort, 'slug' => $this->slug]);
+        Work::where('group_id', $this->work->group_id)->update(['sort' => $this->sort, 'slug' => trim($this->slug)]);
 
         // 有上傳/更新圖檔
         if ($this->image) {

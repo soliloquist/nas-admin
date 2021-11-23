@@ -53,18 +53,18 @@
         <tbody class="bg-white divide-y divide-gray-200">
         @foreach($clients as $item)
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     @if($item->getFirstMedia())
                         <img src="{{ $item->getFirstMedia()->getUrl() }}" alt="" class="w-20">
                     @endif
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->name }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900 max-w-72 break-all">
                     {{ $item->link }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     <div class="flex items-center">
                         <div>
                             <input
@@ -102,13 +102,13 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->enabled ? '是':'否' }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->created_at->format('Y-m-d H:i') }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td class="px-6 py-4 text-right text-sm font-medium">
                     <div class="flex justify-end">
                         <div>
                             <a href="{{ route('clients.edit', $item->id) }}"

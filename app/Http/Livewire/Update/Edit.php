@@ -223,6 +223,7 @@ class Edit extends Component
         $this->update->date = $this->year. '-'. $this->month . '-' . $this->date;
 
         $this->update->sort = $this->sort;
+        $this->update->slug = trim($this->update->slug);
         $this->update->save();
 
         // 有上傳/更新圖檔
