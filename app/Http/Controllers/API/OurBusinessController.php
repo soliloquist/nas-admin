@@ -140,7 +140,7 @@ class OurBusinessController extends Controller
             'width' => $banner->getCustomProperty('width'),
             'height' => $banner->getCustomProperty('height'),
         ] : null;
-        $array['youtubeLink'] = $urlService->getYoutubeIdFromUrl($item->video_url);
+        $array['youtubeLink'] = $item->video_url;
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
