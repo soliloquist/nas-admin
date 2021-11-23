@@ -43,7 +43,7 @@ class GetOurVisionController extends Controller
             ];
         });
 
-        $clients = Client::where('enabled', 1)->take(10)->get()->map(function($c) {
+        $clients = Client::where('enabled', 1)->get()->map(function($c) {
             $image = $c->getFirstMedia();
             return [
                 'id' => $c->id,
