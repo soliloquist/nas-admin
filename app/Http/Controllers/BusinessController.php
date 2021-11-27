@@ -27,9 +27,9 @@ class BusinessController extends Controller
         //
     }
 
-    public function edit($groupId)
+    public function edit($groupId, $languageId)
     {
-        return view('businesses.edit', compact('groupId'));
+        return view('businesses.edit', compact('groupId', 'languageId'));
     }
 
     public function update(Request $request, Business $business)

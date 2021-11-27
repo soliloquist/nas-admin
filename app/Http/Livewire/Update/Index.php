@@ -75,7 +75,7 @@ class Index extends Component
 
     public function delete()
     {
-        $items = Update::whereIn('id', $this->selected)->get();
+        $items = Update::whereIn('group_id', $this->selected)->get();
 
         foreach ($items as $item) {
             $item->delete();

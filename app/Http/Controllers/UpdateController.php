@@ -27,9 +27,9 @@ class UpdateController extends Controller
         //
     }
 
-    public function edit($groupId)
+    public function edit($groupId, $languageId)
     {
-        return view('updates.edit', compact('groupId'));
+        return view('updates.edit', compact('groupId', 'languageId'));
     }
 
     public function update(Request $request, Update $update)

@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="pt-6">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-md">
             <a href="{{ route('vision.index') }}" class="text-indigo-600 hover:text-indigo-900 font-bold"> &lt; VISION</a>
         </div>
     </div>

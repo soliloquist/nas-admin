@@ -27,9 +27,9 @@ class WorkController extends Controller
         //
     }
 
-    public function edit($groupId)
+    public function edit($groupId, $languageId)
     {
-        return view('works.edit', compact('groupId'));
+        return view('works.edit', compact('groupId', 'languageId'));
     }
 
     public function update(Request $request, Work $work)

@@ -111,7 +111,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div class="flex justify-end">
                         <div>
-                            <a href="{{ route('updates.edit', $item->group_id) }}"
+                            <a href="{{ route('updates.edit', ['groupId' => $item->group_id, 'languageId' => $item->language_id ]) }}"
                                class="text-indigo-600 hover:text-indigo-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor">
@@ -122,7 +122,7 @@
                         </div>
                         <div class="ml-2">
                             <button
-                                wire:click="onClickDelete({{$item->id}})"
+                                wire:click="onClickDelete({{$item->group_id}})"
                                 type="button"
                                 class="text-red-600 hover:text-indigo-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"

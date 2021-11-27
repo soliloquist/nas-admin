@@ -2,7 +2,7 @@
     <label class="block text-sm font-medium text-gray-700">
         * {{ $label }}
     </label>
-    <div class="mt-1 flex rounded-md shadow-sm">
+    <div class="mt-1">
         <input
             wire:model="image"
             type="file"

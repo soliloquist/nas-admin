@@ -5,11 +5,27 @@
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <livewire:update.group />
+    <div class="pt-6">
+
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 text-md">
+
+            <nav
+                class="block text-sm text-left text-gray-600 bg-gray-500 bg-opacity-10 h-12flex items-center p-4 rounded-md"
+            >
+                <ol class="list-reset flex text-grey-dark">
+                    <li><a href="/" class="font-bold">HOME</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li><a href="{{ route('updates.index') }}" class="font-bold">UPDATE</a></li>
+                    <li><span class="mx-2">/</span></li>
+                    <li>新增 UPDATE</li>
+                </ol>
+            </nav>
+        </div>
     </div>
 
-
+    <div class="py-12">
+        <livewire:update.create />
+    </div>
 
     @push('headScripts')
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" />

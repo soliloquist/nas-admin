@@ -36,9 +36,23 @@ Route::resource('/contact-types', \App\Http\Controllers\ContactTypeController::c
 Route::resource('/teams', \App\Http\Controllers\TeamController::class)->middleware('auth:sanctum');
 Route::resource('/members', \App\Http\Controllers\MemberController::class)->middleware('auth:sanctum');
 Route::resource('/clients', \App\Http\Controllers\ClientController::class)->middleware('auth:sanctum');
-Route::resource('/businesses', \App\Http\Controllers\BusinessController::class)->middleware('auth:sanctum');
-Route::resource('/works', \App\Http\Controllers\WorkController::class)->middleware('auth:sanctum');
-Route::resource('/updates', \App\Http\Controllers\UpdateController::class)->middleware('auth:sanctum');
+
 Route::resource('/users', \App\Http\Controllers\UserController::class)->middleware('auth:sanctum');
 Route::resource('/specialties', \App\Http\Controllers\SpecialtyController::class)->middleware('auth:sanctum');
 Route::resource('/tags', \App\Http\Controllers\TagController::class)->middleware('auth:sanctum');
+
+
+Route::get('/works', [\App\Http\Controllers\WorkController::class, 'index'])->name('works.index')->middleware('auth:sanctum');
+Route::get('/works/create', [\App\Http\Controllers\WorkController::class, 'create'])->name('works.create')->middleware('auth:sanctum');
+Route::get('/works/{groupId}/{languageId}/edit', [\App\Http\Controllers\WorkController::class, 'edit'])->name('works.edit')->middleware('auth:sanctum');
+Route::delete('/works/{groupId}/delete', [\App\Http\Controllers\WorkController::class, 'destroy'])->name('works.delete')->middleware('auth:sanctum');
+
+Route::get('/updates', [\App\Http\Controllers\UpdateController::class, 'index'])->name('updates.index')->middleware('auth:sanctum');
+Route::get('/updates/create', [\App\Http\Controllers\UpdateController::class, 'create'])->name('updates.create')->middleware('auth:sanctum');
+Route::get('/updates/{groupId}/{languageId}/edit', [\App\Http\Controllers\UpdateController::class, 'edit'])->name('updates.edit')->middleware('auth:sanctum');
+Route::delete('/updates/{groupId}/delete', [\App\Http\Controllers\UpdateController::class, 'destroy'])->name('updates.delete')->middleware('auth:sanctum');
+
+Route::get('/businesses', [\App\Http\Controllers\BusinessController::class, 'index'])->name('businesses.index')->middleware('auth:sanctum');
+Route::get('/businesses/create', [\App\Http\Controllers\BusinessController::class, 'create'])->name('businesses.create')->middleware('auth:sanctum');
+Route::get('/businesses/{groupId}/{languageId}/edit', [\App\Http\Controllers\BusinessController::class, 'edit'])->name('businesses.edit')->middleware('auth:sanctum');
+Route::delete('/businesses/groupId}/delete', [\App\Http\Controllers\BusinessController::class, 'destroy'])->name('businesses.delete')->middleware('auth:sanctum');

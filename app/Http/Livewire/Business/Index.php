@@ -75,7 +75,7 @@ class Index extends Component
 
     public function delete()
     {
-        $items = Business::whereIn('id', $this->selected)->get();
+        $items = Business::whereIn('group_id', $this->selected)->get();
 
         foreach ($items as $item) {
             $item->delete();

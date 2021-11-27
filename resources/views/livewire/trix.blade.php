@@ -8,9 +8,9 @@
 {{--        ></trix-editor>--}}
 
         <div x-data="{ trix: @entangle('content').defer }">
-            <input id="content" name="content" type="hidden" />
-            <div wire:ignore>
-                <trix-editor class="trix-editor" wire:model.debounce.999999ms="content">
+            <input id="content" name="content" type="hidden"  />
+            <div>
+                <trix-editor class="trix-editor" wire:model.debounce.999999ms="content" x-on:trix-paste="$dispatch('input', event.target.value)">
                 </trix-editor>
             </div>
             @error('content') <span class="error">{{ $message }}</span> @enderror
