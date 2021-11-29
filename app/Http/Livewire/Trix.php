@@ -46,6 +46,7 @@ class Trix extends Component
 
         $this->block->content = $this->content;
         $this->block->type = 'text';
+        $this->block->enabled = 1;
         $this->block->save();
 
         if ($type == 'update') {
