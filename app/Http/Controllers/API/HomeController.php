@@ -33,13 +33,19 @@ class HomeController extends Controller
         $zhWorks = Work::where('language_id', $zh->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             $image = $item->getFirstMedia('thumbnail');
 
+            $imageUrl = null;
+
             if (!$image) {
                 $image = $item->getFirstMedia();
-                if ($image->getUrl('thumbnail')) {
-                    $imageUrl = $image->getUrl('thumbnail');
-                } else {
-                    $imageUrl = $image->getUrl();
+
+                if ($image) {
+                    if ($image->getUrl('thumbnail')) {
+                        $imageUrl = $image->getUrl('thumbnail');
+                    } else {
+                        $imageUrl = $image->getUrl();
+                    }
                 }
+
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -47,24 +53,30 @@ class HomeController extends Controller
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
-                'image' => [
+                'image' => $imageUrl ? [
                     'url' => $imageUrl,
                     'width' => 600,
                     'height' => 600,
-                ]
+                ]: null
             ];
         });
 
         $enWorks = Work::where('language_id', $en->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             $image = $item->getFirstMedia('thumbnail');
 
+            $imageUrl = null;
+
             if (!$image) {
                 $image = $item->getFirstMedia();
-                if ($image->getUrl('thumbnail')) {
-                    $imageUrl = $image->getUrl('thumbnail');
-                } else {
-                    $imageUrl = $image->getUrl();
+
+                if ($image) {
+                    if ($image->getUrl('thumbnail')) {
+                        $imageUrl = $image->getUrl('thumbnail');
+                    } else {
+                        $imageUrl = $image->getUrl();
+                    }
                 }
+
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -72,24 +84,30 @@ class HomeController extends Controller
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
-                'image' => [
+                'image' => $imageUrl ? [
                     'url' => $imageUrl,
                     'width' => 600,
                     'height' => 600,
-                ]
+                ]: null
             ];
         });
 
         $jpWorks = Work::where('language_id', $jp->id)->where('enabled', 1)->orderBy('sort')->take(10)->get()->map(function($item) {
             $image = $item->getFirstMedia('thumbnail');
 
+            $imageUrl = null;
+
             if (!$image) {
                 $image = $item->getFirstMedia();
-                if ($image->getUrl('thumbnail')) {
-                    $imageUrl = $image->getUrl('thumbnail');
-                } else {
-                    $imageUrl = $image->getUrl();
+
+                if ($image) {
+                    if ($image->getUrl('thumbnail')) {
+                        $imageUrl = $image->getUrl('thumbnail');
+                    } else {
+                        $imageUrl = $image->getUrl();
+                    }
                 }
+
             } else {
                 $imageUrl = $image->getUrl('thumbnail');
             }
@@ -97,11 +115,11 @@ class HomeController extends Controller
             return [
                 'id' => $item->slug,
                 'title' => $item->title,
-                'image' => [
+                'image' => $imageUrl ? [
                     'url' => $imageUrl,
                     'width' => 600,
                     'height' => 600,
-                ]
+                ]: null
             ];
         });
 
