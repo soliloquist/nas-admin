@@ -64,6 +64,11 @@ class BannerVideoCover extends Component
         $this->finish = true;
     }
 
+    public function delete()
+    {
+        $this->setting->clearMediaCollection();
+    }
+
 
     public function render()
     {

@@ -21,11 +21,12 @@ class Photo extends Component
         'uploads.*.required' => '請上傳圖檔',
         'uploads.*.image' => '圖檔必須為 jpg,gif,png 格式',
         'uploads.*.max' => '圖檔不可超過 5MB',
+        'images.*.caption' => '圖片說明為必填欄位'
     ];
 
     protected $rules = [
         'uploads.*' => 'image|max:6000',
-        'images.*.caption' => 'nullable|string'
+        'images.*.caption' => 'required|string'
     ];
 
     public function mount($block)
@@ -58,7 +59,7 @@ class Photo extends Component
 
     public function updatedUploads()
     {
-        $this->validate();
+//        $this->validate();
 
         foreach ($this->uploads as $v) {
             $this->images[] = [
@@ -78,6 +79,8 @@ class Photo extends Component
 
     public function save()
     {
+        $this->validate();
+
         if ($this->block->id) {
 
             // Edit 流程

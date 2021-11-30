@@ -63,6 +63,9 @@
                 text-decoration: underline;
                 color: #2563eb;
             }
+            ul li {
+                list-style-type:  none !important;
+            }
         </style>
     @endpush
     @push('scripts')
