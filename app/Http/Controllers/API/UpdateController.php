@@ -206,7 +206,7 @@ class UpdateController extends Controller
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
-        $array['section'] = $item->articles->map(function ($block) {
+        $array['section'] = $item->articles()->orderBy('sort')->get()->map(function ($block) {
             return [
                 'id' => $block->id,
                 'type' => $block->type,

@@ -204,7 +204,7 @@ class OurWorkController extends Controller
         $array['websiteLink'] = $item->website_url;
         $array['previousPage'] = $prev ? '/ourworks/' . $prev->slug : '';
         $array['nextPage'] = $next ? '/ourworks/' . $next->slug : '';
-        $array['section'] = $item->articles()->where('enabled', 1)->get()->map(function ($block) {
+        $array['section'] = $item->articles()->orderBy('sort')->get()->map(function ($block) {
             return [
                 'id' => $block->id,
                 'type' => $block->type,
