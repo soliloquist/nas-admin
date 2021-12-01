@@ -54,20 +54,20 @@
         <tbody class="bg-white divide-y divide-gray-200">
         @foreach($works as $item)
             <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     @if($item->getFirstMedia('thumbnail'))
                         <img src="{{ $item->getFirstMediaUrl('thumbnail','thumbnail') }}" alt="" class="w-16">
                     @elseif($item->getFirstMedia())
                         <img src="{{ $item->getFirstMediaUrl() }}" alt="" class="w-16">
                     @endif
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->slug }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->title }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     <div class="flex items-center">
                         <div>
                             <input
@@ -105,13 +105,13 @@
                         @endif
                     </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->enabled ? '是':'否' }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->created_at->format('Y-m-d H:i') }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <td class="px-6 py-4 text-right text-sm font-medium">
                     <div class="flex justify-end">
                         <div>
                             <a href="{{ route('works.edit', ['groupId' => $item->group_id, 'languageId' => $item->language_id]) }}"
