@@ -28,7 +28,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">
-                    * 影片連結
+                    影片連結
                 </label>
                 <div class="mt-1 flex rounded-md shadow-sm">
                     <input
