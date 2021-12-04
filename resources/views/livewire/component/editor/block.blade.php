@@ -65,7 +65,8 @@
                         <div class="px-6 py-8">
                             @switch($blockEditorType)
                                 @case('text')
-                                <livewire:trix :block="$blockEditorModel"/>
+{{--                                <livewire:trix :block="$blockEditorModel"/>--}}
+                                <livewire:component.editor.tiptap :block="$blockEditorModel"/>
                                 @break
                                 @case('photo')
                                 <livewire:component.editor.photo :block="$blockEditorModel"/>

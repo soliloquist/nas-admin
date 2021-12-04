@@ -21,7 +21,7 @@ class Photo extends Component
         'uploads.*.required' => '請上傳圖檔',
         'uploads.*.image' => '圖檔必須為 jpg,gif,png 格式',
         'uploads.*.max' => '圖檔不可超過 5MB',
-        'images.*.caption' => '圖片說明為必填欄位'
+        'images.*.caption.required' => '請填入圖片說明'
     ];
 
     protected $rules = [

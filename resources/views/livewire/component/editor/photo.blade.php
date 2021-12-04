@@ -30,6 +30,7 @@
                         class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300"
                         placeholder="圖片說明"
                     />
+                    <div class="text-gray-600 mt-2">圖片說明為必填欄位</div>
                     @error('images.*.caption') <div class="text-red-600 mt-2">{{ $message }}</div> @enderror
                 </div>
                 <div class="w-2/12 text-right">

@@ -4,96 +4,96 @@
         <livewire:component.modal.created/>
     @endif
 
-        @if($showBlockEditor)
-            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                    <!--
-                      Background overlay, show/hide based on modal state.
+    @if($showBlockEditor)
+        <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+                <!--
+                  Background overlay, show/hide based on modal state.
 
-                      Entering: "ease-out duration-300"
-                        From: "opacity-0"
-                        To: "opacity-100"
-                      Leaving: "ease-in duration-200"
-                        From: "opacity-100"
-                        To: "opacity-0"
-                    -->
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+                  Entering: "ease-out duration-300"
+                    From: "opacity-0"
+                    To: "opacity-100"
+                  Leaving: "ease-in duration-200"
+                    From: "opacity-100"
+                    To: "opacity-0"
+                -->
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-                    <!-- This element is to trick the browser into centering the modal contents. -->
-                    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+                <!-- This element is to trick the browser into centering the modal contents. -->
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
 
-                    <div
-                        class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full lg:max-w-4xl">
-                        <div class="max-w-6xl">
-                            <div class="flex items-center px-6 py-4 bg-gray-100 w-full">
+                <div
+                    class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full lg:max-w-4xl">
+                    <div class="max-w-6xl">
+                        <div class="flex items-center px-6 py-4 bg-gray-100 w-full">
 
-                                <div class="flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
-                                         viewBox="0 0 24 24"
-                                         stroke="currentColor">
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none"
+                                     viewBox="0 0 24 24"
+                                     stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                                <div class="sm:text-sm">
+                                    @if($blockEditorSort)
+                                        編輯
+                                    @else
+                                        新增
+                                    @endif
+
+                                    @switch($blockEditorType)
+                                        @case('text')
+                                        文字內容
+                                        @break
+                                        @case('photo')
+                                        圖配文區塊（可複選）
+                                        @break
+                                        @case('album')
+                                        純圖片區塊（可複選）
+                                        @break
+                                    @endswitch
+                                </div>
+                            </div>
+
+                            <div class="ml-auto">
+                                <button type="button" class="bg-gray-800 text-white p-2 rounded-full"
+                                        wire:click="onCloseEditBlock">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                              d="M6 18L18 6M6 6l12 12"/>
                                     </svg>
-                                    <div class="sm:text-sm">
-                                        @if($blockEditorSort)
-                                            編輯
-                                        @else
-                                            新增
-                                        @endif
-
-                                        @switch($blockEditorType)
-                                            @case('text')
-                                            文字內容
-                                            @break
-                                            @case('photo')
-                                            圖配文區塊（可複選）
-                                            @break
-                                            @case('album')
-                                            純圖片區塊（可複選）
-                                            @break
-                                        @endswitch
-                                    </div>
-                                </div>
-
-                                <div class="ml-auto">
-                                    <button type="button" class="bg-gray-800 text-white p-2 rounded-full"
-                                            wire:click="onCloseEditBlock">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                  d="M6 18L18 6M6 6l12 12"/>
-                                        </svg>
-                                    </button>
-                                </div>
+                                </button>
                             </div>
-                            {{-- Content--}}
-                            <div class="px-6 py-8">
-                                @switch($blockEditorType)
-                                    @case('text')
-                                    <livewire:trix :block="$blockEditorModel"/>
-                                    @break
-                                    @case('photo')
-                                    <livewire:component.editor.photo :block="$blockEditorModel"/>
-                                    @break
-                                    @case('album')
-                                    <livewire:component.editor.album :block="$blockEditorModel"/>
-                                    @break
-                                @endswitch
-                            </div>
-                            {{-- END Content--}}
                         </div>
-
+                        {{-- Content--}}
+                        <div class="px-6 py-8">
+                            @switch($blockEditorType)
+                                @case('text')
+                                <livewire:component.editor.tiptap :block="$blockEditorModel"/>
+                                @break
+                                @case('photo')
+                                <livewire:component.editor.photo :block="$blockEditorModel"/>
+                                @break
+                                @case('album')
+                                <livewire:component.editor.album :block="$blockEditorModel"/>
+                                @break
+                            @endswitch
+                        </div>
+                        {{-- END Content--}}
                     </div>
+
                 </div>
             </div>
+        </div>
 
-        @endif
+    @endif
 
     <form wire:submit.prevent="save">
         <div class="px-4 pt-5 pb-2 bg-white">
             <div class="flex items-start">
                 <div class="block text-sm font-medium text-gray-700">
-                    啟用語言版本
+                    主要建立語言版本
                 </div>
                 <div class="ml-4">
                     <div class="flex space-x-5">
@@ -103,9 +103,9 @@
                                 <span class="text-sm text-gray-700"> {{ $lang->label }} </span>
                                 <input
                                     wire:model="languageSelected"
-                                    type="checkbox"
+                                    type="radio"
                                     value="{{ $lang->id }}"
-                                    class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300"
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 rounded-full sm:text-sm border-gray-300"
                                 />
                             </label>
 
@@ -173,14 +173,10 @@
         </div>
 
 
-
-
-
-
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
 
 
-            <x-forms.image-upload :label="$this->uploadLabel" :image="$image" :iteration="$iteration"/>
+            <x-forms.image-upload :label="$this->uploadLabel" :required="true" :image="$image" :iteration="$iteration"/>
 
             <hr>
 

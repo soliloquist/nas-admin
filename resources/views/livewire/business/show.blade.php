@@ -3,12 +3,6 @@
     <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
         <livewire:component.editor.image :item="$business" />
 
-        <hr>
-
-        {{-- 上傳縮圖 --}}
-        <livewire:component.editor.thumbnail :item="$business" />
-
-
         <div class="border-t border-gray-200 py-4">
             <label class="block text-sm font-medium text-gray-700">
                 名稱

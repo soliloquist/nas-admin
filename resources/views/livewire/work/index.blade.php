@@ -106,7 +106,43 @@
                     </div>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-900">
-                    {{ $item->enabled ? '是':'否' }}
+                    <div>
+                        <label>
+                            英文版
+                            <input
+                                type="checkbox"
+                                class="border border-gray-600 rounded"
+                                value="1"
+                                {{ $item->enEnabled ? 'checked': '' }}
+                                wire:change="onChangeEnabled('{{ $item->group_id }}', 1)"
+                            >
+                        </label>
+
+                    </div>
+                    <div>
+                        <label>
+                            中文版
+                            <input
+                                type="checkbox"
+                                class="border border-gray-600 rounded"
+                                value="1"
+                                {{ $item->zhEnabled ? 'checked': '' }}
+                                wire:change="onChangeEnabled('{{ $item->group_id }}', 2)"
+                            >
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            日文版
+                            <input
+                                type="checkbox"
+                                class="border border-gray-600 rounded"
+                                value="1"
+                                {{ $item->jpEnabled ? 'checked': '' }}
+                                wire:change="onChangeEnabled('{{ $item->group_id }}', 3)"
+                            >
+                        </label>
+                    </div>
                 </td>
                 <td class="px-6 py-4 text-sm text-gray-900">
                     {{ $item->created_at->format('Y-m-d H:i') }}

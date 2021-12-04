@@ -1,6 +1,6 @@
 <div>
     <label class="block text-sm font-medium text-gray-700">
-        * {{ $label }}
+        @if(isset($required) && $required)*@endif {{ $label }}
     </label>
     <div class="mt-1">
         <input

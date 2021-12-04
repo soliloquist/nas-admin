@@ -3,6 +3,29 @@
 @import 'tailwindcss/utilities';
 
 
-ul li {
+#blocks ul li {
     list-style-type: disc !important;
 }
+#blocks ol li {
+    list-style-type: decimal !important;
+}
+.tiptap-editor h1 {
+    @apply text-4xl;
+}
+.tiptap-editor ul {
+    @apply list-disc;
+    @apply pl-6;
+}
+
+.tiptap-editor ol {
+    @apply list-decimal;
+    @apply pl-6;
+}
+
+.tiptap-editor .ProseMirror:focus-visible {
+    outline: none;
+}
+.tiptap-editor .ProseMirror-foucsed:focus {
+    outline: none;
+}
+

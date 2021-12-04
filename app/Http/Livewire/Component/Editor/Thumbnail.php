@@ -54,6 +54,11 @@ class Thumbnail extends Component
         $this->changed = true;
     }
 
+    public function delete()
+    {
+        $this->item->clearMediaCollection('thumbnail');
+    }
+
     public function save()
     {
         if ($this->image) {

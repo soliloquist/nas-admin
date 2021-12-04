@@ -17,7 +17,7 @@ class OurWorkController extends Controller
 
     public function index(Request $request)
     {
-        $specialties = Specialty::get()->map(function ($item) {
+        $specialties = Specialty::orderBy('sort')->get()->map(function ($item) {
             return [
                 'id' => $item->id,
                 'color' => $item->color,

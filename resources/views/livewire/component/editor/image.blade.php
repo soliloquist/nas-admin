@@ -10,7 +10,7 @@
         @endif
 
         <div class="mt-4">
-            <x-forms.image-upload :label="$this->uploadLabelName" :image="$image" :iteration="$iteration"/>
+            <x-forms.image-upload :label="$this->uploadLabelName" :required="true" :image="$image" :iteration="$iteration"/>
         </div>
 
 

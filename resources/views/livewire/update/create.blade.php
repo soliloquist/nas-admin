@@ -70,7 +70,7 @@
                         <div class="px-6 py-8">
                             @switch($blockEditorType)
                                 @case('text')
-                                <livewire:trix :block="$blockEditorModel"/>
+                                <livewire:component.editor.tiptap :block="$blockEditorModel"/>
                                 @break
                                 @case('photo')
                                 <livewire:component.editor.photo :block="$blockEditorModel"/>
@@ -93,7 +93,7 @@
         <div class="px-4 pt-5 pb-2 bg-white">
             <div class="flex items-start">
                 <div class="block text-sm font-medium text-gray-700">
-                    啟用語言版本
+                    主要建立語言版本
                 </div>
                 <div class="ml-4">
                     <div class="flex space-x-5">
@@ -103,9 +103,9 @@
                                 <span class="text-sm text-gray-700"> {{ $lang->label }} </span>
                                 <input
                                     wire:model="languageSelected"
-                                    type="checkbox"
+                                    type="radio"
                                     value="{{ $lang->id }}"
-                                    class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300"
+                                    class="focus:ring-indigo-500 focus:border-indigo-500 rounded-full sm:text-sm border-gray-300"
                                 />
                             </label>
 

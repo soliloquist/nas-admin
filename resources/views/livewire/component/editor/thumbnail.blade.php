@@ -4,9 +4,24 @@
             縮圖預覽
         </div>
         @if($item->getFirstMedia('thumbnail') && !$image)
-            <div>
-                <img src="{{ $item->getFirstMediaUrl('thumbnail') }}" alt="">
+            <div class="flex">
+                <div>
+                    <img src="{{ $item->getFirstMediaUrl('thumbnail') }}" alt="">
+                </div>
+                <div>
+                    <div class="ml-4">
+                        <button type="button" class="bg-red-600 text-white py-2 px-4 mx-auto flex" wire:click="delete()">
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </div>
+                            DELETE
+                        </button>
+                    </div>
+                </div>
             </div>
+
         @else
             <div class="text-md mt-2 text-gray-300">未上傳縮圖</div>
         @endif

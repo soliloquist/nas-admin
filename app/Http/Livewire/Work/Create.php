@@ -20,7 +20,7 @@ class Create extends Component
 
     public $max; // 最後順序
     public $langs;
-    public $languageSelected = [];
+    public $languageSelected = 1;
     public $image;
     public $thumbnail;
     public $iteration = 0; // for file input cleaning file name
@@ -56,6 +56,8 @@ class Create extends Component
 
     public $showAlert = false;
 
+    public $groupId; // 新增之後才會產生，為了給新增之後跳轉到編輯頁使用
+
     protected $listeners = [
         'EDITOR_CREATED' => 'editorCreated',
         'EDITOR_UPDATED' => 'editorUpdated',
@@ -64,7 +66,8 @@ class Create extends Component
         'ALBUM_BLOCK_CREATED' => 'albumBlockCreated',
         'ALBUM_BLOCK_UPDATED' => 'albumBlockUpdated',
         'CREATED_CANCEL' => 'gotoIndex',
-        'CREATED_CONFIRM' => 'createAnotherOne'
+        'CREATED_CONFIRM' => 'createdConfirm',
+        'CREATED_CONTINUE' => 'createAnotherOne'
     ];
 
     protected $validationAttributes = [
@@ -142,7 +145,7 @@ class Create extends Component
         $this->validate();
 
         // 產生 group id
-        $groupId = (string) Str::orderedUuid();
+        $this->groupId = (string) Str::orderedUuid();
 
         // 圖檔處理
         $path = $this->image->store('images');
@@ -172,27 +175,25 @@ class Create extends Component
         // END Specialties 處理
 
 
-
-
-
-
         // 處理多語系的 work 新增
 
 
         // 重新排序
         Work::where('sort', '>=', $this->sort)->increment('sort');
 
-        $duplicate = false; // 是否為第二個以上的語系
+
         foreach ($this->langs as $lang) {
 
             $work = new Work();
             $work->language_id = $lang->id;
-            $work->group_id = $groupId;
+            $work->group_id = $this->groupId;
             $work->title = $this->title;
             $work->slug = $this->slug;
             $work->sort = $this->sort;
-            $work->enabled = in_array($lang->id, $this->languageSelected) ? 1 : 0;
+            $work->enabled = $lang->id == $this->languageSelected ? 1 : 0;
             $work->save();
+
+
 
             $work->addMediaFromDisk($path)
                 ->preservingOriginal()
@@ -223,38 +224,23 @@ class Create extends Component
             // End 處理 credit 資料
 
 
-            // 處理 Block 資料
-            $blocks = [];
-
-            for ($i = 0; $i < count($this->blocks); $i ++) {
-
-                if ($duplicate) {
-                    $original = Block::find($this->blocks[$i]['id']);
-                    $newBlock = $original->replicate();
-                    $newBlock->save();
-
-                    if ($newBlock->type == 'photo' || $newBlock->type == 'album') {
-
-                        foreach ($original->getMedia() as $media) {
-
-                            $newBlock->addMedia($media->getPath())->preservingOriginal()->toMediaCollection();
-                        }
-                    }
-
-                    $blocks[$i] = $newBlock;
-
-                } else {
-                    $blocks[$i] = Block::find($this->blocks[$i]['id']);
-                    $blocks[$i]->sort = $this->blocks[$i]['sort'];
-                }
-
-            }
-            $work->articles()->saveMany($blocks);
-            // END 處理 Block 資料
-
             $work->specialties()->sync($specialties);
 
             $work->tags()->sync($this->tags);
+
+            // 處理 Block 資料
+            if ($lang->id == $this->languageSelected) {
+
+                $blocks = [];
+
+                for ($i = 0; $i < count($this->blocks); $i ++) {
+                    $blocks[$i] = Block::find($this->blocks[$i]['id']);
+                    $blocks[$i]->sort = $this->blocks[$i]['sort'];
+                }
+                $work->articles()->saveMany($blocks);
+            }
+
+            // END 處理 Block 資料
 
             $duplicate = true;
         }
@@ -604,6 +590,11 @@ class Create extends Component
     public function createAnotherOne()
     {
         return redirect()->route('works.create');
+    }
+
+    public function createdConfirm()
+    {
+        return redirect()->route('works.edit', ['groupId' => $this->groupId, 'languageId' => $this->languageSelected]);
     }
 
 }

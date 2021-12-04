@@ -10,6 +10,8 @@ class UrlService
         $url_components = parse_url($url);
         parse_str($url_components['query'], $params);
 
+        if (!isset($params['v']) && !$params['v']) return null;
+
         return $params['v'];
     }
 }

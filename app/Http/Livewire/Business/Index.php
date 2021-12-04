@@ -31,6 +31,15 @@ class Index extends Component
      */
     public function onChangeSort($id, $value)
     {
+
+        $max = Business::groupBy('group_id')->get()->count();
+
+        if ($value > $max) {
+            $value = $max;
+        } elseif ($value < 1) {
+            $value = 1;
+        }
+
         $item = Business::find($id);
 
         if ($item->sort < $value) {
@@ -45,6 +54,14 @@ class Index extends Component
         $item->sort = $value;
         $item->save();
 
+    }
+
+    public function onChangeEnabled($groupId, $langId)
+    {
+        $item = Business::where('group_id', $groupId)->where('language_id', $langId)->first();
+
+        $item->enabled = !$item->enabled;
+        $item->save();
     }
 
     /**
@@ -92,9 +109,14 @@ class Index extends Component
     public function render()
     {
         return view('livewire.business.index', [
-            'businesses' => Business::when($this->filter, function($query) {
+            'businesses' => tap(Business::when($this->filter, function($query) {
                 $query->where('title', 'like', '%'.$this->filter.'%');
-            })->groupBy('group_id')->orderBy($this->orderBy, $this->ordering)->paginate(20)
+            })->groupBy('group_id')->orderBy($this->orderBy, $this->ordering)->paginate(20))->map(function ($item) {
+                $item->enEnabled = Business::where('language_id', 1)->where('group_id', $item->group_id)->value('enabled');
+                $item->zhEnabled = Business::where('language_id', 2)->where('group_id', $item->group_id)->value('enabled');
+                $item->jpEnabled = Business::where('language_id', 3)->where('group_id', $item->group_id)->value('enabled');
+                return $item;
+            })
         ]);
     }
 }

@@ -41,17 +41,23 @@
                 </div>
             </div>
 
-            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:justify-center">
+
+                <button
+                    wire:click="onClickCancel"
+                    type="button" class="mr-auto w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                    {{ $cancelBtnText }}
+                </button>
+
                 <button
                     wire:click="onClickConfirm"
                     type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-300 text-base font-medium text-gray-700 hover:bg-indigo-200 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
                     {{ $confirmBtnText }}
                 </button>
-
                 <button
-                    wire:click="onClickCancel"
-                    type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-gray-300 text-base font-medium text-gray-700 hover:bg-gray-200 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
-                    {{ $cancelBtnText }}
+                    wire:click="onClickConfirm"
+                    type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-300 text-base font-medium text-gray-700 hover:bg-indigo-200 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm">
+                    {{ $continueBtnText }}
                 </button>
             </div>
         </div>
