@@ -93,6 +93,7 @@ class Index extends Component
         $items = Work::whereIn('group_id', $this->selected)->get();
 
         foreach ($items as $item) {
+            Work::where('group_id', '!=', $item->group_id)->where('sort', '>', $item->sort)->decrement('sort');
             $item->delete();
         }
 

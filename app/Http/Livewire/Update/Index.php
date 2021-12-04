@@ -94,6 +94,7 @@ class Index extends Component
         $items = Update::whereIn('group_id', $this->selected)->get();
 
         foreach ($items as $item) {
+            Update::where('group_id', '!=', $item->group_id)->where('sort', '>', $item->sort)->decrement('sort');
             $item->delete();
         }
 

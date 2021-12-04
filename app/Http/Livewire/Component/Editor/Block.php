@@ -201,10 +201,10 @@ class Block extends Component
     /**
      * 按下 編輯區塊 按鈕
      */
-    public function onClickEditBlock($sort)
+    public function onClickEditBlock($id)
     {
         foreach ($this->blocks as $key => $value) {
-            if ($value['sort'] == $sort) {
+            if ($value['id'] == $id) {
 
                 switch ($value['type']) {
 
@@ -236,44 +236,59 @@ class Block extends Component
         $this->reset(['blockEditorSort', 'blockEditorTextContent', 'blockEditorId', 'blockEditorType', 'blockEditorModel']);
     }
 
-    public function onClickRemoveBlock($sort)
+    public function onClickRemoveBlock($id)
     {
         foreach ($this->blocks as $key => $value) {
-            if ($value['sort'] == $sort) {
+            if ($value['id'] == $id) {
 
-                \App\Models\Block::find($value['id'])->delete();
+                $block = \App\Models\Block::find($id);
+
+                \App\Models\Block::where('article_id', $block->article_id)
+                    ->where('article_type', $block->article_type)
+                    ->where('sort', '>', $block->sort)
+                    ->decrement('sort');
+
+                $block->delete();
 
                 unset($this->blocks[$key]);
             }
         }
     }
 
-    public function sortDecrease($sort)
+    public function sortDecrease($id)
     {
+        $sort = 1;
         foreach ($this->blocks as $key => $item) {
 
-            if ($item['sort'] == $sort) {
+            if ($item['id'] == $id) {
+                $sort = $item['sort'];
                 $this->blocks[$key]['sort']--;
             }
 
-            if ($item['sort'] == $sort - 1) {
+        }
+
+        foreach ($this->blocks as $key => $item) {
+
+            if ($item['sort'] == $sort - 1 && $item['id'] != $id) {
+                $this->blocks[$key]['sort']++;
+            }
+        }
+        $this->resortingBlocks();
+    }
+
+    public function sortIncrease($id)
+    {
+        $sort = 1;
+        foreach ($this->blocks as $key => $item) {
+
+            if ($item['id'] == $id) {
                 $this->blocks[$key]['sort']++;
             }
         }
 
-        $this->resortingBlocks();
-    }
-
-    public function sortIncrease($sort)
-    {
-//        dd('fuck');
         foreach ($this->blocks as $key => $item) {
 
-            if ($item['sort'] == $sort) {
-                $this->blocks[$key]['sort']++;
-            }
-
-            if ($item['sort'] == $sort + 1) {
+            if ($item['sort'] == $sort + 1 && $item['id'] != $id) {
                 $this->blocks[$key]['sort']--;
             }
         }

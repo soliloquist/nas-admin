@@ -94,7 +94,7 @@
                     <div class="bg-gray-100 flex justify-end space-x-1.5 p-2">
                         @if(!$loop->first)
                             <button type="button" class="bg-gray-800 text-white p-2 rounded-md"
-                                    wire:click="sortDecrease({{ $block['sort'] }})">
+                                    wire:click="sortDecrease({{ $block['id'] }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor">
@@ -105,7 +105,7 @@
                         @endif
                         @if(!$loop->last)
                             <button type="button" class="bg-gray-800 text-white p-2 rounded-md"
-                                    wire:click="sortIncrease({{ $block['sort'] }})">
+                                    wire:click="sortIncrease({{ $block['id'] }})">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                      viewBox="0 0 24 24"
                                      stroke="currentColor">
@@ -115,7 +115,7 @@
                             </button>
                         @endif
                         <button type="button" class="bg-gray-800 text-white p-2 rounded-md"
-                                wire:click="onClickEditBlock({{$block['sort']}})">
+                                wire:click="onClickEditBlock({{$block['id']}})">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24"
                                  stroke="currentColor">
@@ -125,7 +125,7 @@
                         </button>
 
                         <button type="button" class="bg-red-600 text-white p-2 rounded-md"
-                                wire:click="onClickRemoveBlock({{$block['sort']}})">
+                                wire:click="onClickRemoveBlock({{$block['id']}})">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
                                  viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
