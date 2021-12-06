@@ -23,7 +23,6 @@ class HomeController extends Controller
         $downloadUrl = $setting->firstWhere('key','index_doc_download_url');
 
         $video = $setting->firstWhere('key', 'index_banner_video');
-        $videoImage = $video->getFirstMedia();
 
         $lang = Language::get();
         $zh = $lang->firstWhere('code', 'zh');
@@ -127,7 +126,7 @@ class HomeController extends Controller
 
         return response()->json([
             "result" => true,
-            "bannerXS" => $bannerMDMedia ? [
+            "bannerXS" => $bannerXSMedia ? [
                 "url" => $bannerXSMedia->getUrl(),
                 "width" => $bannerXSMedia->getCustomProperty('width'),
                 "height" => $bannerXSMedia->getCustomProperty('height'),
@@ -139,10 +138,10 @@ class HomeController extends Controller
             ] : null,
             'video' => [
                 'url' => $urlService->getYoutubeIdFromUrl($video->value),
-                'image' => $videoImage ? [
-                    'url' => $videoImage->getUrl(),
-                    'width' => $videoImage->getCustomProperty('width'),
-                    'height' => $videoImage->getCustomProperty('height'),
+                'image' => $bannerMDMedia ? [
+                    "url" => $bannerMDMedia->getUrl(),
+                    "width" => $bannerMDMedia->getCustomProperty('width'),
+                    "height" => $bannerMDMedia->getCustomProperty('height'),
                 ] : null
             ],
             "downloadUrl" => $downloadUrl->value,
