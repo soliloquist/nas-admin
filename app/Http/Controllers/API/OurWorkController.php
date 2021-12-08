@@ -37,6 +37,9 @@ class OurWorkController extends Controller
         $en = $langs->firstWhere('code', 'en');
         $jp = $langs->firstWhere('code', 'jp');
 
+        $rowPerPage = 10;
+        $page = $request->page ? $request->page : 1;
+
         $filters = [];
 
         if ($request->filter) {
@@ -47,6 +50,15 @@ class OurWorkController extends Controller
 
         if (in_array('all', $filters)) $filters = [];
 
+        $zhTotal = Work::when($filters, function ($query, $filters) {
+                return $query->whereHas('tags', function ($query) use ($filters) {
+                    $query->whereIn('name', $filters);
+                });
+            })
+            ->where('language_id', $zh->id)
+            ->where('enabled', 1)
+            ->count();
+
         $zhItems = Work::with('articles', 'tags')
             ->when($filters, function ($query, $filters) {
                 return $query->whereHas('tags', function ($query) use ($filters) {
@@ -56,7 +68,8 @@ class OurWorkController extends Controller
             ->where('language_id', $zh->id)
             ->where('enabled', 1)
             ->orderBy('sort')
-            ->take(10)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
             ->get()
             ->map(function ($item) {
 
@@ -72,6 +85,15 @@ class OurWorkController extends Controller
                     ] : null
                 ];
             });
+
+        $enTotal = Work::when($filters, function ($query, $filters) {
+            return $query->whereHas('tags', function ($query) use ($filters) {
+                $query->whereIn('name', $filters);
+            });
+        })
+            ->where('language_id', $en->id)
+            ->where('enabled', 1)
+            ->count();
 
         $enItems = Work::with('articles')
             ->when($filters, function ($query, $filters) {
@@ -82,7 +104,8 @@ class OurWorkController extends Controller
             ->where('language_id', $en->id)
             ->where('enabled', 1)
             ->orderBy('sort')
-            ->take(10)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
             ->get()
             ->map(function ($item) {
 
@@ -99,6 +122,15 @@ class OurWorkController extends Controller
                 ];
             });
 
+        $jpTotal = Work::when($filters, function ($query, $filters) {
+            return $query->whereHas('tags', function ($query) use ($filters) {
+                $query->whereIn('name', $filters);
+            });
+        })
+            ->where('language_id', $jp->id)
+            ->where('enabled', 1)
+            ->count();
+
         $jpItems = Work::with('articles')
             ->when($filters, function ($query, $filters) {
                 return $query->whereHas('tags', function ($query) use ($filters) {
@@ -108,7 +140,8 @@ class OurWorkController extends Controller
             ->where('language_id', $jp->id)
             ->where('enabled', 1)
             ->orderBy('sort')
-            ->take(10)
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
             ->get()
             ->map(function ($item) {
 
@@ -130,14 +163,18 @@ class OurWorkController extends Controller
                 "result" => true,
                 "type" => $specialties,
                 "filter" => $tags,
+                'totalPage' => 9999,
                 'en' => [
-                    'works' => $enItems
+                    'works' => $enItems,
+                    'totalPage' => ceil($enTotal / $rowPerPage),
                 ],
                 'cn' => [
-                    'works' => $zhItems
+                    'works' => $zhItems,
+                    'totalPage' => ceil($zhTotal / $rowPerPage),
                 ],
                 'jp' => [
-                    'works' => $jpItems
+                    'works' => $jpItems,
+                    'totalPage' => ceil($jpTotal / $rowPerPage),
                 ],
             ]
         );

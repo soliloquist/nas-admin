@@ -150,15 +150,15 @@ class UpdateController extends Controller
             'year' => $yearsArray,
             'en' => [
                 'list' => $enItems,
-                'totalPage' => $enTotalPages,
+                'totalPage' => ceil($enTotalPages / $rowPerPage),
             ],
             'cn' => [
                 'list' => $zhItems,
-                'totalPage' => $zhTotalPages,
+                'totalPage' => ceil($zhTotalPages / $rowPerPage),
             ],
             'jp' => [
                 'list' => $jpItems,
-                'totalPage' => $jpTotalPages,
+                'totalPage' => ceil($jpTotalPages / $rowPerPage),
             ],
         ]);
     }
