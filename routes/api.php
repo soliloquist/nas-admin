@@ -23,6 +23,7 @@ Route::get('/getOurVision', \App\Http\Controllers\API\GetOurVisionController::cl
 Route::any('/getBusiness', [\App\Http\Controllers\API\OurBusinessController::class, 'index']);
 Route::get('/getBusiness/{slug}', [\App\Http\Controllers\API\OurBusinessController::class, 'show']);
 Route::any('/getWork', [\App\Http\Controllers\API\OurWorkController::class, 'index']);
+Route::any('/getOurWork', [\App\Http\Controllers\API\OurWorkController::class, 'index2']);
 Route::get('/getWork/{slug}', [\App\Http\Controllers\API\OurWorkController::class, 'show']);
 Route::any('/getUpdate', [\App\Http\Controllers\API\UpdateController::class, 'index']);
 Route::get('/getUpdate/{slug}', [\App\Http\Controllers\API\UpdateController::class, 'show']);
