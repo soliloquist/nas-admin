@@ -234,7 +234,7 @@ class OurWorkController extends Controller
             ->where('enabled', 1)
             ->orderBy('sort')
             ->skip($begin)
-            ->take($end - $begin)
+            ->take($end + 1 - $begin)
             ->get()
             ->map(function ($item) {
 
@@ -270,7 +270,7 @@ class OurWorkController extends Controller
             ->where('enabled', 1)
             ->orderBy('sort')
             ->skip($begin)
-            ->take($end - $begin)
+            ->take($end + 1 - $begin)
             ->get()
             ->map(function ($item) {
 
@@ -306,7 +306,7 @@ class OurWorkController extends Controller
             ->where('enabled', 1)
             ->orderBy('sort')
             ->skip($begin)
-            ->take($end - $begin)
+            ->take($end + 1 - $begin)
             ->get()
             ->map(function ($item) {
 
