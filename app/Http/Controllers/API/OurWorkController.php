@@ -415,7 +415,7 @@ class OurWorkController extends Controller
 
         if ($item->credits->count()) {
 
-            $credits = $item->credits->map(function ($c) {
+            $credits = $item->credits()->orderBy('sort', 'asc')->get()->map(function ($c) {
                 return [
                     'id' => $c->id,
                     'title' => $c->title,
