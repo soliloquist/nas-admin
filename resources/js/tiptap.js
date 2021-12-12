@@ -1,5 +1,6 @@
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import Link from '@tiptap/extension-link'
 
 
 window.setupEditor = function() {
@@ -10,7 +11,11 @@ window.setupEditor = function() {
             this.editor = new Editor({
                 element: element,
                 extensions: [
-                    StarterKit
+                    StarterKit,
+                    Link.configure({
+                        openOnClick: false,
+                        autolink: false,
+                    }),
                 ],
                 content: this.content,
                 onUpdate: ({ editor }) => {

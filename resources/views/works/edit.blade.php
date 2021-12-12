@@ -34,7 +34,6 @@
     </div>
 
     @push('headScripts')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.css" />
         <style>
             .trix-button--icon-quote,
             .trix-button--icon-attach,
@@ -63,12 +62,12 @@
                 text-decoration: underline;
                 color: #2563eb;
             }
+            #blocks p {
+                margin-top: 1em;
+            }
             ul li {
                 list-style-type:  none !important;
             }
         </style>
-    @endpush
-    @push('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.3.1/trix.min.js"></script>
     @endpush
 </x-app-layout>

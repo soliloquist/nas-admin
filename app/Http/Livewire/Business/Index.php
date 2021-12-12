@@ -12,8 +12,8 @@ class Index extends Component
 
     public $modal = false;
     public $selected = [];
-    public $orderBy = 'sort';
-    public $ordering = 'asc'; // asc | desc
+    public $orderBy = 'created_at';
+    public $ordering = 'desc'; // asc | desc
     public $filter;
 
     protected $listeners = ['confirm' => 'delete', 'cancel' => 'hideModal'];

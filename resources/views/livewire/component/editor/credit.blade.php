@@ -1,59 +1,130 @@
 <div>
     <div>
         @foreach($credits as $credit)
-            <div class="pb-8">
-                <div class="flex">
-                    <div class="w-1/6 pt-3">Team</div>
-                    <div class="">
-                        <div class="mt-1 flex">
-                            <input
-                                wire:model="credits.{{ $loop->index }}.title"
-                                type="text"
-                                class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
-                                placeholder="">
+            <div class="flex">
+                <div class="mr-3 space-y-2">
+                    @if(!$loop->first)
+                        <div class="px-1 mt-3">
+                            <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                 wire:click="changeTeamSort({{$loop->index}}, {{$loop->index-1}})">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M5 15l7-7 7 7"/>
+                                </svg>
+                            </div>
                         </div>
-                        @error('credits.'.$loop->index.'.title')
-                        <div class="text-red-600">{{ $message }}</div> @enderror
-                    </div>
-                    <div class="py-2 ml-4">
-                        <div class="cursor-pointer flex space-x-1.5"
-                             wire:click="onClickRemoveCredit({{$loop->index}})">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                 viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                            </svg>
-                            <div>刪除 Team 及 Team Member</div>
+                    @endif
+                    @if(!$loop->last)
+                        <div class="px-1 mt-3">
+                            <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                 wire:click="changeTeamSort({{$loop->index}}, {{$loop->index+1}})">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
-                <div class="flex mt-2">
-                    <div class="w-1/6 pt-3">Team Member</div>
-
-                    <div>
-                        @foreach($credit['people'] as $p)
-                            <div class="mt-1 flex shadow-sm">
+                <div class="pb-8 flex-1">
+                    <div class="flex">
+                        <div class="w-1/6 pt-3">Team</div>
+                        <div class="">
+                            <div class="mt-1 flex">
                                 <input
-                                    wire:model="credits.{{ $loop->parent->index }}.people.{{ $loop->index }}"
+                                    wire:model="credits.{{ $loop->index }}.title"
                                     type="text"
                                     class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
                                     placeholder="">
                             </div>
-                        @endforeach
-
-                        <div class="mt-4">
-                            <button
-                                type="button"
-                                wire:click="onClickAddCreditPeople({{$loop->index}})"
-                                class="flex space-x-1.5 items-center justify-center py-2 px-4 bg-gray-300 shadow-sm sm:text-sm font-medium rounded-md focus:outline-none"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                            @error('credits.'.$loop->index.'.title')
+                            <div class="text-red-600">{{ $message }}</div> @enderror
+                        </div>
+                        <div class="py-2 ml-4">
+                            <div class="cursor-pointer flex space-x-1.5"
+                                 wire:click="onClickRemoveCredit({{$loop->index}})">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                 </svg>
-                                新增 Member
-                            </button>
+                                <div>刪除 Team 及 Team Member</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mt-2">
+
+                        <div class="w-1/6 pt-3">Team Member</div>
+
+                        <div>
+                            @foreach($credit['people'] as $p)
+                                <div class="mt-1 flex shadow-sm items-center">
+                                    <div class="w-auto">
+                                        <input
+                                            wire:model="credits.{{ $loop->parent->index }}.people.{{ $loop->index }}"
+                                            type="text"
+                                            class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full sm:text-sm border-gray-300"
+                                            placeholder="">
+                                    </div>
+                                    <div class="flex w-24">
+                                        @if(!$loop->first)
+                                            <div class="px-1">
+                                                <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                                     wire:click="changeMemberSort({{$loop->parent->index}}, {{$loop->index}}, {{$loop->index -1}})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                         viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M5 15l7-7 7 7"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if(!$loop->last)
+                                            <div class="px-1">
+                                                <div class="cursor-pointer bg-gray-200 p-1 rounded-full"
+                                                     wire:click="changeMemberSort({{$loop->parent->index}}, {{$loop->index}}, {{$loop->index +1}})">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                         viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                              stroke-width="2"
+                                                              d="M19 9l-7 7-7-7"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div>
+                                        <div class="cursor-pointer flex space-x-1.5"
+                                             wire:click="onClickRemoveMember({{$loop->parent->index}}, {{$loop->index }})">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            <div>刪除 Member</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            @endforeach
+
+                            <div class="mt-4">
+                                <button
+                                    type="button"
+                                    wire:click="onClickAddCreditPeople({{$loop->index}})"
+                                    class="flex space-x-1.5 items-center justify-center py-2 px-4 bg-gray-300 shadow-sm sm:text-sm font-medium rounded-md focus:outline-none"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                              d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                    </svg>
+                                    新增 Member
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -25,7 +25,7 @@ class Credit extends Component
     {
         $this->item = $item;
 
-        $this->credits = $this->item->credits->map(function ($item) {
+        $this->credits = $this->item->credits()->orderBy('sort', 'asc')->get()->map(function ($item) {
 
             return [
                 'id' => $item->id,
@@ -86,6 +86,7 @@ class Credit extends Component
     {
         $creditsId = [];
 
+        $index = 1;
         foreach ($this->credits as $key => $c) {
 
             $this->credits[$key]['people'] = array_filter($this->credits[$key]['people']);
@@ -95,9 +96,12 @@ class Credit extends Component
             $credit->people = $p;
             $credit->title = $c['title'];
             $credit->work_id = $this->item->id;
+            $credit->sort = $index;
             $credit->save();
 
             $creditsId[] = $credit->id;
+
+            $index ++;
         }
 
         \App\Models\Credit::where('work_id', $this->item->id)->whereNotIn('id', $creditsId)->delete();
@@ -105,4 +109,38 @@ class Credit extends Component
         $this->changed = false;
     }
 
+    public function changeTeamSort($index, $targetIndex)
+    {
+        $item = array_splice($this->credits, $index, 1);
+
+        array_splice($this->credits, $targetIndex, 0, $item);
+
+        $this->changed = true;
+    }
+
+    public function changeMemberSort($creditIndex, $index, $targetIndex)
+    {
+        foreach ($this->credits as $key => $value) {
+            if ($key == $creditIndex) {
+
+                $item = array_splice($value['people'], $index, 1);
+                array_splice($value['people'], $targetIndex, 0, $item);
+
+                $this->credits[$key] = $value;
+
+                $this->changed = true;
+            }
+        }
+    }
+
+    public function onClickRemoveMember($creditIndex, $index)
+    {
+        foreach ($this->credits as $key => $value) {
+            if ($key == $creditIndex) {
+                array_splice($value['people'], $index, 1);
+                $this->credits[$key] = $value;
+                $this->changed = true;
+            }
+        }
+    }
 }
