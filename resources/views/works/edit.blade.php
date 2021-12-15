@@ -62,9 +62,6 @@
                 text-decoration: underline;
                 color: #2563eb;
             }
-            #blocks p {
-                margin-top: 1em;
-            }
             ul li {
                 list-style-type:  none !important;
             }

@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Home;
 use App\Models\Setting;
 use Livewire\Component;
 
-class DocDownload extends Component
+class EnDocDownload extends Component
 {
     public Setting $setting;
     public bool $finish = false;
@@ -36,6 +36,6 @@ class DocDownload extends Component
 
     public function render()
     {
-        return view('livewire.home.doc-download');
+        return view('livewire.home.en-doc-download');
     }
 }

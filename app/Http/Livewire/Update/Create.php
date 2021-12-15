@@ -106,7 +106,7 @@ class Create extends Component
         $this->langs = Language::all();
 
         $this->max = Update::groupBy('group_id')->get()->count() + 1;
-        $this->sort = $this->max;
+        $this->sort = 1;
 
         $this->year = Carbon::now()->format('Y');
         $this->month = Carbon::now()->format('m');

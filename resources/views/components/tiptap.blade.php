@@ -76,6 +76,9 @@
 
                         return
                     }
+                    if (url.indexOf('http://') != 0 || link.indexOf('https://') != 0) {
+                        url = 'http://' + url
+                    }
                     Alpine.raw(editor).chain()
                     .focus()
                     .extendMarkRange('link')

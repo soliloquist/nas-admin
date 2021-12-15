@@ -21,6 +21,9 @@ class HomeController extends Controller
         $bannerMDMedia = $bannerMD->getFirstMedia();
 
         $downloadUrl = $setting->firstWhere('key','index_doc_download_url');
+        $enDownloadUrl = $setting->firstWhere('key','index_en_doc_download_url');
+        $cnDownloadUrl = $setting->firstWhere('key','index_cn_doc_download_url');
+        $jpDownloadUrl = $setting->firstWhere('key','index_jp_doc_download_url');
 
         $video = $setting->firstWhere('key', 'index_banner_video');
 
@@ -145,6 +148,9 @@ class HomeController extends Controller
                 ] : null
             ],
             "downloadUrl" => $downloadUrl->value,
+            "enDownloadUrl" => $enDownloadUrl->value,
+            "cnDownloadUrl" => $cnDownloadUrl->value,
+            "jpDownloadUrl" => $jpDownloadUrl->value,
             "en" => [
                 "list" => $enWorks
             ],

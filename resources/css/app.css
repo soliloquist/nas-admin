@@ -9,6 +9,9 @@
 #blocks ol li {
     list-style-type: decimal !important;
 }
+#blocks p {
+    margin-top: 1em;
+}
 .tiptap-editor h1 {
     @apply text-4xl;
 }
@@ -20,6 +23,10 @@
 .tiptap-editor ol {
     @apply list-decimal;
     @apply pl-6;
+}
+
+.tiptap-editor ul p, .tiptap-editor ol p {
+    margin-top: 0 !important;
 }
 
 .tiptap-editor .ProseMirror:focus-visible {

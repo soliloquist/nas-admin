@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Home;
 use App\Models\Setting;
 use Livewire\Component;
 
-class DocDownload extends Component
+class CnDocDownload extends Component
 {
     public Setting $setting;
     public bool $finish = false;
@@ -20,7 +20,7 @@ class DocDownload extends Component
 
     public function mount()
     {
-        $this->setting = Setting::where('key', 'index_en_doc_download_url')->first();
+        $this->setting = Setting::where('key', 'index_cn_doc_download_url')->first();
     }
 
     public function updated($propertyName)
@@ -36,6 +36,6 @@ class DocDownload extends Component
 
     public function render()
     {
-        return view('livewire.home.doc-download');
+        return view('livewire.home.cn-doc-download');
     }
 }

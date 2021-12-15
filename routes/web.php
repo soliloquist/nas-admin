@@ -25,6 +25,9 @@ Route::get('/home/banner-xs', [\App\Http\Controllers\HomeController::class, 'ban
 Route::get('/home/banner-video', [\App\Http\Controllers\HomeController::class, 'bannerVideo'])->name('home.edit.banner-video')->middleware('auth:sanctum');
 Route::get('/home/banner-video-cover', [\App\Http\Controllers\HomeController::class, 'bannerVideoCover'])->name('home.edit.banner-video-cover')->middleware('auth:sanctum');
 Route::get('/home/doc-download', [\App\Http\Controllers\HomeController::class, 'docDownload'])->name('home.edit.doc-download')->middleware('auth:sanctum');
+Route::get('/home/en-doc-download', [\App\Http\Controllers\HomeController::class, 'enDocDownload'])->name('home.edit.en-doc-download')->middleware('auth:sanctum');
+Route::get('/home/cn-doc-download', [\App\Http\Controllers\HomeController::class, 'cnDocDownload'])->name('home.edit.cn-doc-download')->middleware('auth:sanctum');
+Route::get('/home/jp-doc-download', [\App\Http\Controllers\HomeController::class, 'jpDocDownload'])->name('home.edit.jp-doc-download')->middleware('auth:sanctum');
 Route::get('/vision', [\App\Http\Controllers\VisionController::class, 'index'])->name('vision.index')->middleware('auth:sanctum');
 Route::get('/vision/intro-en', [\App\Http\Controllers\VisionController::class, 'introEn'])->name('vision.intro-en')->middleware('auth:sanctum');
 Route::get('/vision/intro-cn', [\App\Http\Controllers\VisionController::class, 'introCn'])->name('vision.intro-cn')->middleware('auth:sanctum');

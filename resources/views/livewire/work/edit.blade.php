@@ -95,7 +95,7 @@
                     圖片預覽
                 </div>
                 <div>
-                    <img src="{{ $work->getFirstMediaUrl() }}" alt="" class="w-auto">
+                    <img src="{{ $work->getFirstMediaUrl() }}" alt="" class="w-1/2">
                 </div>
             @endif
 

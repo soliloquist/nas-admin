@@ -38,9 +38,16 @@ class Tiptap extends Component
 
     }
 
+    public function updated()
+    {
+        $this->content = str_replace('<li><p>', '<li>', $this->content);
+        $this->content = str_replace('</p></li>', '</li>', $this->content);
+    }
+
     public function save()
     {
         $this->validate();
+
 
         $this->processing = true;
 
@@ -61,7 +68,18 @@ class Tiptap extends Component
         $this->reset('content');
 
         $this->processing = false;
+    }
 
+    function addHttp($url) {
 
+        // Search the pattern
+        if (!preg_match("~^(?:f|ht)tps?://~i", $url)) {
+
+            // If not exist then add http
+            $url = "http://" . $url;
+        }
+
+        // Return the URL
+        return $url;
     }
 }

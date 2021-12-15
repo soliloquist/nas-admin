@@ -109,16 +109,64 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="text-sm font-medium text-gray-900">
-                                    文件下載連結
+                                    英文版文件下載連結
                                 </div>
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            {{ $docDownload['value'] ?? '未設定' }}
+                            {{ $enDocDownload['value'] ?? '未設定' }}
                         </td>
 
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <a href="{{ route('home.edit.doc-download') }}"
+                            <a href="{{ route('home.edit.en-doc-download') }}"
+                               class="text-indigo-600 hover:text-indigo-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900">
+                                    中文版文件下載連結
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $cnDocDownload['value'] ?? '未設定' }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="{{ route('home.edit.cn-doc-download') }}"
+                               class="text-indigo-600 hover:text-indigo-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                     viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/>
+                                </svg>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div class="text-sm font-medium text-gray-900">
+                                    日文版文件下載連結
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            {{ $jpDocDownload['value'] ?? '未設定' }}
+                        </td>
+
+                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <a href="{{ route('home.edit.jp-doc-download') }}"
                                class="text-indigo-600 hover:text-indigo-900">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                      viewBox="0 0 24 24" stroke="currentColor">

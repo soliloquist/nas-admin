@@ -106,7 +106,7 @@ class Create extends Component
         $this->langs = Language::all();
 
         $this->max = Work::groupBy('group_id')->get()->count() + 1;
-        $this->sort = $this->max;
+        $this->sort = 1;
 
         $this->tagOptions = Tag::all();
 
