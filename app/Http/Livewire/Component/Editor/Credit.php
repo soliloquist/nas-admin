@@ -11,6 +11,7 @@ class Credit extends Component
     public Model $item;
     public $credits = [];
     public $old = [];
+    public $max = 1;
 
     protected $rules = [
         'credits.*.title' => 'required|string',
@@ -30,20 +31,24 @@ class Credit extends Component
             return [
                 'id' => $item->id,
                 'title' => $item->title,
-                'people' => json_decode($item->people)
+                'people' => json_decode($item->people),
+                'sort' => $item->sort
             ];
 
         })->toArray();
 
-        $this->old = $this->item->credits->map(function ($item) {
+        $this->old = $this->item->credits()->orderBy('sort', 'asc')->get()->map(function ($item) {
 
             return [
                 'id' => $item->id,
                 'title' => $item->title,
-                'people' => json_decode($item->people)
+                'people' => json_decode($item->people),
+                'sort' => $item->sort
             ];
 
         })->toArray();
+
+        $this->max = count($this->old) + 1;
 
     }
 
@@ -111,6 +116,9 @@ class Credit extends Component
 
     public function changeTeamSort($index, $targetIndex)
     {
+
+        if ($targetIndex > count($this->credits)) $targetIndex = count($this->credits);
+
         $item = array_splice($this->credits, $index, 1);
 
         array_splice($this->credits, $targetIndex, 0, $item);
@@ -141,6 +149,13 @@ class Credit extends Component
                 $this->credits[$key] = $value;
                 $this->changed = true;
             }
+        }
+    }
+
+    public function onTest($value)
+    {
+        foreach ($this->credits as $index => $item) {
+            $this->credits[$index]['sort'] = $index;
         }
     }
 }
