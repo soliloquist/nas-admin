@@ -6,7 +6,7 @@
         @if($item->getFirstMedia('thumbnail') && !$image)
             <div class="flex">
                 <div>
-                    <img src="{{ $item->getFirstMediaUrl('thumbnail') }}" alt="">
+                    <img src="{{ $item->getFirstMediaUrl('thumbnail') }}" alt="" class="w-1/2">
                 </div>
                 <div>
                     <div class="ml-4">

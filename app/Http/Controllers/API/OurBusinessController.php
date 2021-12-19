@@ -17,72 +17,18 @@ class OurBusinessController extends Controller
     public function index(Request $request)
     {
         $rowPerPage = 10;
-        $page = $request->page ? $request->page : 1;
+        $page = $request->page ?: 1;
 
         $langs = Language::all();
         $zh = $langs->firstWhere('code', 'zh');
         $en = $langs->firstWhere('code', 'en');
         $jp = $langs->firstWhere('code', 'jp');
 
-        $zhItems = Business::with('articles')
-            ->where('language_id', $zh->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-                $image = $item->getFirstMedia();
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
+        $zhItems = $this->getList($zh, $page, $rowPerPage);
 
-        $enItems = Business::with('articles')
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-                $image = $item->getFirstMedia();
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
+        $enItems = $this->getList($en, $page, $rowPerPage);
 
-        $jpItems = Business::with('articles')
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-                $image = $item->getFirstMedia();
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
+        $jpItems = $this->getList($jp, $page, $rowPerPage);
 
         return response()->json(
             [
@@ -153,5 +99,30 @@ class OurBusinessController extends Controller
         });
 
         return $array;
+    }
+
+    private function getList(Language $lang, $page, $rowPerPage)
+    {
+        $items = Business::with('articles')
+            ->where('language_id', $lang->id)
+            ->where('enabled', 1)
+            ->orderBy('sort', 'asc')
+            ->skip(($page - 1) * $rowPerPage)
+            ->take($rowPerPage)
+            ->get()
+            ->map(function ($item) {
+                $image = $item->getFirstMedia();
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
+            });
+
+        return $items;
     }
 }

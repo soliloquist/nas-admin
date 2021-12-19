@@ -63,7 +63,7 @@
         <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
             @if($member->getFirstMedia() && !$image)
                 <div>
-                    <img src="{{ $member->getFirstMediaUrl() }}" alt="" class="w-auto">
+                    <img src="{{ $member->getFirstMediaUrl() }}" alt="" class="w-1/2">
                 </div>
             @endif
 

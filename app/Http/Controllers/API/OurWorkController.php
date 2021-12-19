@@ -67,7 +67,7 @@ class OurWorkController extends Controller
             })
             ->where('language_id', $zh->id)
             ->where('enabled', 1)
-            ->orderBy('sort')
+            ->orderBy('sort', 'asc')
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
@@ -103,7 +103,7 @@ class OurWorkController extends Controller
             })
             ->where('language_id', $en->id)
             ->where('enabled', 1)
-            ->orderBy('sort')
+            ->orderBy('sort', 'asc')
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
@@ -139,7 +139,7 @@ class OurWorkController extends Controller
             })
             ->where('language_id', $jp->id)
             ->where('enabled', 1)
-            ->orderBy('sort')
+            ->orderBy('sort', 'asc')
             ->skip(($page - 1) * $rowPerPage)
             ->take($rowPerPage)
             ->get()
@@ -215,113 +215,17 @@ class OurWorkController extends Controller
 
         if (in_array('all', $filters)) $filters = [];
 
-        $zhTotal = Work::when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $zh->id)
-            ->where('enabled', 1)
-            ->count();
+        $zhTotal = $this->getCount($zh, $filters);
 
-        $zhItems = Work::with('articles', 'tags')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $zh->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip($begin)
-            ->take($end + 1 - $begin)
-            ->get()
-            ->map(function ($item) {
+        $zhItems = $this->getList($zh, $begin, $end, $filters);
 
-                $image = $item->getFirstMedia();
+        $enTotal = $this->getCount($en, $filters);
 
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
+        $enItems = $this->getList($en, $begin, $end, $filters);
 
-        $enTotal = Work::when($filters, function ($query, $filters) {
-            return $query->whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('name', $filters);
-            });
-        })
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->count();
+        $jpTotal = $this->getCount($jp, $filters);
 
-        $enItems = Work::with('articles')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip($begin)
-            ->take($end + 1 - $begin)
-            ->get()
-            ->map(function ($item) {
-
-                $image = $item->getFirstMedia();
-
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
-
-        $jpTotal = Work::when($filters, function ($query, $filters) {
-            return $query->whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('name', $filters);
-            });
-        })
-            ->where('language_id', $jp->id)
-            ->where('enabled', 1)
-            ->count();
-
-        $jpItems = Work::with('articles')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $jp->id)
-            ->where('enabled', 1)
-            ->orderBy('sort')
-            ->skip($begin)
-            ->take($end + 1 - $begin)
-            ->get()
-            ->map(function ($item) {
-
-                $image = $item->getFirstMedia();
-
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
+        $jpItems = $this->getList($jp, $begin, $end, $filters);
 
         return response()->json(
             [
@@ -435,8 +339,49 @@ class OurWorkController extends Controller
         return $array;
     }
 
-    private function getImage($item)
+    private function getCount(Language $lang, $filters)
     {
+        $total = Work::when($filters, function ($query, $filters) {
+            return $query->whereHas('tags', function ($query) use ($filters) {
+                $query->whereIn('name', $filters);
+            });
+        })
+            ->where('language_id', $lang->id)
+            ->where('enabled', 1)
+            ->count();
 
+        return $total;
+    }
+
+    private function getList(Language $lang, $begin, $end, $filters = null)
+    {
+        $items = Work::with('articles')
+            ->when($filters, function ($query, $filters) {
+                return $query->whereHas('tags', function ($query) use ($filters) {
+                    $query->whereIn('name', $filters);
+                });
+            })
+            ->where('language_id', $lang->id)
+            ->where('enabled', 1)
+            ->orderBy('sort', 'asc')
+            ->skip($begin)
+            ->take($end + 1 - $begin)
+            ->get()
+            ->map(function ($item) {
+
+                $image = $item->getFirstMedia();
+
+                return [
+                    'id' => $item->slug,
+                    'title' => $item->title,
+                    'image' => $image ? [
+                        'url' => $image->getUrl(),
+                        'width' => $image->getCustomProperty('width'),
+                        'height' => $image->getCustomProperty('height'),
+                    ] : null
+                ];
+            });
+
+        return $items;
     }
 }
