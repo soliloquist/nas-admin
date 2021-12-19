@@ -7,15 +7,15 @@
     </tr>
     <tr>
         <th>電話</th>
-        <td>{{ $name }}</td>
+        <td>{{ $phone }}</td>
     </tr>
     <tr>
         <th>email</th>
-        <td>{{ $name }}</td>
+        <td>{{ $email }}</td>
     </tr>
     <tr>
         <th>聯絡內容</th>
-        <td>{{ $name }}</td>
+        <td>{{ $content }}</td>
     </tr>
     </tbody>
 </table>
