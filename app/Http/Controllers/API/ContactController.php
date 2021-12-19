@@ -14,9 +14,9 @@ class ContactController extends Controller
     public function __invoke(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
+//            'name' => 'required',
+//            'email' => 'required|email',
+//            'phone' => 'required',
             'other' => 'required',
             'type' => 'required|exists:contacts,id',
         ]);
