@@ -30,7 +30,7 @@ class ContactController extends Controller
 
         $content = Contact::find($request->type);
 
-        Mail::to($content->email)->send(new ContactMail($request->name, $request->phome, $request->email, $request->other));
+        Mail::to($content->email)->send(new ContactMail($request->name, $request->phone, $request->email, $request->other));
 
         return response()->json([
             "result" => true
