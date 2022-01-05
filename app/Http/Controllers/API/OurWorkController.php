@@ -37,171 +37,6 @@ class OurWorkController extends Controller
         $en = $langs->firstWhere('code', 'en');
         $jp = $langs->firstWhere('code', 'jp');
 
-        $rowPerPage = 10;
-        $page = $request->page ? $request->page : 1;
-
-        $filters = [];
-
-        if ($request->filter) {
-            foreach ($request->filter as $item) {
-                $filters[] = $item['tag'];
-            }
-        }
-
-        if (in_array('all', $filters)) $filters = [];
-
-        $zhTotal = Work::when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $zh->id)
-            ->where('enabled', 1)
-            ->count();
-
-        $zhItems = Work::with('articles', 'tags')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $zh->id)
-            ->where('enabled', 1)
-            ->orderBy('sort', 'asc')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-
-                $image = $item->getFirstMedia();
-
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
-
-        $enTotal = Work::when($filters, function ($query, $filters) {
-            return $query->whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('name', $filters);
-            });
-        })
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->count();
-
-        $enItems = Work::with('articles')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $en->id)
-            ->where('enabled', 1)
-            ->orderBy('sort', 'asc')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-
-                $image = $item->getFirstMedia();
-
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
-
-        $jpTotal = Work::when($filters, function ($query, $filters) {
-            return $query->whereHas('tags', function ($query) use ($filters) {
-                $query->whereIn('name', $filters);
-            });
-        })
-            ->where('language_id', $jp->id)
-            ->where('enabled', 1)
-            ->count();
-
-        $jpItems = Work::with('articles')
-            ->when($filters, function ($query, $filters) {
-                return $query->whereHas('tags', function ($query) use ($filters) {
-                    $query->whereIn('name', $filters);
-                });
-            })
-            ->where('language_id', $jp->id)
-            ->where('enabled', 1)
-            ->orderBy('sort', 'asc')
-            ->skip(($page - 1) * $rowPerPage)
-            ->take($rowPerPage)
-            ->get()
-            ->map(function ($item) {
-
-                $image = $item->getFirstMedia();
-
-                return [
-                    'id' => $item->slug,
-                    'title' => $item->title,
-                    'image' => $image ? [
-                        'url' => $image->getUrl(),
-                        'width' => $image->getCustomProperty('width'),
-                        'height' => $image->getCustomProperty('height'),
-                    ] : null
-                ];
-            });
-
-        return response()->json(
-            [
-                "result" => true,
-                "type" => $specialties,
-                "filter" => $tags,
-                'totalPage' => 9999,
-                'en' => [
-                    'works' => $enItems,
-                    'totalPage' => ceil($enTotal / $rowPerPage),
-                ],
-                'cn' => [
-                    'works' => $zhItems,
-                    'totalPage' => ceil($zhTotal / $rowPerPage),
-                ],
-                'jp' => [
-                    'works' => $jpItems,
-                    'totalPage' => ceil($jpTotal / $rowPerPage),
-                ],
-            ]
-        );
-    }
-
-    public function index2(Request $request)
-    {
-        $specialties = Specialty::orderBy('sort')->get()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'color' => $item->color,
-                'text' => $item->name,
-            ];
-        });
-
-        $tags = Tag::get()->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'tag' => $item->name
-            ];
-        });
-
-        $langs = Language::all();
-        $zh = $langs->firstWhere('code', 'zh');
-        $en = $langs->firstWhere('code', 'en');
-        $jp = $langs->firstWhere('code', 'jp');
-
         $begin= $request->begin ?? 0;
         $end = $request->end ??  9;
 
@@ -282,15 +117,24 @@ class OurWorkController extends Controller
             $totalRate += $item->pivot->percentage;
         });
 
-        $item->specialties->each(function ($item) use ($totalRate, &$proportion) {
+        $remainder = 100;
+
+        $item->specialties->each(function ($item) use ($totalRate, &$proportion, &$remainder) {
             if ($item->pivot->percentage) {
+
+                $percentage = floor(($item->pivot->percentage / $totalRate) * 100);
+
                 $proportion[] = [
                     'id' => $item->id,
                     'color' => $item->color,
-                    'percentage' => floor(($item->pivot->percentage / $totalRate) * 100)
+                    'percentage' => $percentage
                 ];
             }
+
+            $remainder -= $percentage;
         });
+
+        if (count($proportion)) $proportion[0]['percentage'] += $remainder;
 
         $banner = $item->getFirstMedia();
 
@@ -369,11 +213,37 @@ class OurWorkController extends Controller
             ->get()
             ->map(function ($item) {
 
+                $proportion = [];
+                $totalRate = 0;
+                $item->specialties->each(function ($item) use (&$totalRate) {
+                    $totalRate += $item->pivot->percentage;
+                });
+
+                $remainder = 100;
+
+                $item->specialties->each(function ($item) use ($totalRate, &$proportion, &$remainder) {
+                    if ($item->pivot->percentage) {
+
+                        $percentage = floor(($item->pivot->percentage / $totalRate) * 100);
+
+                        $proportion[] = [
+                            'id' => $item->id,
+                            'color' => $item->color,
+                            'percentage' => $percentage
+                        ];
+                    }
+
+                    $remainder -= $percentage;
+                });
+
+                if (count($proportion)) $proportion[0]['percentage'] += $remainder;
+
                 $image = $item->getFirstMedia();
 
                 return [
                     'id' => $item->slug,
                     'title' => $item->title,
+                    'proportion' => $proportion,
                     'image' => $image ? [
                         'url' => $image->getUrl(),
                         'width' => $image->getCustomProperty('width'),
