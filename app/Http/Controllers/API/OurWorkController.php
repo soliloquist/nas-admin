@@ -145,7 +145,7 @@ class OurWorkController extends Controller
 
         $array['title'] = $item->title;
         $array['banner'] = $banner ? [
-            'url' => $banner->getUrl(),
+            'url' => $banner->getUrl('small') ? $banner->getUrl('small') : $banner->getUrl(),
             'width' => $banner->getCustomProperty('width'),
             'height' => $banner->getCustomProperty('height'),
         ] : null;

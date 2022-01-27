@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Business extends Model implements HasMedia
 {
@@ -15,6 +16,12 @@ class Business extends Model implements HasMedia
     protected $casts = [
       'enabled' => 'boolean'
     ];
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('small')
+            ->width('800');
+    }
 
 
     public function articles()

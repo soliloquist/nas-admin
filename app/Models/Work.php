@@ -22,6 +22,9 @@ class Work extends Model implements HasMedia
     {
         $this->addMediaConversion('thumbnail')
             ->crop('crop-center', 600, 600);
+
+        $this->addMediaConversion('small')
+            ->width('775');
     }
 
 

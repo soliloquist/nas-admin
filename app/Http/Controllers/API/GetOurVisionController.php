@@ -22,7 +22,7 @@ class GetOurVisionController extends Controller
         $jpVision = $setting->firstWhere('key', 'vision_intro_jp');
         $cnVision = $setting->firstWhere('key', 'vision_intro_cn');
 
-        $teams = Team::with('members.specialty')->get()->map(function($team) {
+        $teams = Team::with('members.specialty')->orderBy('sort', 'asc')->get()->map(function($team) {
             return [
                 'id' => $team->id,
                 'department' => $team->title,
