@@ -92,11 +92,15 @@ class Index extends Component
 
     public function delete()
     {
-        $items = Business::whereIn('group_id', $this->selected)->get();
+        foreach($this->selected as $groupId) {
 
-        foreach ($items as $item) {
-            Business::where('group_id', '!=', $item->group_id)->where('sort', '>', $item->sort)->decrement('sort');
-            $item->delete();
+            $items = Business::where('group_id', $groupId)->get();
+
+            Business::where('group_id', '!=', $groupId)->where('sort', '>', $items->first()->sort)->decrement('sort');
+
+            foreach ($items as $item) {
+                $item->delete();
+            }
         }
 
         $this->hideModal();
