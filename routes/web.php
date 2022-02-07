@@ -59,3 +59,5 @@ Route::get('/businesses', [\App\Http\Controllers\BusinessController::class, 'ind
 Route::get('/businesses/create', [\App\Http\Controllers\BusinessController::class, 'create'])->name('businesses.create')->middleware('auth:sanctum');
 Route::get('/businesses/{groupId}/{languageId}/edit', [\App\Http\Controllers\BusinessController::class, 'edit'])->name('businesses.edit')->middleware('auth:sanctum');
 Route::delete('/businesses/groupId}/delete', [\App\Http\Controllers\BusinessController::class, 'destroy'])->name('businesses.delete')->middleware('auth:sanctum');
+
+Route::get('/foo', \App\Http\Controllers\Foo::class);
