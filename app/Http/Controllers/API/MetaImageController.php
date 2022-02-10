@@ -17,7 +17,9 @@ class MetaImageController extends Controller
         $default = Setting::where('key', 'index_banner_md')->first();
         $imageZh = $imageEn = $imageJp = $default->getFirstMediaUrl();
 
-        $array = explode('/', $request->input('route'));
+        $route = substr($request->input('route'), 1);
+
+        $array = explode('/', $route);
 
         $langs = Language::all();
         $zh = $langs->firstWhere('code', 'zh');
