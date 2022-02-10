@@ -14,7 +14,7 @@
         <div class="mt-4">
             <div>Preview:</div>
             <div class="mt-2 flex items-center">
-                <div class="w-2/3">
+                <div class="w-1/3">
                     <img class="w-auto" src="{{ $image->temporaryUrl() }}" alt="">
                 </div>
                 <div class="w-1/3">

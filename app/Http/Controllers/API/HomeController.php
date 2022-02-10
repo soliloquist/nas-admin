@@ -147,10 +147,10 @@ class HomeController extends Controller
                     "height" => $bannerMDMedia->getCustomProperty('height'),
                 ] : null
             ],
-            "downloadUrl" => $downloadUrl->value,
-            "enDownloadUrl" => $enDownloadUrl->value,
-            "cnDownloadUrl" => $cnDownloadUrl->value,
-            "jpDownloadUrl" => $jpDownloadUrl->value,
+            "downloadUrl" => $downloadUrl->value ?? null,
+            "enDownloadUrl" => $enDownloadUrl->value ?? null,
+            "cnDownloadUrl" => $cnDownloadUrl->value ?? null,
+            "jpDownloadUrl" => $jpDownloadUrl->value ?? null,
             "en" => [
                 "list" => $enWorks
             ],
