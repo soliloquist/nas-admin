@@ -14,20 +14,6 @@ class UpdateController extends Controller
 
     public function index(Request $request)
     {
-        // 取文章年份列表
-
-        $years = Update::select('year')->orderBy('year', 'desc')->groupBy('year')->get();
-
-        $yearsArray = [];
-
-        for ($i = 0; $i < $years->count(); $i++) {
-            $yearsArray[] = [
-                'id' => $i + 1,
-                'text' => substr($years[$i]['year'], 0, 4)
-            ];
-        }
-
-        // END 取文章年份列表
 
         $langs = Language::all();
         $zh = $langs->firstWhere('code', 'zh');
@@ -38,6 +24,16 @@ class UpdateController extends Controller
         $page = $request->page ? $request->page : 1;
 
         $year = $request->year;
+
+        $zhYears = Update::where('language_id', $zh->id)->where('enabled', 1)->select('year')->orderBy('year', 'desc')->groupBy('year')->get();
+        $zhYearsArray = [];
+
+        for ($i = 0; $i < $zhYears->count(); $i++) {
+            $zhYearsArray[] = [
+                'id' => $i + 1,
+                'text' => substr($zhYears[$i]['year'], 0, 4)
+            ];
+        }
 
         $zhTotalPages = Update::when($year, function ($query, $year) {
             return $query->whereYear('year', $year);
@@ -74,6 +70,16 @@ class UpdateController extends Controller
                 ];
             });
 
+        $enYears = Update::where('language_id', $en->id)->where('enabled', 1)->select('year')->orderBy('year', 'desc')->groupBy('year')->get();
+        $enYearsArray = [];
+
+        for ($i = 0; $i < $enYears->count(); $i++) {
+            $enYearsArray[] = [
+                'id' => $i + 1,
+                'text' => substr($enYears[$i]['year'], 0, 4)
+            ];
+        }
+
         $enTotalPages = Update::when($year, function ($query, $year) {
             return $query->whereYear('year', $year);
         })
@@ -108,6 +114,17 @@ class UpdateController extends Controller
                     ] : null
                 ];
             });
+
+
+        $jpYears = Update::where('language_id', $jp->id)->where('enabled', 1)->select('year')->orderBy('year', 'desc')->groupBy('year')->get();
+        $jpYearsArray = [];
+
+        for ($i = 0; $i < $jpYears->count(); $i++) {
+            $jpYearsArray[] = [
+                'id' => $i + 1,
+                'text' => substr($jpYears[$i]['year'], 0, 4)
+            ];
+        }
 
         $jpTotalPages = Update::when($year, function ($query, $year) {
             return $query->whereYear('year', $year);
@@ -147,16 +164,19 @@ class UpdateController extends Controller
         return response()->json([
             'result' => true,
             'totalPage' => 9999,
-            'year' => $yearsArray,
+            'year' => [],
             'en' => [
+                'year' => $enYearsArray,
                 'list' => $enItems,
                 'totalPage' => ceil($enTotalPages / $rowPerPage),
             ],
             'cn' => [
+                'year' => $zhYearsArray,
                 'list' => $zhItems,
                 'totalPage' => ceil($zhTotalPages / $rowPerPage),
             ],
             'jp' => [
+                'year' => $jpYearsArray,
                 'list' => $jpItems,
                 'totalPage' => ceil($jpTotalPages / $rowPerPage),
             ],
