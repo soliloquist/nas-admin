@@ -77,8 +77,8 @@ class OurBusinessController extends Controller
 
         $banner = $item->getFirstMedia();
 
-        $next = Business::where('id', '>', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
-        $prev = Business::where('id', '<', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
+        $next = Business::where('sort', '>', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'asc')->first();
+        $prev = Business::where('sort', '<', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'desc')->first();
 
         $array['title'] = $item->title;
         $array['banner'] = $banner ? [

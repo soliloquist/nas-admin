@@ -211,8 +211,8 @@ class UpdateController extends Controller
 
         $array = [];
 
-        $next = Update::where('id', '>', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
-        $prev = Update::where('id', '<', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
+        $next = Update::where('sort', '>', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'asc')->first();
+        $prev = Update::where('sort', '<', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'desc')->first();
 
         $banner = $item->getFirstMedia();
 

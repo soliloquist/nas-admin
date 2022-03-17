@@ -140,8 +140,8 @@ class OurWorkController extends Controller
 
         $array = [];
 
-        $next = Work::where('id', '>', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
-        $prev = Work::where('id', '<', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
+        $next = Work::where('sort', '>', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'asc')->first();
+        $prev = Work::where('sort', '<', $item->sort)->where('enabled', 1)->where('language_id', $lang->id)->orderBy('sort', 'desc')->first();
 
         $array['title'] = $item->title;
         $array['banner'] = $banner ? [
