@@ -211,8 +211,8 @@ class UpdateController extends Controller
 
         $array = [];
 
-        $next = Update::where('id', '>', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
-        $prev = Update::where('id', '<', $item->id)->where('enabled', 1)->where('language_id', $lang->id)->first();
+        $next = Update::where('id', '>', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
+        $prev = Update::where('id', '<', $item->id)->where('enabled', 1)->orderBy('sort', 'asc')->where('language_id', $lang->id)->first();
 
         $banner = $item->getFirstMedia();
 
@@ -224,8 +224,8 @@ class UpdateController extends Controller
         ] : null;
         $array['youtubeLink'] = $item->video_url;
         $array['websiteLink'] = $item->website_url;
-        $array['previousPage'] = $prev ? '/ourbusiness/' . $prev->slug : '';
-        $array['nextPage'] = $next ? '/ourbusiness/' . $next->slug : '';
+        $array['previousPage'] = $prev ? '/ourupdates/' . $prev->slug : '';
+        $array['nextPage'] = $next ? '/ourupdates/' . $next->slug : '';
         $array['section'] = $item->articles()->orderBy('sort')->get()->map(function ($block) {
             return [
                 'id' => $block->id,
