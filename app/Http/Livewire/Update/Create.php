@@ -87,7 +87,7 @@ class Create extends Component
     ];
 
     protected $rules = [
-        'slug' => 'required|unique:works',
+        'slug' => 'required|unique:updates',
         'title' => 'required|string',
         'websiteUrl' => 'nullable|url',
         'videoUrl' => 'nullable|url',

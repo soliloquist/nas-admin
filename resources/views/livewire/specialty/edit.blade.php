@@ -19,6 +19,11 @@
                     <div class="w-10 h-10 ml-1" style="background-color: {{ $specialty->color }}"></div>
                 </div>
             </div>
+
+            <div class="flex">
+                <div class="md:w-1/5 text-gray-700 font-medium">排序</div>
+                <div>{{ $specialty->sort }}</div>
+            </div>
         </div>
         <div class="px-4 pt-3 pb-5 bg-gray-50 text-right sm:px-6">
             <a
@@ -76,6 +81,22 @@
                 <div id="picker" class="ml-4" wire:ignore></div>
             </div>
 
+            <div>
+                <label class="block text-sm font-medium text-gray-700">
+                    排序
+                </label>
+                <div class="mt-1">
+                    <input
+                        wire:model="sort"
+                        type="number"
+                        min="1"
+                        max="{{$max}}"
+                        class="focus:ring-indigo-500 focus:border-indigo-500 rounded sm:text-sm border-gray-300"
+                    >
+                </div>
+                @error('sort') <span class="text-red-600">{{ $message }}</span> @enderror
+            </div>
+
 
         </div>
 
@@ -105,15 +126,15 @@
         <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
 
     @endpush
-        <script>
-            document.addEventListener('livewire:load', function () {
+    <script>
+        document.addEventListener('livewire:load', function () {
 
-                var colorPicker = new iro.ColorPicker('#picker')
+            var colorPicker = new iro.ColorPicker('#picker')
 
-                colorPicker.on('color:change', function (color) {
-                    Livewire.emit('setColor',color.hexString)
-                })
-
+            colorPicker.on('color:change', function (color) {
+                Livewire.emit('setColor', color.hexString)
             })
-        </script>
+
+        })
+    </script>
 @endif
